@@ -1,13 +1,15 @@
 ﻿log_character = {
 	debug_log = log_character
 
-	log_relations = {}
+	log_relations = yes
 	
-	log_opinion_breakdown = {}
+	log_opinion_breakdown = yes
 
-	log_personality_traits = {}
+	log_personality_traits = yes
 
-	log_memories = {}
+	log_memories = yes
+
+	log_secrets = yes
 }
 
 log_relations = {
@@ -32,4 +34,11 @@ log_memories = {
 		}
 		debug_log = "VOTC:IN/;/memory/;/[THIS.CharacterMemory.GetOwner.GetID]/;/[THIS.CharacterMemory.GetName]/;/[THIS.CharacterMemory.GetCreationDate.GetStringShort]/;/[THIS.CharacterMemory.GetThirdPerspectiveDescription]/;/[THIS.Var('relevance_weight').GetValue]"
 	}
+}
+
+log_secrets = {
+    every_secret = {
+			debug_log = "VOTC:IN/;/secret/;/[PREV.Char.GetID]/;/[THIS.Secret.GetName]/;/[THIS.Secret.GetDesc]/;/[THIS.Secret.GetCategoryName]"
+        
+    }
 }
