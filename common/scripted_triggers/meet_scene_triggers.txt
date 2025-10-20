@@ -1,0 +1,340 @@
+#these triggers check if the player can meet with the character in the given scenes. they are used in the character interaction, and in the travel arrival event.
+#triggers for the mutltiple characters conversations
+
+#在此段注释的下方添加_代码块10
+#代码块10示例
+##在"sence_name"见面
+#can_meet_in_"sence_name" = {
+#	AND = {
+#		scope:actor.location = scope:recipient.location
+#		scope:actor = {is_imprisoned = no}
+#		scope:recipient = {is_imprisoned = no}
+#		#scope:actor.location.culture = { has_coa_gfx = chinese_group_coa_gfx }
+#		scope:actor.location = { has_building = "sence_name" }
+#	}
+#}
+
+#在滕王阁见面
+can_meet_in_tengwangge = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		#scope:actor.location.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = { has_building = tengwangge }
+	}
+}
+
+#在岳阳楼见面
+can_meet_in_yueyanglou = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		#scope:actor.location.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		OR = {
+			scope:actor.location = { has_building = yueyanglou_1 }
+			scope:actor.location = { has_building = yueyanglou_2 }
+			}
+	}
+}
+
+#在黄鹤楼见面
+can_meet_in_huanghelou = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		#scope:actor.location.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = { has_building = huanghelou }
+	}
+}
+
+#在卧榻见面
+can_meet_in_bedchamber_east1 = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		scope:actor.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor = {
+			primary_partner = scope:recipient
+		}
+	}
+}
+
+#在御花园见面
+can_meet_in_garden_east1 = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		OR = {
+				AND = {
+					scope:recipient = {highest_held_title_tier = tier_empire}
+					scope:recipient.culture = { has_coa_gfx = chinese_group_coa_gfx }	
+					scope:recipient = scope:actor.location.province_owner
+				
+			}
+				AND = {
+					scope:actor = {highest_held_title_tier = tier_empire}
+					scope:actor.culture = { has_coa_gfx = chinese_group_coa_gfx }
+					scope:actor = scope:actor.location.province_owner
+
+			}
+				AND = {
+					scope:actor.location.province_owner.culture = { has_coa_gfx = chinese_group_coa_gfx }
+					scope:actor.location.province_owner = {highest_held_title_tier = tier_empire}
+					scope:recipient = {is_courtier_of = scope:actor.location.province_owner}
+
+
+			}
+
+		}
+		}		
+	}
+
+
+#在府衙接见
+can_meet_in_throneroom_east_fuya1 = {
+	AND = {
+		scope:actor = scope:actor.location.province_owner
+		scope:actor = {highest_held_title_tier >= tier_county}
+		scope:actor = {highest_held_title_tier <= tier_duchy}
+		scope:actor.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+	}
+	}
+
+#在府衙见面
+can_meet_in_throneroom_east_fuya = {
+	AND = {
+		OR = {
+			scope:recipient = {is_courtier_of = scope:actor.location.province_owner}
+			scope:recipient = scope:actor.location.province_owner
+		}
+		scope:actor = {is_landless_ruler = no}
+		scope:recipient = {highest_held_title_tier >= tier_county}
+		scope:recipient = {highest_held_title_tier <= tier_duchy}
+		scope:recipient.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+	}
+	}
+
+
+#在皇宫觐见
+can_meet_in_throneroom_east_empire = {
+	AND = {
+		OR = {
+			scope:actor = {is_landless_ruler = no}
+			OR = {
+				scope:recipient = {is_courtier_of = scope:actor.location.province_owner}
+				scope:recipient = scope:actor.location.province_owner
+			}
+			
+		}
+		scope:recipient = {highest_held_title_tier = tier_empire}
+		scope:recipient.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+	}
+	}
+
+#在皇宫召见	
+can_meet_in_throneroom_east_empire1 = {
+	AND = {
+		OR = {
+			scope:actor = {is_landless_ruler = no}
+			OR = {
+				scope:recipient = {is_courtier_of = scope:actor.location.province_owner}
+				scope:recipient = scope:actor.location.province_owner
+			}
+			
+		}
+		scope:actor = {highest_held_title_tier = tier_empire}
+		scope:actor.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+	}
+	}
+
+can_meet_in_throneroom_east_empire = {
+
+}
+
+can_meet_in_throneroom = {
+	AND = {
+		OR = {
+			scope:actor = {is_landless_ruler = no}
+			OR = {
+				scope:recipient = { is_courtier_of = scope:actor.location.province_owner }
+				scope:recipient = scope:actor.location.province_owner						
+			}
+			OR = {
+				scope:secondary_recipient ?= { is_courtier_of = scope:actor.location.province_owner }											
+				scope:secondary_recipient ?= scope:actor.location.province_owner					
+			}			
+		}
+				#修改
+		scope:actor.culture = {
+					NOT = { has_coa_gfx = chinese_group_coa_gfx }
+				}
+		scope:recipient.culture = {
+					NOT = { has_coa_gfx = chinese_group_coa_gfx }
+				}
+		#########################
+		scope:actor.location = scope:recipient.location		
+#		scope:recipient.location = scope:secondary_recipient.location			
+		scope:actor = { is_imprisoned = no }
+		scope:recipient = { is_imprisoned = no }
+		scope:secondary_recipient ?= { is_imprisoned = no }
+		
+	}
+}
+
+can_meet_in_garden = {
+	AND = {
+		OR = {
+			scope:actor = { is_landless_ruler = no }
+			OR = {
+				scope:recipient = { is_courtier_of = scope:actor.location.province_owner }
+				scope:recipient = scope:actor.location.province_owner						
+			}
+			OR = {
+				scope:secondary_recipient ?= { is_courtier_of = scope:actor.location.province_owner }											
+				scope:secondary_recipient ?= scope:actor.location.province_owner					
+			}			
+		}	
+		scope:actor.location = scope:recipient.location			
+		scope:actor = { is_imprisoned = no }
+		scope:recipient = { is_imprisoned = no }
+		scope:secondary_recipient ?= { is_imprisoned = no }
+				
+	}
+}
+
+can_meet_in_bedchamber = {		
+			scope:actor.location = scope:recipient.location
+			
+			scope:actor = { is_imprisoned = no }
+			scope:recipient = { is_imprisoned = no }	
+			scope:secondary_recipient ?= { is_imprisoned = no }
+			OR = {
+				scope:recipient = {
+							OR = {
+								has_court_position = str_slave_concubine_court_position 
+								is_consort_of = scope:actor
+							}
+				}
+				scope:secondary_recipient ?= {
+							OR = {
+								has_court_position = str_slave_concubine_court_position 
+								is_consort_of = scope:actor
+							}
+				}
+				scope:actor = {
+						OR = {
+							is_consort_of = scope:recipient
+							has_relation_slave_owner = scope:recipient
+							has_relation_lover = scope:recipient
+							is_consort_of = scope:secondary_recipient
+							has_relation_slave_owner = scope:secondary_recipient
+							has_relation_lover = scope:secondary_recipient
+
+							
+						}	
+				}
+			}	
+}
+
+
+
+can_meet_in_dungeon = {
+	AND = {
+		scope:actor.location = scope:recipient.location					
+		OR = {
+			scope:actor = { is_imprisoned = yes }
+			scope:recipient = { is_imprisoned = yes }
+			scope:secondary_recipient ?= { is_imprisoned = yes }
+		}
+			
+	}
+}
+
+#not how to do it correctly but whatever
+can_meet_in_feast = {
+	AND = {
+		scope:actor.location = scope:recipient.location					
+		scope:actor = {
+			involved_activity ?= { has_activity_type = activity_feast }
+			location ?= involved_activity.activity_location
+		}
+		scope:recipient = {
+				involved_activity ?= { has_activity_type = activity_feast }
+				location ?= involved_activity.activity_location
+		}
+		scope:secondary_recipient ?= {
+				involved_activity ?= { has_activity_type = activity_feast }
+				location ?= involved_activity.activity_location
+		}					
+	}
+}
+
+can_meet_in_armycamp = {	
+	AND = {	
+
+		scope:actor.location = scope:recipient.location
+		OR = {
+			scope:actor = {
+					is_in_army = yes
+			}
+			scope:recipient = {
+					is_in_army = yes
+			}
+			scope:actor = {	
+					is_landless_ruler = yes
+			}
+			scope:secondary_recipient ?= {
+					is_in_army = yes
+			}
+		}	
+	
+	}
+}
+
+can_meet_in_hunt = {
+	AND = {
+	
+		scope:actor.location = scope:recipient.location				
+		scope:actor = {
+			involved_activity ?= { has_activity_type = activity_hunt }
+			location ?= involved_activity.activity_location
+		}
+		scope:recipient = {
+				involved_activity ?= { has_activity_type = activity_hunt }
+				location ?= involved_activity.activity_location
+		}
+		scope:secondary_recipient ?= {
+				involved_activity ?= { has_activity_type = activity_hunt }
+				location ?= involved_activity.activity_location
+		}
+	}	
+	
+}
+
+can_meet_in_alley = {
+	AND = {	
+		scope:actor.location = scope:recipient.location		
+		scope:actor = { is_imprisoned = no }
+		scope:recipient = { is_imprisoned = no }
+		scope:secondary_recipient ?= { is_imprisoned = no }
+			
+	}
+}
+

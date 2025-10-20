@@ -1,0 +1,67 @@
+mcc_event.9011 = {
+	type = character_event
+	title = "aha"
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9001.desc
+	
+	immediate = {
+		set_global_variable = {
+			name = talk_first_scope
+			value = root
+		}
+		set_global_variable = {
+			name = talk_second_scope
+			value = root
+		}
+		every_living_character = {
+			limit = {is_ai=no}
+			save_scope_as=player_scope1
+		}
+		scope:player_scope1={debug_log = "test:test5/;/[THIS.Char.GetID]/;/STARTMULTILINE##ENDMULTILINE/;/"}
+		
+		every_living_character = {
+			limit = {
+				is_ai=yes
+				this.house=root.house
+				}
+			save_scope_as=famliy_meeting_temp_scope1
+			#debug_log = "test:test3/;/[THIS.Char.GetID]"
+		}
+
+		
+		set_global_variable={
+			name=famliy_meeting_temp_var
+			value=scope:famliy_meeting_temp_scope1
+		}
+
+		log_gamedata_v3 = {}
+		log_character_v3 = {}
+		
+		every_living_character = {
+			limit = {
+				is_ai = yes
+				this.house = root.house
+				this.location = root.location
+				}
+			log_character_v3 = {}
+			#debug_log = "test:test3/;/[THIS.Char.GetID]"
+		}
+
+		
+		#scope:famliy_meeting_temp_scope1={debug_log = "test:test2/;/[THIS.Char.GetID]"}
+		#debug_log = "test:test4/;/[GetGlobalVariable('famliy_meeting_temp_var').Char.GetID] "
+
+
+
+		
+	}
+	widget = {
+        gui = "event_window_widget_talk"
+        container = "custom_widgets_container"
+    }
+
+	#option ={
+	#	name = "debug"
+	#}
+}

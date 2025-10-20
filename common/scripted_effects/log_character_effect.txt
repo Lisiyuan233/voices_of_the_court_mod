@@ -39,6 +39,11 @@ log_memories = {
 log_secrets = {
     every_secret = {
 			debug_log = "VOTC:IN/;/secret/;/[PREV.Char.GetID]/;/[THIS.Secret.GetName]/;/[THIS.Secret.GetDesc]/;/[THIS.Secret.GetCategoryName]"
-        
+    }
+}
+
+log_ksecrets = {
+    every_known_secret = {
+			debug_log = "VOTC:IN/;/secret/;/[PREV.Char.GetID]/;/[THIS.Secret.GetName]/;/[THIS.Secret.GetDesc]/;/[THIS.Secret.GetCategoryName]"
     }
 }

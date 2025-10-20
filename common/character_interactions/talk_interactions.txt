@@ -1,4 +1,4 @@
-﻿talk_interaction = {
+talk_interaction = {
 	category = interaction_category_friendly
 	use_diplomatic_range = yes
 	ignores_pending_interaction_block = yes
@@ -28,6 +28,107 @@
 	on_accept = {
 	
 	#set talk_scene global var
+
+	#增加
+	#在此段注释的下方添加_代码块7
+	#代码块7示例
+	#		if = {
+	#		limit = {
+	#			scope:talk_scene_"sence_name" = yes
+	#		}
+	#		set_global_variable = {
+	#			name = talk_scene
+	#			value = flag:talk_scene_"sence_name"
+	#		}
+	#	}
+		if = {
+			limit = {
+				scope:talk_scene_tengwangge = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_tengwangge
+			}
+		}
+
+		if = {
+			limit = {
+				scope:talk_scene_yueyanglou = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_yueyanglou
+			}
+		}
+
+		if = {
+			limit = {
+				scope:talk_scene_huanghelou = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_huanghelou
+			}
+		}
+		if = {
+			limit = {
+				scope:talk_scene_bedchamber_east1 = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_bedchamber_east1
+			}
+		}
+		
+		if = {
+			limit = {
+				scope:talk_scene_garden_east1 = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_garden_east1
+			}
+		}
+
+		if = {
+			limit = {
+				scope:talk_scene_throneroom_east_fuya1 = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_throneroom_east_fuya1
+			}
+		}	
+		if = {
+			limit = {
+				scope:talk_scene_throneroom_east_fuya = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_throneroom_east_fuya
+			}
+		}	
+		if = {
+			limit = {
+				scope:talk_scene_throneroom_east_empire1 = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_throneroom_east_empire1
+			}
+		}	
+		if = {
+			limit = {
+				scope:talk_scene_throneroom_east_empire = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_throneroom_east_empire
+			}
+		}	
+
+########################################################################
+
 		if = {
 			limit = {
 				scope:talk_scene_throneroom = yes
@@ -108,6 +209,18 @@
 		if = {
 			limit = {
 				OR = {
+					#在此段注释的下方添加_代码块8
+					#代码块8示例scope:talk_scene_"sence_name" = yes
+					scope:talk_scene_tengwangge = yes
+					scope:talk_scene_yueyanglou = yes
+					scope:talk_scene_huanghelou = yes
+					scope:talk_scene_bedchamber_east1 = yes
+					scope:talk_scene_garden_east1 = yes
+					scope:talk_scene_throneroom_east_fuya = yes	
+					scope:talk_scene_throneroom_east_fuya1 = yes
+					scope:talk_scene_throneroom_east_empire1 = yes	
+					scope:talk_scene_throneroom_east_empire = yes	
+					#上方增加				
 					scope:talk_scene_throneroom = yes
 					scope:talk_scene_garden = yes
 					scope:talk_scene_bedchamber = yes
@@ -141,9 +254,80 @@
 		
 		
 	}
-	
-	
-	
+	#在此段注释的下方添加_代码块9
+	#代码块9示例
+	##场景中文名注释
+	#	send_option = {
+	#	is_shown = {can_talk_in_sence_"sence_name" = yes}
+	#	flag = talk_scene_"sence_name"
+	#	localization = talk_scene_"sence_name"_string
+	#}
+	#在滕王阁
+	send_option = {
+		is_shown = {can_talk_in_tengwangge = yes}
+		flag = talk_scene_tengwangge
+		localization = talk_scene_tengwangge_string
+	}
+
+	#在岳阳楼
+	send_option = {
+		is_shown = {can_talk_in_yueyanglou = yes}
+		flag = talk_scene_yueyanglou
+		localization = talk_scene_yueyanglou_string
+	}
+
+	#在黄鹤楼
+	send_option = {
+		is_shown = {can_talk_in_huanghelou = yes}
+		flag = talk_scene_huanghelou
+		localization = talk_scene_huanghelou_string
+	}
+	#在卧室
+	send_option = {
+		is_shown = {can_talk_in_bedchamber_east1 = yes}
+		flag = talk_scene_bedchamber_east1
+		localization = talk_scene_bedchamber_east1_string
+	}
+		
+	#在御花园见面
+	send_option = {
+		is_shown = {can_talk_in_garden_east1 = yes}
+		flag = talk_scene_garden_east1
+		localization = talk_scene_garden_east1_string
+	}
+
+	#在衙府接见
+	send_option = {
+		
+		is_shown = {can_talk_in_throneroom_east_fuya1 = yes}
+		flag = talk_scene_throneroom_east_fuya1
+		localization = talk_scene_throneroom_east_fuya1_string
+	}
+
+	#在衙府见面
+	send_option = {
+		
+		is_shown = {can_talk_in_throneroom_east_fuya = yes}
+		flag = talk_scene_throneroom_east_fuya
+		localization = talk_scene_throneroom_east_fuya_string
+	}
+
+	#在皇宫觐见
+	send_option = {
+		
+		is_shown = {can_talk_in_throneroom_east_empire = yes}
+		flag = talk_scene_throneroom_east_empire
+		localization = talk_scene_throneroom_east_empire_string
+	}
+
+	#在皇宫召见
+	send_option = {
+		
+		is_shown = {can_talk_in_throneroom_east_empire1 = yes}
+		flag = talk_scene_throneroom_east_empire1
+		localization = talk_scene_throneroom_east_empire1_string
+	}
+
 	send_option = {
 		is_shown = {can_talk_in_throneroom = yes}
 		flag = talk_scene_throneroom

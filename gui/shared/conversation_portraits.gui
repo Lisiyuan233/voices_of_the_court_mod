@@ -3,7 +3,7 @@
 
     type conversation_partner = widget {
         size = { 690 870 }
-        tooltip_enabled = no
+#        tooltip_enabled = no error log:'tooltip_enabled' is not a valid widget/type/property
 		tooltip_visible = no
         portrait_button = {
             tooltip_enabled = no

@@ -1,0 +1,28 @@
+﻿#scope:actor = player
+#scope:recipient = character the player wants to talk to
+log_gamedata_v2 = {
+
+	debug_log = "VOTC:IN/;/init/;/[GetPlayer.GetID]/;/[GetPlayer.GetTitledFirstName]/;/[recipient.GetID]/;/[recipient.GetTitledFirstName]/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('talk_scene').GetFlagName]/;/[recipient.GetCurrentLocation.GetName]/;/[recipient.GetCurrentLocation.GetController.GetFullNameNicknamedNoTooltipRegnal]"
+
+	debug_log = log_character_header
+	
+	scope:actor = {
+		log_character_v2 = {}
+	}
+	scope:recipient = {
+		log_character_v2 = {}	
+	}
+	
+	scope:actor = {
+		every_pinned_character = {
+			if {
+				limit = {
+					is_at_same_location = scope:actor
+					NOT = { scope:this = scope:recipient }
+				}
+				log_character_v2 = {}
+			}
+		}
+	}	
+
+}

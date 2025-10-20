@@ -6,6 +6,9 @@ talk_event.9002.desc:0 "VOTC:CLOSE"
 
 talk_event.9003.desc:0 "VOTC:EFFECT_ACCEPTED"
 
+talk_event.9004.desc:0 "VOTC:CHARACTER_SELECTER"
+
+talk_event.9005.desc:0 "VOTC:CHARACTER_SELECTED"
 ##testing
 
 #talk_event.9001.desc:0 "[THIS.Char.GetPrimaryTitle]"

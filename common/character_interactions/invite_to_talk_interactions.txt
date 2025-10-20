@@ -1,0 +1,107 @@
+﻿invite_to_talk_interaction = {
+	category = interaction_category_friendly
+	use_diplomatic_range = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = 200
+	common_interaction = yes
+	desc = invite_to_talk_interaction.desc
+
+	ai_will_do = {
+		base = 0
+	}
+
+	is_valid = {
+		OR = {
+			custom_description = {
+				text = not_in_same_province
+				scope:actor.location = scope:recipient.location
+				
+			}
+			scope:actor = {
+				is_available_adult = yes
+			}
+			
+		}
+	}
+	
+	on_accept = {
+		scope:recipient = {
+			start_travel_plan = {
+				destination = scope:actor.location
+				on_arrival_event = invite_to_talk_event.1002
+			}		
+		}
+	}
+	
+	on_accept = {
+		scope:recipient = {
+			trigger_event = invite_to_talk_event.1002
+		}
+	}
+	auto_accept = no
+	ai_maybe = yes
+	can_send_despite_rejection = yes
+	ai_accept = {
+		base = 10
+
+		modifier = {
+			add = 20
+			scope:actor.current_military_strength > scope:recipient.current_military_strength
+			scope:recipient = {
+				has_trait = craven
+			}
+			desc = INTERACTION_CRAVEN
+		}
+
+		
+		modifier = {
+			scope:recipient = {
+				is_vassal_or_below_of = scope:actor
+			}
+			add = 60
+			desc = VASSAL
+		}
+
+		opinion_modifier = { # Opinion Factor
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 1.0
+			desc = AI_OPINION_REASON
+		}
+		modifier = {
+			scope:hook = yes
+			add = 500
+			scope:actor = { NOT = { has_strong_hook = scope:recipient } }
+			desc = SCHEME_WEAK_HOOK_USED
+		}
+		modifier = {
+			scope:hook = yes
+			add = 1000
+			scope:actor = { has_strong_hook = scope:recipient }
+			desc = SCHEME_STRONG_HOOK_USED
+		}
+
+		modifier = {
+			scope:enforce_convo = yes
+			add = 1000
+			desc = i_said_we_will_meet
+		}
+
+	 }
+
+	send_option = {
+		is_valid = {
+			scope:actor = {
+				has_usable_hook = scope:recipient
+			}
+		}
+		flag = hook
+		localization = SCHEME_HOOK
+	}
+
+	send_option = {
+		flag = enforce_convo
+		localization = i_said_we_will_meet
+	}
+	send_options_exclusive = no
+}

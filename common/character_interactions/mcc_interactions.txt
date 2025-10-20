@@ -1,0 +1,398 @@
+mcc_interaction = {
+	category = interaction_category_friendly
+	use_diplomatic_range = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = 200
+	common_interaction = yes
+	desc = mcc_interaction.desc
+
+
+	ai_will_do = {
+		base = 0
+	}
+
+	is_valid = {
+		OR = {
+			custom_description = {
+				text = not_in_same_province
+				scope:actor.location = scope:recipient.location
+				
+			}
+			scope:actor = {
+				is_available_adult = yes
+			}
+			
+		}
+	}
+	
+	on_accept = {
+
+	#增加
+	#在此段注释的下方添加_代码块1
+	#代码块1示例
+		#if = {
+		#	limit = {
+		#		scope:talk_scene_"sence_name" = yes
+		#	}
+		#	set_global_variable = {
+		#		name = talk_scene
+		#		value = flag:talk_scene_"sence_name"
+		#	}
+		#}
+		if = {
+			limit = {
+				scope:talk_scene_tengwangge = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_tengwangge
+			}
+		}
+
+		if = {
+			limit = {
+				scope:talk_scene_yueyanglou = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_yueyanglou
+			}
+		}
+
+		if = {
+			limit = {
+				scope:talk_scene_huanghelou = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_huanghelou
+			}
+		}
+
+		if = {
+			limit = {
+				scope:talk_scene_bedchamber_east1 = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_bedchamber_east1
+			}
+		}
+		
+		if = {
+			limit = {
+				scope:talk_scene_garden_east1 = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_garden_east1
+			}
+		}
+
+		if = {
+			limit = {
+				scope:talk_scene_throneroom_east_fuya1 = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_throneroom_east_fuya1
+			}
+		}	
+		if = {
+			limit = {
+				scope:talk_scene_throneroom_east_fuya = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_throneroom_east_fuya
+			}
+		}	
+		if = {
+			limit = {
+				scope:talk_scene_throneroom_east_empire1 = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_throneroom_east_empire1
+			}
+		}	
+		if = {
+			limit = {
+				scope:talk_scene_throneroom_east_empire = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_throneroom_east_empire
+			}
+		}	
+
+########################################################################
+	
+	#set talk_scene global var
+		if = {
+			limit = {
+				scope:talk_scene_throneroom = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_throneroom
+			}
+		}
+		if = {
+			limit = {
+				scope:talk_scene_garden = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_garden
+			}
+		}
+		if = {
+			limit = {
+				scope:talk_scene_bedchamber = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_bedchamber
+			}
+		}
+		if = {
+			limit = {
+				scope:talk_scene_dungeon = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_dungeon
+			}
+		}
+		if = {
+			limit = {
+				scope:talk_scene_feast = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_feast
+			}
+		}
+		if = {
+			limit = {
+				scope:talk_scene_armycamp = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_armycamp
+			}
+		}
+		
+		if = {
+			limit = {
+				scope:talk_scene_hunt = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_hunt
+			}
+		}
+		
+		if = {
+			limit = {
+				scope:talk_scene_alley = yes
+			}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_alley
+			}
+		}
+		
+		##
+		
+		if = {
+			limit = {
+				OR = {
+					#在此段注释的下方添加_代码块2
+					#代码块2示例
+					#scope:talk_scene_"sence_name" = yes
+					scope:talk_scene_tengwangge = yes
+					
+					scope:talk_scene_yueyanglou = yes
+					scope:talk_scene_huanghelou = yes
+					scope:talk_scene_bedchamber_east1 = yes
+					scope:talk_scene_garden_east1 = yes
+					scope:talk_scene_throneroom_east_fuya = yes	
+					scope:talk_scene_throneroom_east_fuya1 = yes
+					scope:talk_scene_throneroom_east_empire1 = yes	
+					scope:talk_scene_throneroom_east_empire = yes	
+					#上方增加	
+					scope:talk_scene_throneroom = yes
+					scope:talk_scene_garden = yes
+					scope:talk_scene_bedchamber = yes
+					scope:talk_scene_dungeon = yes
+					scope:talk_scene_feast = yes
+					scope:talk_scene_armycamp = yes
+					scope:talk_scene_hunt = yes
+					scope:talk_scene_alley = yes
+				}
+			}
+			scope:actor = { 
+				trigger_event = mcc_event.9001
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					scope:talk_travel = yes
+				}
+				
+				scope:actor = {
+					start_travel_plan = {
+					destination = scope:recipient.location
+					on_arrival_event = mcc_event.1001
+					}
+				}
+				
+			}
+			
+		}
+		
+		
+	}
+
+	#在此段注释的下方添加_代码块3
+	#代码块3示例
+	##场景中文名注释
+	#	send_option = {
+	#	is_shown = {can_talk_in_sence_"sence_name" = yes}
+	#	flag = talk_scene_"sence_name"
+	#	localization = talk_scene_"sence_name"_string
+	#}
+	#在滕王阁
+	send_option = {
+		is_shown = {can_talk_in_tengwangge = yes}
+		flag = talk_scene_tengwangge
+		localization = talk_scene_tengwangge_string
+	}
+
+	#在岳阳楼
+	send_option = {
+		is_shown = {can_talk_in_yueyanglou = yes}
+		flag = talk_scene_yueyanglou
+		localization = talk_scene_yueyanglou_string
+	}
+
+	#在黄鹤楼
+	send_option = {
+		is_shown = {can_talk_in_huanghelou = yes}
+		flag = talk_scene_huanghelou
+		localization = talk_scene_huanghelou_string
+	}
+	
+	#在卧室
+	send_option = {
+		is_shown = {can_talk_in_bedchamber_east1 = yes}
+		flag = talk_scene_bedchamber_east1
+		localization = talk_scene_bedchamber_east1_string
+	}
+		
+	#在御花园见面
+	send_option = {
+		is_shown = {can_talk_in_garden_east1 = yes}
+		flag = talk_scene_garden_east1
+		localization = talk_scene_garden_east1_string
+	}
+
+	#在衙府接见
+	send_option = {
+		
+		is_shown = {can_talk_in_throneroom_east_fuya1 = yes}
+		flag = talk_scene_throneroom_east_fuya1
+		localization = talk_scene_throneroom_east_fuya1_string
+	}
+
+	#在衙府见面
+	send_option = {
+		
+		is_shown = {can_talk_in_throneroom_east_fuya = yes}
+		flag = talk_scene_throneroom_east_fuya
+		localization = talk_scene_throneroom_east_fuya_string
+	}
+
+	#在皇宫觐见
+	send_option = {
+		
+		is_shown = {can_talk_in_throneroom_east_empire = yes}
+		flag = talk_scene_throneroom_east_empire
+		localization = talk_scene_throneroom_east_empire_string
+	}
+
+	#在皇宫召见
+	send_option = {
+		
+		is_shown = {can_talk_in_throneroom_east_empire1 = yes}
+		flag = talk_scene_throneroom_east_empire1
+		localization = talk_scene_throneroom_east_empire1_string
+	}
+	##############################################
+	send_option = {
+		is_shown = {can_talk_in_throneroom = yes}
+		flag = talk_scene_throneroom
+		localization = talk_scene_throneroom_string
+	}
+	
+	send_option = {
+		is_shown = {can_talk_in_garden = yes}
+		flag = talk_scene_garden
+		localization = talk_scene_garden_string
+	}
+	
+	send_option = {
+		is_shown = {can_talk_in_bedchamber = yes}
+		flag = talk_scene_bedchamber
+		localization = talk_scene_bedchamber_string
+	}
+	
+	send_option = {
+		is_shown = {can_talk_in_dungeon = yes}
+		flag = talk_scene_dungeon
+		localization = talk_scene_dungeon_string
+	}
+	
+	send_option = {
+		is_shown = {can_talk_in_feast = yes}
+		flag = talk_scene_feast
+		localization = talk_scene_feast_string
+	}
+	
+	send_option = {
+		is_shown = {can_talk_in_armycamp = yes}
+		flag = talk_scene_armycamp
+		localization = talk_scene_armycamp_string
+	}
+	
+	send_option = {
+		is_shown = {can_talk_in_hunt = yes}
+		flag = talk_scene_hunt
+		localization = talk_scene_hunt_string
+	}
+	
+	send_option = {
+		is_shown = {can_talk_in_alley = yes}
+		flag = talk_scene_alley
+		localization = talk_scene_alley_string
+	}
+	
+	send_option = {
+		is_shown = {
+			NOT = {scope:actor.location = scope:recipient.location}
+		}
+		flag = talk_travel
+	}
+	
+	
+	on_accept = {
+		scope:actor = {
+			trigger_event = mcc_event.1001
+		}
+	}
+	auto_accept = yes
+	
+}

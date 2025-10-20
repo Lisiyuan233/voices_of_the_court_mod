@@ -1,0 +1,272 @@
+namespace = invite_to_talk_event
+
+invite_to_talk_event.1002 = {
+	immediate = { 
+		scope:actor = {
+			trigger_event = invite_to_talk_event.1003
+		} 
+	}
+}
+
+invite_to_talk_event.1003 = {
+	type = character_event
+	theme = faith
+	title = talk_event.1001.title
+	desc = invite_to_talk_event.1003.desc
+	left_portrait = {
+		character = scope:recipient
+	}
+	
+#增加
+#1
+	option ={
+		name = talk_scene_throneroom_east_empire_string
+		
+		trigger = {can_talk_in_throneroom_east_empire = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_empire
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+#2
+	option ={
+		name = talk_scene_throneroom_east_empire1_string
+		
+		trigger = {can_talk_in_throneroom_east_empire1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_empire1
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+#3
+	option ={
+		name = talk_scene_throneroom_east_fuya_string
+		
+		trigger = {can_talk_in_throneroom_east_fuya = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_fuya
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+#4
+	option ={
+		name = talk_scene_throneroom_east_fuya1_string
+		
+		trigger = {can_talk_in_throneroom_east_fuya1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_fuya1
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+#5
+	option ={
+		name = talk_scene_garden_east1_string
+		
+		
+		trigger = {can_talk_in_garden_east1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_garden_east1
+		}
+		trigger_event = talk_event.9001
+	}
+
+#6
+	option ={
+		name = talk_scene_bedchamber_east1_string
+		
+		
+		trigger = {can_talk_in_bedchamber_east1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_bedchamber_east1
+		}
+		trigger_event = talk_event.9001
+	}
+#7
+	option ={
+		name = talk_scene_huanghelou_string
+		
+		
+		trigger = {can_talk_in_huanghelou = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_huanghelou
+		}
+		trigger_event = talk_event.9001
+	}
+
+#在此段注释的下方添加_代码块14
+#代码块14示例
+#	option ={
+#		name = talk_scene_"scene_name"_string
+#		
+#		
+#		trigger = {can_talk_in_"scene_name" = yes}
+#		
+#		set_global_variable = {
+#			name = talk_scene
+#			value = flag:talk_scene_"scene_name"
+#		}
+#		trigger_event = talk_event.9001
+#	}
+
+	#在滕王阁
+	option ={
+		name = talk_scene_tengwangge_string
+		
+		
+		trigger = {can_talk_in_tengwangge = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_tengwangge
+		}
+		trigger_event = talk_event.9001
+	}
+
+	#在岳阳楼
+	option ={
+		name = talk_scene_yueyanglou_string
+		
+		
+		trigger = {can_talk_in_yueyanglou = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_yueyanglou
+		}
+		trigger_event = talk_event.9001
+	}
+
+#######################################################################################################
+
+	option ={
+		name = talk_scene_throneroom_string
+		
+		trigger = {can_talk_in_throneroom = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+	
+	option ={
+		name = talk_scene_garden_string
+		
+		
+		trigger = {can_talk_in_garden = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_garden
+		}
+		trigger_event = talk_event.9001
+	}
+	
+	option ={
+		name = talk_scene_bedchamber_string
+		trigger = {can_talk_in_bedchamber = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_bedchamber
+		}
+		
+		
+		trigger_event = talk_event.9001
+	}	
+	
+	option ={
+		name = talk_scene_dungeon_string
+		
+		trigger = {can_talk_in_dungeon = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_dungeon
+		}
+		trigger_event = talk_event.9001
+	}
+	
+	option ={
+		name = talk_scene_feast_string
+		
+		trigger = {can_talk_in_feast = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_feast
+		}
+		trigger_event = talk_event.9001
+	}
+
+	option ={
+		name = talk_scene_alley_string
+		
+		trigger = {can_talk_in_alley = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_alley
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	option ={
+		name = talk_scene_armycamp_string
+		
+		trigger = {can_talk_in_armycamp = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_armycamp
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+	option ={
+		name = talk_scene_hunt_string
+		
+		trigger = {can_talk_in_hunt = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_hunt
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+
+	
+	option ={
+		name = talk_event.1001.exit
+		scope:recipient = {
+			add_opinion = {
+				target = scope:actor
+				modifier = disrespect_opinion
+				opinion = -10
+			}
+		}
+	}
+}

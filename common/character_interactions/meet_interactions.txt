@@ -1,0 +1,409 @@
+
+
+
+
+ckms_meet_interaction = {
+	category = interaction_category_friendly
+	use_diplomatic_range = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = 200
+	common_interaction = yes
+	desc = ckms_meet_interaction.desc
+
+
+	ai_will_do = {
+		base = 0
+	}
+
+	is_valid = {
+		OR = {
+			custom_description = {
+				text = not_in_same_province
+				scope:actor.location = scope:recipient.location
+				
+			}
+			scope:actor = {
+				is_available_adult = yes
+			}
+			
+		}
+	}
+	
+
+	
+	populate_recipient_list = {
+				scope:actor = {
+					every_pinned_character = {
+									limit = {
+										is_at_same_location = scope:actor
+										is_at_same_location = scope:recipient
+										NOT = { this = scope:recipient }
+									}
+									add_to_list = characters
+					}
+				}	
+	}				
+	on_accept = {
+
+
+		#增加
+		#在此段注释的下方添加_代码块4
+		#代码块4示例
+		#		if = {
+		#limit = {
+		#		scope:meet_scene_"sence_name" = yes
+		#	}
+		#	set_global_variable = {
+		#		name = meet_scene
+		#		value = flag:meet_scene_"sence_name"
+		#	}
+		#}
+		if = {
+			limit = {
+				scope:meet_scene_tengwangge = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_tengwangge
+			}
+		}
+
+		if = {
+			limit = {
+				scope:meet_scene_yueyanglou = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_yueyanglou
+			}
+		}
+
+		if = {
+			limit = {
+				scope:meet_scene_huanghelou = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_huanghelou
+			}
+		}
+		
+		if = {
+			limit = {
+				scope:meet_scene_bedchamber_east1 = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_bedchamber_east1
+			}
+		}
+		
+		if = {
+			limit = {
+				scope:meet_scene_garden_east1 = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_garden_east1
+			}
+		}
+
+		if = {
+			limit = {
+				scope:meet_scene_throneroom_east_fuya1 = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_throneroom_east_fuya1
+			}
+		}	
+		if = {
+			limit = {
+				scope:meet_scene_throneroom_east_fuya = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_throneroom_east_fuya
+			}
+		}	
+		if = {
+			limit = {
+				scope:meet_scene_throneroom_east_empire1 = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_throneroom_east_empire1
+			}
+		}	
+		if = {
+			limit = {
+				scope:meet_scene_throneroom_east_empire = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_throneroom_east_empire
+			}
+		}	
+	
+	#set meet_scene global var
+		if = {
+			limit = {
+				scope:meet_scene_throneroom = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_throneroom
+			}
+		}
+		if = {
+			limit = {
+				scope:meet_scene_garden = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_garden
+			}
+		}
+		if = {
+			limit = {
+				scope:meet_scene_bedchamber = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_bedchamber
+			}
+		}
+		if = {
+			limit = {
+				scope:meet_scene_dungeon = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_dungeon
+			}
+		}
+		if = {
+			limit = {
+				scope:meet_scene_feast = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_feast
+			}
+		}
+		if = {
+			limit = {
+				scope:meet_scene_armycamp = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_armycamp
+			}
+		}
+		
+		if = {
+			limit = {
+				scope:meet_scene_hunt = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_hunt
+			}
+		}
+		
+		if = {
+			limit = {
+				scope:meet_scene_alley = yes
+			}
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_alley
+			}
+		}
+		
+		##
+		
+		if = {
+			limit = {
+				OR = {
+					#在此段注释的下方添加_代码块5
+					#代码块5示例
+					#scope:meet_scene_"sence_name" = yes
+					scope:meet_scene_tengwangge = yes
+
+					scope:meet_scene_yueyanglou = yes
+					scope:meet_scene_huanghelou = yes
+					scope:meet_scene_bedchamber_east1 = yes
+					scope:meet_scene_garden_east1 = yes
+					scope:meet_scene_throneroom_east_fuya = yes	
+					scope:meet_scene_throneroom_east_fuya1 = yes
+					scope:meet_scene_throneroom_east_empire1 = yes	
+					scope:meet_scene_throneroom_east_empire = yes	
+					#上方增加						
+					scope:meet_scene_throneroom = yes
+					scope:meet_scene_garden = yes
+					scope:meet_scene_bedchamber = yes
+					scope:meet_scene_dungeon = yes
+					scope:meet_scene_feast = yes
+					scope:meet_scene_armycamp = yes
+					scope:meet_scene_hunt = yes
+					scope:meet_scene_alley = yes
+				}
+			}
+			scope:actor = { 
+				trigger_event = ckms_meet_event.9001
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					scope:talk_travel = yes
+				}
+				
+				scope:actor = {
+					start_travel_plan = {
+					destination = scope:recipient.location
+					on_arrival_event = ckms_meet_event.1001
+					}
+				}
+				
+			}
+			
+		}
+		
+		
+	}
+
+#在此段注释的下方添加_代码块6
+	#代码块6示例
+	##场景中文名注释
+	#	send_option = {
+	#	is_shown = {can_meet_in_sence_"sence_name" = yes}
+	#	flag = meet_scene_"sence_name"
+	#	localization = meet_scene_"sence_name"_string
+	#}
+#在滕王阁
+	send_option = {
+		is_shown = {can_meet_in_tengwangge = yes}
+		flag = meet_scene_tengwangge
+		localization = meet_scene_tengwangge_string
+	}
+
+#在岳阳楼
+	send_option = {
+		is_shown = {can_meet_in_yueyanglou = yes}
+		flag = meet_scene_yueyanglou
+		localization = meet_scene_yueyanglou_string
+	}
+
+#在黄鹤楼
+	send_option = {
+		is_shown = {can_meet_in_huanghelou = yes}
+		flag = meet_scene_huanghelou
+		localization = meet_scene_huanghelou_string
+	}
+	
+#在卧室
+	send_option = {
+		is_shown = {can_meet_in_bedchamber_east1 = yes}
+		flag = meet_scene_bedchamber_east1
+		localization = meet_scene_bedchamber_east1_string
+	}
+		
+	#在御花园见面
+	send_option = {
+		is_shown = {can_meet_in_garden_east1 = yes}
+		flag = meet_scene_garden_east1
+		localization = meet_scene_garden_east1_string
+	}
+
+	#在衙府接见
+	send_option = {
+		
+		is_shown = {can_meet_in_throneroom_east_fuya1 = yes}
+		flag = meet_scene_throneroom_east_fuya1
+		localization = meet_scene_throneroom_east_fuya1_string
+	}
+
+	#在衙府见面
+	send_option = {
+		
+		is_shown = {can_meet_in_throneroom_east_fuya = yes}
+		flag = meet_scene_throneroom_east_fuya
+		localization = meet_scene_throneroom_east_fuya_string
+	}
+
+	#在皇宫觐见
+	send_option = {
+		
+		is_shown = {can_meet_in_throneroom_east_empire = yes}
+		flag = meet_scene_throneroom_east_empire
+		localization = meet_scene_throneroom_east_empire_string
+	}
+
+	#在皇宫召见
+	send_option = {
+		
+		is_shown = {can_meet_in_throneroom_east_empire1 = yes}
+		flag = meet_scene_throneroom_east_empire1
+		localization = meet_scene_throneroom_east_empire1_string
+	}
+
+	send_option = {
+		is_shown = { can_meet_in_bedchamber = yes }
+		flag = meet_scene_bedchamber
+		localization = meet_scene_bedchamber_string
+	}
+	
+	send_option = {
+		is_shown = { can_meet_in_throneroom = yes }
+		flag = meet_scene_throneroom
+		localization = meet_scene_throneroom_string
+	}
+	
+	send_option = {
+		is_shown = { can_meet_in_garden = yes }
+		flag = meet_scene_garden
+		localization = meet_scene_garden_string
+	}
+		
+	
+	send_option = {
+		is_shown = { can_meet_in_dungeon = yes }
+		flag = meet_scene_dungeon
+		localization = meet_scene_dungeon_string
+	}
+	
+	send_option = {
+		is_shown = { can_meet_in_feast = yes }
+		flag = meet_scene_feast
+		localization = meet_scene_feast_string
+	}
+	
+	send_option = {
+		is_shown = { can_meet_in_armycamp = yes }
+		flag = meet_scene_armycamp
+		localization = meet_scene_armycamp_string
+	}
+	
+	send_option = {
+		is_shown = { can_meet_in_hunt = yes }
+		flag = meet_scene_hunt
+		localization = meet_scene_hunt_string
+	}
+	
+	send_option = {
+		is_shown = { can_meet_in_alley = yes }
+		flag = meet_scene_alley
+		localization = meet_scene_alley_string
+	}
+	
+	send_option = {
+		is_shown = {
+			NOT = { scope:actor.location = scope:recipient.location }
+		}
+		flag = talk_travel
+	}			
+	auto_accept = yes
+	
+}

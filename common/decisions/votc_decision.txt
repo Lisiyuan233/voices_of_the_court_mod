@@ -1,0 +1,101 @@
+votc_family_decision = {  # 决策的核心定义结构，"my_decision"为决策的唯一标识（键名）
+  
+# title = <key> | { ... }  # 决策的标题。
+                           # - 默认值：使用决策的键名（即"my_decision"）
+                           # - 支持动态描述（如使用first_valid等事件中的动态语法）
+                           # - 作用范围：角色（character）
+  
+  ### 图片配置
+  # 用于决策的展示图片。
+  # 若配置多个图片，会选择第一个满足trigger条件的图片
+  picture = {
+    
+    ### 触发条件（jomini语法的触发器）
+    # 接收角色（character）作为作用范围，判断图片是否适用
+    # 若不设置trigger，默认始终生效
+
+    ### 资源路径（字符串路径）
+    # 图片纹理的路径
+    reference = "gfx/interface/illustrations/scenes/throneroom_east_fuya1.dds"
+
+    ### 音效（音效名称）
+    # 展示决策详情时播放的音效
+    # 默认值："event:/SFX/UI/Generic/Windows/sfx_ui_generic_window_standard_show"
+    soundeffect = "event:/SFX/UI/Generic/Windows/sfx_ui_generic_window_sidebar"
+  }
+
+decision_group_type = votc_group_type  # 用于归类决策的可折叠分组类型。
+                               # 默认值：若不指定，归入"decisions"分组
+
+  ai_goal = no  # 若设为yes，AI会将此决策视为"目标"，与创建头衔、建造领地等高额成本行为同等对待。
+                    # - 会忽略ai_check_interval参数
+                    # - 仅用于成本极高、需要AI提前规划预算的决策（性能消耗高于高频率的ai_check_interval）
+
+  ai_check_frequency = 0  # AI检查此决策是否可执行的间隔（单位：月）。
+                           # - 必须设置，除非ai_goal = yes
+                           # - 设为0时，AI永远不会检查此决策
+
+  sort_order = 99  # 决策在界面中相对于其他决策的显示顺序。
+                        # - 数值越高，排序越靠前
+                        # - 若数值相同，按定义顺序排序
+
+  selection_tooltip = votc_family_decision_tooltip  # 从决策列表中选中决策时显示的提示文本。
+                                       # - 默认值："<key>_tooltip"（键名+_tooltip）
+                                       # - 支持动态描述
+                                       # - 作用范围：角色
+
+  desc = votc_family_decision_desc  # 决策的详细描述。
+                          # - 默认值："<key>_desc"（键名+_desc）
+                          # - 支持动态描述
+                          # - 作用范围：角色
+
+  confirm_text = votc_family_decision_confirm  # 确认执行决策时的文本。
+                                  # - 默认值："<key>_confirm"（键名+_confirm）
+                                  # - 支持动态描述
+                                  # - 作用范围：角色
+
+  is_shown = { always = yes }  # 决策是否对角色可见。
+                      # - 作用范围：角色
+                      # - 默认值：{ always = yes }（始终可见）
+
+  is_valid_showing_failures_only = { 
+    is_ai = no
+    custom_tooltip = {
+				text = famliy_member_too_much	
+		    dynasty = {
+				  any_dynasty_member = {
+					count <= 20
+					is_alive = yes
+          this.location = root.location
+
+				  } 
+        }
+    }  
+  }
+  # 决策是否可执行（仅在不满足条件时显示失败原因）。
+                                            # - 若不满足，失败原因会显示在确认按钮的提示中
+                                            # - 作用范围：角色
+                                            # - 默认值：{ always = yes }（始终可执行）
+
+  #is_valid = { always = yes }  # 决策是否可执行（不满足条件时在详情页的"要求"部分显示）。
+                      # - 作用范围：角色
+                      # - 默认值：{ always = yes }（始终可执行）
+
+
+  effect = {
+    custom_tooltip = votc_family_decision_effect
+    	set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_family_meeting_east
+		}
+
+		trigger_event = mcc_event.9011
+  }  # 执行决策时触发的效果。
+                    # 作用范围：角色
+
+	ai_potential = { always = no }
+
+	ai_will_do = { base = 0 }   # 返回AI执行此决策的概率（0=永不执行，100=必定执行）。
+                          # 同时决定玩家的默认选项（若决策有多个选项）
+
+}

@@ -1,4 +1,168 @@
-﻿#these triggers check if the player can talk with the character in the given scenes. they are used in the character interaction, and in the travel arrival event.
+#these triggers check if the player can talk with the character in the given scenes. they are used in the character interaction, and in the travel arrival event.
+
+#在此段注释的下方添加_代码块11
+#代码块11示例
+#can_talk_in_"sence_name" = {
+#	AND = {
+#		scope:actor.location = scope:recipient.location
+#		scope:actor = {is_imprisoned = no}
+#		scope:recipient = {is_imprisoned = no}
+#		#scope:actor.location.culture = { has_coa_gfx = chinese_group_coa_gfx }
+#		scope:actor.location = { has_building = "sence_name" }
+#	}
+#}
+
+#在滕王阁见面
+can_talk_in_tengwangge = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		#scope:actor.location.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = { has_building = tengwangge }
+	}
+}
+
+#在岳阳楼见面
+can_talk_in_yueyanglou = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		#scope:actor.location.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		OR = {
+			scope:actor.location = { has_building = yueyanglou_1 }
+			scope:actor.location = { has_building = yueyanglou_2 }
+			}
+	}
+}
+
+#在某个建筑见面，如果其他mod的添加特殊建筑会导致闪退吗？ 不会
+#在黄鹤楼见面
+can_talk_in_huanghelou = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		#scope:actor.location.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = { has_building = huanghelou }
+	}
+}
+
+
+#在卧榻见面
+
+can_talk_in_bedchamber_east1 = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		scope:actor.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor = {primary_partner = scope:recipient}
+	}
+}
+
+#在御花园见面
+can_talk_in_garden_east1 = {
+	AND = {
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+		OR = {
+				AND = {
+					scope:recipient = {highest_held_title_tier = tier_empire}
+					scope:recipient.culture = { has_coa_gfx = chinese_group_coa_gfx }	
+					scope:recipient = scope:actor.location.province_owner
+				
+			}
+				AND = {
+					scope:actor = {highest_held_title_tier = tier_empire}
+					scope:actor.culture = { has_coa_gfx = chinese_group_coa_gfx }
+					scope:actor = scope:actor.location.province_owner
+
+			}
+				AND = {
+					scope:actor.location.province_owner.culture = { has_coa_gfx = chinese_group_coa_gfx }
+					scope:actor.location.province_owner = {highest_held_title_tier = tier_empire}
+					scope:recipient = {is_courtier_of = scope:actor.location.province_owner}
+
+
+			}
+
+		}
+		}		
+	}
+
+
+#在府衙接见
+can_talk_in_throneroom_east_fuya1 = {
+	AND = {
+		scope:actor = scope:actor.location.province_owner
+		scope:actor = {highest_held_title_tier >= tier_county}
+		scope:actor = {highest_held_title_tier <= tier_duchy}
+		scope:actor.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+	}
+	}
+
+#在府衙见面
+can_talk_in_throneroom_east_fuya = {
+	AND = {
+		OR = {
+			scope:recipient = {is_courtier_of = scope:actor.location.province_owner}
+			scope:recipient = scope:actor.location.province_owner
+		}
+		scope:actor = {is_landless_ruler = no}
+		scope:recipient = {highest_held_title_tier >= tier_county}
+		scope:recipient = {highest_held_title_tier <= tier_duchy}
+		scope:recipient.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+	}
+	}
+
+
+#在皇宫觐见
+can_talk_in_throneroom_east_empire = {
+	AND = {
+		OR = {
+			scope:actor = {is_landless_ruler = no}
+			OR = {
+				scope:recipient = {is_courtier_of = scope:actor.location.province_owner}
+				scope:recipient = scope:actor.location.province_owner
+			}
+			
+		}
+		scope:recipient = {highest_held_title_tier = tier_empire}
+		scope:recipient.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+	}
+	}
+
+#在皇宫召见	
+can_talk_in_throneroom_east_empire1 = {
+	AND = {
+		OR = {
+			scope:actor = {is_landless_ruler = no}
+			OR = {
+				scope:recipient = {is_courtier_of = scope:actor.location.province_owner}
+				scope:recipient = scope:actor.location.province_owner
+			}
+			
+		}
+		scope:actor = {highest_held_title_tier = tier_empire}
+		scope:actor.culture = { has_coa_gfx = chinese_group_coa_gfx }
+		scope:actor.location = scope:recipient.location
+		scope:actor = {is_imprisoned = no}
+		scope:recipient = {is_imprisoned = no}
+	}
+	}
+
 
 can_talk_in_throneroom = {
 	AND = {
@@ -10,6 +174,14 @@ can_talk_in_throneroom = {
 			}
 			
 		}
+		#修改
+		scope:actor.culture = {
+					NOT = { has_coa_gfx = chinese_group_coa_gfx }
+				}
+		scope:recipient.culture = {
+					NOT = { has_coa_gfx = chinese_group_coa_gfx }
+				}
+		#########################
 		scope:actor.location = scope:recipient.location
 		scope:actor = {is_imprisoned = no}
 		scope:recipient = {is_imprisoned = no}
@@ -39,7 +211,9 @@ can_talk_in_bedchamber = {
 		scope:actor.location = scope:recipient.location
 		scope:actor = {is_imprisoned = no}
 		scope:recipient = {is_imprisoned = no}
-		
+		scope:actor.culture = {
+					NOT = { has_coa_gfx = chinese_group_coa_gfx }
+				}
 		scope:actor = {
 			primary_partner = scope:recipient
 		}

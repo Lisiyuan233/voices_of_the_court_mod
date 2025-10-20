@@ -1,4 +1,4 @@
-﻿namespace = talk_event
+namespace = talk_event
 
 ## 
 ##9000 - 9999 hidden events
@@ -13,6 +13,156 @@ talk_event.1001 = {
 		character = scope:recipient
 	}
 	
+	#在此段注释的下方添加_代码块15
+	#代码块15示例
+	#	option ={
+	#	name = talk_scene_"scene_name"_string
+	#	trigger = {can_talk_in_"scene_name" = yes}
+	#	
+	#		set_global_variable = {
+	#			name = talk_scene
+	#			value = flag:talk_scene_"scene_name"
+	#		}
+#
+#	
+#		
+#		
+#		trigger_event = talk_event.9001
+	#}
+
+	#在滕王阁
+	option ={
+		name = talk_scene_tengwangge_string
+		trigger = {can_talk_in_tengwangge = yes}
+		
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_tengwangge
+			}
+
+		
+		
+		trigger_event = talk_event.9001
+	}	
+
+	#在岳阳楼
+	option ={
+		name = talk_scene_yueyanglou_string
+		trigger = {can_talk_in_yueyanglou = yes}
+		
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_yueyanglou
+			}
+
+		
+		
+		trigger_event = talk_event.9001
+	}	
+
+	#在黄鹤楼
+
+	option ={
+		name = talk_scene_huanghelou_string
+		trigger = {can_talk_in_huanghelou = yes}
+		
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_huanghelou
+			}
+
+	
+		
+		
+		trigger_event = talk_event.9001
+	}	
+	
+	#在卧室
+	option ={
+		name = talk_scene_bedchamber_east1_string
+		trigger = {can_talk_in_bedchamber_east1 = yes}
+		
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_bedchamber_east1
+			}
+
+	
+		
+		
+		trigger_event = talk_event.9001
+	}	
+	
+	#在御花园见面	
+	option ={
+		name = talk_scene_garden_east1_string
+		
+		
+		trigger = {can_talk_in_garden_east1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_garden_east1
+		}
+		trigger_event = talk_event.9001
+	}
+	
+	#在府衙接见
+	option ={
+		name = talk_scene_throneroom_east_fuya1_string
+		
+		trigger = {can_talk_in_throneroom_east_fuya1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_fuya1
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	#在府衙见面
+	option ={
+		name = talk_scene_throneroom_east_fuya_string
+		
+		trigger = {can_talk_in_throneroom_east_fuya = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_fuya
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	#在皇宫召见
+	option ={
+		name = talk_scene_throneroom_east_empire1_string
+		
+		trigger = {can_talk_in_throneroom_east_empire1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_empire1
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	#在皇宫觐见
+	option ={
+		name = talk_scene_throneroom_east_empire_string
+		
+		trigger = {can_talk_in_throneroom_east_empire = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_empire
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
 	option ={
 		name = talk_scene_throneroom_string
 		
@@ -151,7 +301,40 @@ talk_event.9003 = {
         gui = "event_window_widget_talk_clear"
         container = "custom_widgets_container"
     }
+}
 	
 
+## character select event
+talk_event.9004 = {
+	type = character_event
+	title = "aha"
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9004.desc
+	
+	widget = {
+        gui = "event_window_widget_talk_clear"
+        container = "custom_widgets_container"
+    }
+	
 }
+
+
+talk_event.2001 = {
+	type = character_event
+	title = "aha"
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9005.desc
+	immediate = {
+		set_global_variable = {
+			name = votc_character_a
+			value = scope
+		}
+		add_gold = 500
+		add_prestige = 800
+		}
+	}
+		
+
 

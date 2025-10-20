@@ -5,6 +5,39 @@ talk_interaction.desc:0 "开启一个谈话"
 
 talk_herhim:0 "[recipient.GetHerHim]"
 
+#在此段注释的下方添加_代码块17
+#代码块17示例
+#talk_scene_"scene_name"_string:0 "在scene_name见面"
+#meet_scene_"scene_name"_string:0 "在scene_name见面"
+
+talk_scene_tengwangge_string:0 "在滕王阁见面"
+meet_scene_tengwangge_string:0 "在滕王阁见面"
+
+meet_scene_yueyanglou_string:0 "在岳阳楼见面"
+meet_scene_huanghelou_string:0 "在黄鹤楼见面"
+meet_scene_bedchamber_east1_string:0 "在卧榻见面"
+meet_scene_garden_east1_string:0 "在御花园见面"
+meet_scene_throneroom_east_fuya1_string:0 "在府衙接见"
+meet_scene_throneroom_east_fuya_string:0 "在府衙拜见"
+meet_scene_throneroom_east_empire_string:0 "在皇宫觐见"
+meet_scene_throneroom_east_empire1_string:0 "在皇宫召见"
+meet_scene_throneroom_string:0 "在王座厅见面"
+meet_scene_garden_string:0 "在花园见面"
+meet_scene_bedchamber_string:0 "在卧室见面"
+meet_scene_dungeon_string:0 "在地牢见面"
+meet_scene_feast_string:0 "在宴会中见面"
+meet_scene_armycamp_string:0 "在军营中见面"
+meet_scene_hunt_string:0 "在狩猎中见面"
+meet_scene_alley_string:0 "在镇胡同见面"
+
+talk_scene_yueyanglou_string:0 "在岳阳楼见面"
+talk_scene_huanghelou_string:0 "在黄鹤楼见面"
+talk_scene_bedchamber_east1_string:0 "在卧榻见面"
+talk_scene_garden_east1_string:0 "在御花园见面"
+talk_scene_throneroom_east_fuya1_string:0 "在府衙接见"
+talk_scene_throneroom_east_fuya_string:0 "在府衙拜见"
+talk_scene_throneroom_east_empire_string:0 "在皇宫觐见"
+talk_scene_throneroom_east_empire1_string:0 "在皇宫召见"
 talk_scene_throneroom_string:0 "在王座厅见面"
 talk_scene_garden_string:0 "在花园见面"
 talk_scene_bedchamber_string:0 "在卧室见面"
@@ -16,14 +49,14 @@ talk_scene_alley_string:0 "在镇胡同见面"
 talk_travel:0 "旅行"
 
 talk_event.1001.title:0 "到达"
-talk_event.1001.desc:0 "您终于到达[actor.GetCurrentLocation.GetName] 与 [recipient.GetTitledFirstName]会面。现在的问题是，我们应该在哪里与$talk_herhim$会面?"
+talk_event.1001.desc:0 "您终于到达[actor.GetCurrentLocation.GetName] 与 [recipient.GetTitledFirstName] 会面。现在的问题是，我们应该在哪里与$talk_herhim$会面?"
 talk_event.1001.exit:0 "我不想和$talk_herhim$谈话."
 
 talk_window_end:0 "结束对话"
 
 conversation_opinion:0 "创建对话"
 
-not_in_same_province:0 "我们在同一个省"
+not_in_same_province:0 "我们不在同一个省"
 
 mcc_interaction:0 "多人谈话"
 ckms_meet_interaction:0 "三人谈话"
@@ -34,3 +67,11 @@ invite_to_talk_interaction:0 "邀请来谈话"
 invite_to_talk_interaction.desc:0 "邀请 [recipient.GetTitledFirstName] 来谈话"
 invite_to_talk_event.1003.desc:0 "[actor.GetCurrentLocation.GetName] 终于来见你了。现在的问题是，你想在哪里见$talk_herhim$?"
 i_said_we_will_meet:0 "你应该服从我!"
+
+decision_group_type_votc_group_type:0 "会议"
+votc_family_decision:0 "家族会议"
+votc_family_decision_tooltip:0 "家族会议"  # 从决策列表中选中决策时显示的提示文本。
+votc_family_decision_desc:0 "召开一场家族会议，所有与你在同一地点的家族成员都会参加"
+votc_family_decision_confirm:0 "召开家族会议"
+votc_family_decision_effect:0 "你将召开一场家族会议"
+famliy_member_too_much:0 "家族成员过多（大于20）"

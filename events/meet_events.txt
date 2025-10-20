@@ -1,0 +1,302 @@
+namespace = ckms_meet_event
+
+## 
+##9000 - 9999 hidden events
+
+#Travel arrival event
+ckms_meet_event.1001 = {
+	type = character_event
+	theme = faith
+	title = talk_event.1001.title
+	desc = talk_event.1001.desc
+	left_portrait = {
+		character = scope:recipient
+	}
+	right_portrait = {
+		character = scope:secondary_recipient
+	}
+
+#在此段注释的下方添加_代码块13
+#代码块13示例
+#	option ={
+#		name = meet_scene_"scene_name"_string
+#		trigger = {can_meet_in_"scene_name" = yes}
+#		
+#			set_global_variable = {
+#				name = meet_scene
+#				value = flag:meet_scene_"scene_name"
+#			}
+#		trigger_event = talk_event.9001
+#	}
+
+	#在滕王阁
+	option ={
+		name = meet_scene_tengwangge_string
+		trigger = {can_meet_in_tengwangge = yes}
+		
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_tengwangge
+			}
+		trigger_event = talk_event.9001
+	}	
+
+	#在岳阳楼
+	option ={
+		name = meet_scene_yueyanglou_string
+		trigger = {can_meet_in_yueyanglou = yes}
+		
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_yueyanglou
+			}
+		trigger_event = talk_event.9001
+	}
+
+	#在黄鹤楼
+	option ={
+		name = meet_scene_huanghelou_string
+		trigger = {can_meet_in_huanghelou = yes}
+		
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_huanghelou
+			}
+		trigger_event = talk_event.9001
+	}	
+	
+	#在卧室
+	option ={
+		name = meet_scene_bedchamber_east1_string
+		trigger = {can_meet_in_bedchamber_east1 = yes}
+		
+			set_global_variable = {
+				name = meet_scene
+				value = flag:meet_scene_bedchamber_east1
+			}	
+		trigger_event = talk_event.9001
+	}	
+	
+	#在御花园见面	
+	option ={
+		name = meet_scene_garden_east1_string
+		
+		
+		trigger = {can_meet_in_garden_east1 = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_garden_east1
+		}
+		trigger_event = talk_event.9001
+	}
+	
+	#在府衙接见
+	option ={
+		name = meet_scene_throneroom_east_fuya1_string
+		
+		trigger = {can_meet_in_throneroom_east_fuya1 = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_throneroom_east_fuya1
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	#在府衙见面
+	option ={
+		name = meet_scene_throneroom_east_fuya_string
+		
+		trigger = {can_meet_in_throneroom_east_fuya = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_throneroom_east_fuya
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	#在皇宫召见
+	option ={
+		name = meet_scene_throneroom_east_empire1_string
+		
+		trigger = {can_meet_in_throneroom_east_empire1 = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_throneroom_east_empire1
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	#在皇宫觐见
+	option ={
+		name = meet_scene_throneroom_east_empire_string
+		
+		trigger = {can_meet_in_throneroom_east_empire = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_throneroom_east_empire
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+	
+	
+	option ={
+		name = meet_scene_throneroom_string
+		
+		trigger = {can_meet_in_throneroom = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_throneroom
+		}
+		
+		trigger_event = ckms_meet_event.9001	
+	}
+	
+	option ={
+		name = meet_scene_garden_string
+		
+		
+		trigger = {can_meet_in_garden = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_garden
+		}
+		trigger_event = ckms_meet_event.9001
+	}
+	
+	option ={
+		name = meet_scene_bedchamber_string
+		trigger = {can_meet_in_bedchamber = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_bedchamber
+		}
+		
+		
+		trigger_event = ckms_meet_event.9001
+	}	
+	
+	option ={
+		name = meet_scene_dungeon_string
+		
+		trigger = {can_meet_in_dungeon = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_dungeon
+		}
+		trigger_event = ckms_meet_event.9001
+	}
+	
+	option ={
+		name = meet_scene_feast_string
+		
+		trigger = {can_meet_in_feast = yes}
+		
+		set_global_variable = {
+			name = meet_scene
+			value = flag:meet_scene_feast
+		}
+		trigger_event = ckms_meet_event.9001
+	}
+	
+	option ={
+		name = talk_event.1001.exit
+	}
+}
+
+
+#hidden Event fired when initating conversation with someone. 
+#The only reason this exist is to open the 'event_window_widget_talk' gui event widget, so we can copy the data to the clipboard using the EventWindowData.CopyToClipboard guifunction.
+ckms_meet_event.9001 = {
+	type = character_event
+	title = "aha"
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9001.desc
+	
+	immediate = {		 								
+			set_global_variable = {
+				name = talk_first_scope
+				value = scope:actor
+			}
+			set_global_variable = {
+				name = talk_second_scope
+				value = scope:recipient
+			}			
+			set_global_variable = {
+				name = talk_third_scope
+				value = scope:secondary_recipient
+			}
+			
+			
+		
+			scope:recipient = {
+				log_meet_gamedata = {}
+			}
+		
+			scope:secondary_recipient = {
+				log_meet_gamedata = {}
+			}
+		
+		
+		
+	}
+	
+	#this widget is what calls the EventWindowData.CopyToClipboard guifunction, 
+	widget = {
+        gui = "event_window_widget_meet"
+        container = "custom_widgets_container"
+    }
+	
+
+	#option ={
+	#	name = "debug"
+	#}
+}
+
+#close talk window
+ckms_meet_event.9002 = {
+	type = character_event
+	title = "aha"
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9002.desc
+	
+	widget = {
+        gui = "event_window_widget_meet_close"
+        container = "custom_widgets_container"
+    }
+	
+	immediate = {
+		remove_global_variable = talk_pose
+	}
+}
+
+## action event
+ckms_meet_event.9003 = {
+	type = character_event
+	title = "aha"
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9003.desc
+	
+	widget = {
+        gui = "event_window_widget_meet_clear"
+        container = "custom_widgets_container"
+    }
+	
+
+}
+

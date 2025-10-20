@@ -1,0 +1,13 @@
+﻿#scope:actor = player
+#scope:recipient = character the player wants to talk to
+log_gamedata_v3 = {
+
+	debug_log = "VOTC:IN/;/init/;/[GetPlayer.GetID]/;/[GetPlayer.GetTitledFirstName]/;/[GetGlobalVariable('famliy_meeting_temp_var').Char.GetID]/;/[GetGlobalVariable('famliy_meeting_temp_var').Char.GetTitledFirstName]/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('talk_scene').GetFlagName]/;/[GetPlayer.GetCurrentLocation.GetName]/;/[GetPlayer.GetCurrentLocation.GetController.GetFullNameNicknamedNoTooltipRegnal]"
+
+	debug_log = log_character_header
+	
+
+	
+
+
+}

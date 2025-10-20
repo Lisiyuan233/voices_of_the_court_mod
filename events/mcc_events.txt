@@ -1,0 +1,289 @@
+
+namespace = mcc_event
+
+## EVENTS BELOW ARE NEW ONES FOR MULTICHAR CONVOS
+
+
+#Travel arrival event
+mcc_event.1001 = {
+	type = character_event
+	theme = faith
+	title = mcc_event.1001.title
+	desc = mcc_event.1001.desc
+	left_portrait = {
+		character = scope:recipient
+	}
+	
+	#在此段注释的下方添加_代码块12
+	#代码块12示例
+	#option ={
+	#	name = talk_scene_"sence_name"_string
+	#	trigger = {can_talk_in_"sence_name" = yes}
+	#		set_global_variable = {
+	#			name = talk_scene
+	#			value = flag:talk_scene_"sence_name"
+	#		}
+	#	trigger_event = talk_event.9001
+	#}
+
+	#在滕王阁
+	option ={
+		name = talk_scene_tengwangge_string
+		trigger = {can_talk_in_tengwangge = yes}
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_tengwangge
+			}
+		trigger_event = talk_event.9001
+	}	
+
+	#在岳阳楼
+	option ={
+		name = talk_scene_yueyanglou_string
+		trigger = {can_talk_in_yueyanglou = yes}
+		
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_yueyanglou
+			}
+		trigger_event = talk_event.9001
+	}
+
+
+	#在黄鹤楼
+	option ={
+		name = talk_scene_huanghelou_string
+		trigger = {can_talk_in_huanghelou = yes}
+		
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_huanghelou
+			}
+		trigger_event = talk_event.9001
+	}	
+	
+	#在卧室
+	option ={
+		name = talk_scene_bedchamber_east1_string
+		trigger = {can_talk_in_bedchamber_east1 = yes}
+		
+			set_global_variable = {
+				name = talk_scene
+				value = flag:talk_scene_bedchamber_east1
+			}
+		trigger_event = talk_event.9001
+	}	
+	
+	#在御花园见面	
+	option ={
+		name = talk_scene_garden_east1_string
+		
+		
+		trigger = {can_talk_in_garden_east1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_garden_east1
+		}
+		trigger_event = talk_event.9001
+	}
+	
+	#在府衙接见
+	option ={
+		name = talk_scene_throneroom_east_fuya1_string
+		
+		trigger = {can_talk_in_throneroom_east_fuya1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_fuya1
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	#在府衙见面
+	option ={
+		name = talk_scene_throneroom_east_fuya_string
+		
+		trigger = {can_talk_in_throneroom_east_fuya = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_fuya
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	#在皇宫召见
+	option ={
+		name = talk_scene_throneroom_east_empire1_string
+		
+		trigger = {can_talk_in_throneroom_east_empire1 = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_empire1
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+
+	#在皇宫觐见
+	option ={
+		name = talk_scene_throneroom_east_empire_string
+		
+		trigger = {can_talk_in_throneroom_east_empire = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom_east_empire
+		}
+		
+		trigger_event = talk_event.9001	
+	}
+	
+	option ={
+		name = talk_scene_throneroom_string
+		
+		trigger = {can_talk_in_throneroom = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throneroom
+		}
+		
+		trigger_event = mcc_event.9001	
+	}
+	
+	option ={
+		name = talk_scene_garden_string
+		
+		
+		trigger = {can_talk_in_garden = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_garden
+		}
+		trigger_event = mcc_event.9001
+	}
+	
+	option ={
+		name = talk_scene_bedchamber_string
+		trigger = {can_talk_in_bedchamber = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_bedchamber
+		}
+		
+		
+		trigger_event = mcc_event.9001
+	}	
+	
+	option ={
+		name = talk_scene_dungeon_string
+		
+		trigger = {can_talk_in_dungeon = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_dungeon
+		}
+		trigger_event = mcc_event.9001
+	}
+	
+	option ={
+		name = talk_scene_feast_string
+		
+		trigger = {can_talk_in_feast = yes}
+		
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_feast
+		}
+		trigger_event = mcc_event.9001
+	}
+	
+	option ={
+		name = mcc_event.1001.exit
+	}
+}
+
+
+#hidden Event fired when initating conversation with someone. 
+#The only reason this exist is to open the 'event_window_widget_talk' gui event widget, so we can copy the data to the clipboard using the EventWindowData.CopyToClipboard guifunction.
+mcc_event.9001 = {
+	type = character_event
+	title = "aha"
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9001.desc
+	
+	immediate = {
+	
+	
+		set_global_variable = {
+			name = talk_first_scope
+			value = scope:actor
+		}
+		set_global_variable = {
+			name = talk_second_scope
+			value = scope:recipient
+		}
+		
+		scope:recipient = {
+			log_gamedata_v2 = {}
+		}
+		
+	}
+	
+	#this widget is what calls the EventWindowData.CopyToClipboard guifunction, 
+	widget = {
+        gui = "event_window_widget_talk"
+        container = "custom_widgets_container"
+    }
+	
+
+	#option ={
+	#	name = "debug"
+	#}
+}
+
+
+
+#close talk window
+mcc_event.9002 = {
+	type = character_event
+	title = "aha"
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9002.desc
+	
+	widget = {
+        gui = "event_window_widget_talk_close"
+        container = "custom_widgets_container"
+    }
+	
+	immediate = {
+		remove_global_variable = talk_pose
+	}
+}
+
+## action event
+mcc_event.9003 = {
+	type = character_event
+	title = "aha"
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9003.desc
+	
+	widget = {
+        gui = "event_window_widget_talk_clear"
+        container = "custom_widgets_container"
+    }
+	
+
+}

@@ -24,3 +24,12 @@ talk_window_end:0 "End conversation"
 conversation_opinion:0 "From conversations"
 
 not_in_same_province:0 "We are in the same province"
+
+meet_interaction: "Meet"
+meet_interaction.desc: "Initiate a conversation with [recipient.GetShortUINameNoTooltip] and one other party"
+secondary_recipient_meet: "secondary recipient"
+
+invite_to_talk_interaction:0 "Invite to talk"
+invite_to_talk_interaction.desc:0 "Invite [recipient.GetTitledFirstName] to a conversation"
+invite_to_talk_event.1003.desc:0 "[actor.GetCurrentLocation.GetName] finally arrived to meet you. Now the question is, where want you meet $talk_herhim$?"
+i_said_we_will_meet:0 "YOU SHALL OBEY ME!"
