@@ -1,0 +1,3 @@
+﻿NGUI = {
+    RENAME_MAX_LENGTH = 10000
+}

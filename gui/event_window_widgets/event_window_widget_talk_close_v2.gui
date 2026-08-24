@@ -1,0 +1,17 @@
+﻿hbox = {
+	name = "event_window_widget_talk_close_v2"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+
+
+
+	state = {
+        name = widget_show
+        trigger_on_create = yes
+
+		on_start = "[ExecuteConsoleCommand('GUI.ClearWidgets talk_window_v2 talk_window_counter')]"
+	}
+
+
+	expand = {}
+} 

@@ -1,0 +1,66 @@
+﻿types PortraitTypes_conversation
+{
+
+    type conversation_partner = widget {
+        size = { 690 870 }
+		tooltip_visible = no
+        portrait_button = {
+			tooltip_visible = no
+            parentanchor = bottom|hcenter
+            size = { 690 870 }
+			using = portrait_base
+			alwaystransparent = yes
+            block "portrait_texture" {
+                portrait_texture = "[Character.GetAnimatedPortrait(GetIllustration('talk_background').GetEnvironment(GetGlobalVariable('talk_second_scope').GetCharacter), 'conversation_camera2', 'conversation_animation', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+            }
+            block "mask" {
+				mask = "gfx/portraits/portrait_mask_blank.dds"
+            
+            }
+            effectname = "NoHighlight"
+
+		}
+    }
+
+    type conversation_partner_v2 = widget {
+        size = { 100 870 }
+        tooltip_visible = no
+        using = Portrait_Background_Glows
+        portrait_button = {
+            tooltip_visible = no
+            parentanchor = bottom|hcenter
+            size = { 690 1070 }
+			using = portrait_base
+            block "portrait_texture" {
+                portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment(Character.Self), 'conversation_camera2', 'conversation_animation_v2', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+            }
+            block "mask" {
+				mask = "gfx/portraits/portrait_mask_blank.dds"
+            
+            }
+            effectname = "NoHighlight"
+
+		}
+    }
+
+    type conversation_partner_v2_front = widget {
+        size = {100 870 }
+        tooltip_visible = no
+        using = Portrait_Background_Glows
+        portrait_button = {
+            tooltip_visible = no
+            parentanchor = bottom|hcenter
+            size = { 690 1070 }
+			using = portrait_base
+            block "portrait_texture" {
+                portrait_texture = "[Character.GetAnimatedPortrait(Illustration.GetEnvironment(Character.Self), 'conversation_camera2_front', 'conversation_animation_v2', PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+            }
+            block "mask" {
+				mask = "gfx/portraits/portrait_mask_blank.dds"            
+            }
+            effectname = "NoHighlight"
+
+		}
+    }
+
+}

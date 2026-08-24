@@ -1,0 +1,1 @@
+gui/custom_gui/votc_scene_selector.gui = votc_scene_selector

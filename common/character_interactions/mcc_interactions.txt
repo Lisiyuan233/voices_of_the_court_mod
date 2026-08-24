@@ -1,0 +1,52 @@
+﻿mcc_interaction = {
+	category = interaction_category_friendly
+	use_diplomatic_range = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = 200
+	common_interaction = yes
+	icon = council
+	desc = mcc_interaction.desc
+
+
+	ai_will_do = {
+		base = 0
+	}
+
+	is_valid = {
+		OR = {
+			custom_description = {
+				text = not_in_same_province
+				scope:actor.location = scope:recipient.location
+				
+			}
+			scope:actor = {
+				is_available_adult = yes
+			}
+			
+		}
+	}
+	
+	on_accept = {
+		if = {
+			limit = {
+				NOT = {scope:actor.location = scope:recipient.location}
+			}
+			
+			scope:actor = {
+				start_travel_plan = {
+				destination = scope:recipient.location
+				on_arrival_event = mcc_event_v2.1002
+				}
+			}
+			
+		}
+		else = {
+			scope:actor = { 
+				trigger_event = mcc_event_v2.1002
+			}
+		}
+	}
+	
+	auto_accept = yes
+	
+}

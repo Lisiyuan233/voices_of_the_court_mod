@@ -1,0 +1,1048 @@
+﻿levies_total = {
+	value = 0
+	every_vassal = {
+		if = {
+			limit = { levies_to_liege < 5 }
+			add = 0
+		}
+		else_if = {
+			limit = { levies_to_liege < 15 }
+			add = 10
+		}
+		else_if = {
+			limit = { levies_to_liege < 25 }
+			add = 20
+		}
+		else_if = {
+			limit = { levies_to_liege < 35 }
+			add = 30
+		}
+		else_if = {
+			limit = { levies_to_liege < 45 }
+			add = 40
+		}
+		else_if = {
+			limit = { levies_to_liege < 55 }
+			add = 50
+		}
+		else_if = {
+			limit = { levies_to_liege < 65 }
+			add = 60
+		}
+		else_if = {
+			limit = { levies_to_liege < 75 }
+			add = 70
+		}
+		else_if = {
+			limit = { levies_to_liege < 85 }
+			add = 80
+		}
+		else_if = {
+			limit = { levies_to_liege < 95 }
+			add = 90
+		}
+		else_if = {
+			limit = { levies_to_liege < 105 }
+			add = 100
+		}
+		else_if = {
+			limit = { levies_to_liege < 115 }
+			add = 110
+		}
+		else_if = {
+			limit = { levies_to_liege < 125 }
+			add = 120
+		}
+		else_if = {
+			limit = { levies_to_liege < 135 }
+			add = 130
+		}
+		else_if = {
+			limit = { levies_to_liege < 145 }
+			add = 140
+		}
+		else_if = {
+			limit = { levies_to_liege < 155 }
+			add = 150
+		}
+		else_if = {
+			limit = { levies_to_liege < 165 }
+			add = 160
+		}
+		else_if = {
+			limit = { levies_to_liege < 175 }
+			add = 170
+		}
+		else_if = {
+			limit = { levies_to_liege < 185 }
+			add = 180
+		}
+		else_if = {
+			limit = { levies_to_liege < 195 }
+			add = 190
+		}
+		else_if = {
+			limit = { levies_to_liege < 205 }
+			add = 200
+		}
+		else_if = {
+			limit = { levies_to_liege < 215 }
+			add = 210
+		}
+		else_if = {
+			limit = { levies_to_liege < 225 }
+			add = 220
+		}
+		else_if = {
+			limit = { levies_to_liege < 235 }
+			add = 230
+		}
+		else_if = {
+			limit = { levies_to_liege < 245 }
+			add = 240
+		}
+		else_if = {
+			limit = { levies_to_liege < 255 }
+			add = 250
+		}
+		else_if = {
+			limit = { levies_to_liege < 265 }
+			add = 260
+		}
+		else_if = {
+			limit = { levies_to_liege < 275 }
+			add = 270
+		}
+		else_if = {
+			limit = { levies_to_liege < 285 }
+			add = 280
+		}
+		else_if = {
+			limit = { levies_to_liege < 295 }
+			add = 290
+		}
+		else_if = {
+			limit = { levies_to_liege < 305 }
+			add = 300
+		}
+		else_if = {
+			limit = { levies_to_liege < 315 }
+			add = 310
+		}
+		else_if = {
+			limit = { levies_to_liege < 325 }
+			add = 320
+		}
+		else_if = {
+			limit = { levies_to_liege < 335 }
+			add = 330
+		}
+		else_if = {
+			limit = { levies_to_liege < 345 }
+			add = 340
+		}
+		else_if = {
+			limit = { levies_to_liege < 355 }
+			add = 350
+		}
+		else_if = {
+			limit = { levies_to_liege < 365 }
+			add = 360
+		}
+		else_if = {
+			limit = { levies_to_liege < 375 }
+			add = 370
+		}
+		else_if = {
+			limit = { levies_to_liege < 385 }
+			add = 380
+		}
+		else_if = {
+			limit = { levies_to_liege < 395 }
+			add = 390
+		}
+		else_if = {
+			limit = { levies_to_liege < 405 }
+			add = 400
+		}
+		else_if = {
+			limit = { levies_to_liege < 415 }
+			add = 410
+		}
+		else_if = {
+			limit = { levies_to_liege < 425 }
+			add = 420
+		}
+		else_if = {
+			limit = { levies_to_liege < 435 }
+			add = 430
+		}
+		else_if = {
+			limit = { levies_to_liege < 445 }
+			add = 440
+		}
+		else_if = {
+			limit = { levies_to_liege < 455 }
+			add = 450
+		}
+		else_if = {
+			limit = { levies_to_liege < 465 }
+			add = 460
+		}
+		else_if = {
+			limit = { levies_to_liege < 475 }
+			add = 470
+		}
+		else_if = {
+			limit = { levies_to_liege < 485 }
+			add = 480
+		}
+		else_if = {
+			limit = { levies_to_liege < 495 }
+			add = 490
+		}
+		else_if = {
+			limit = { levies_to_liege < 525 }
+			add = 500
+		}
+		else_if = {
+			limit = { levies_to_liege < 575 }
+			add = 550
+		}
+		else_if = {
+			limit = { levies_to_liege < 625 }
+			add = 600
+		}
+		else_if = {
+			limit = { levies_to_liege < 675 }
+			add = 650
+		}
+		else_if = {
+			limit = { levies_to_liege < 725 }
+			add = 700
+		}
+		else_if = {
+			limit = { levies_to_liege < 775 }
+			add = 750
+		}
+		else_if = {
+			limit = { levies_to_liege < 825 }
+			add = 800
+		}
+		else_if = {
+			limit = { levies_to_liege < 875 }
+			add = 850
+		}
+		else_if = {
+			limit = { levies_to_liege < 925 }
+			add = 900
+		}
+		else_if = {
+			limit = { levies_to_liege < 975 }
+			add = 950
+		}
+		else_if = {
+			limit = { levies_to_liege < 1025 }
+			add = 1000
+		}
+		else_if = {
+			limit = { levies_to_liege < 1075 }
+			add = 1050
+		}
+		else_if = {
+			limit = { levies_to_liege < 1125 }
+			add = 1100
+		}
+		else_if = {
+			limit = { levies_to_liege < 1175 }
+			add = 1150
+		}
+		else_if = {
+			limit = { levies_to_liege < 1225 }
+			add = 1200
+		}
+		else_if = {
+			limit = { levies_to_liege < 1275 }
+			add = 1250
+		}
+		else_if = {
+			limit = { levies_to_liege < 1325 }
+			add = 1300
+		}
+		else_if = {
+			limit = { levies_to_liege < 1375 }
+			add = 1350
+		}
+		else_if = {
+			limit = { levies_to_liege < 1425 }
+			add = 1400
+		}
+		else_if = {
+			limit = { levies_to_liege < 1475 }
+			add = 1450
+		}
+		else_if = {
+			limit = { levies_to_liege < 1525 }
+			add = 1500
+		}
+		else_if = {
+			limit = { levies_to_liege < 1575 }
+			add = 1550
+		}
+		else_if = {
+			limit = { levies_to_liege < 1625 }
+			add = 1600
+		}
+		else_if = {
+			limit = { levies_to_liege < 1675 }
+			add = 1650
+		}
+		else_if = {
+			limit = { levies_to_liege < 1725 }
+			add = 1700
+		}
+		else_if = {
+			limit = { levies_to_liege < 1775 }
+			add = 1750
+		}
+		else_if = {
+			limit = { levies_to_liege < 1825 }
+			add = 1800
+		}
+		else_if = {
+			limit = { levies_to_liege < 1875 }
+			add = 1850
+		}
+		else_if = {
+			limit = { levies_to_liege < 1925 }
+			add = 1900
+		}
+		else_if = {
+			limit = { levies_to_liege < 1975 }
+			add = 1950
+		}
+		else_if = {
+			limit = { levies_to_liege < 2050 }
+			add = 2000
+		}
+		else_if = {
+			limit = { levies_to_liege < 2150 }
+			add = 2100
+		}
+		else_if = {
+			limit = { levies_to_liege < 2250 }
+			add = 2200
+		}
+		else_if = {
+			limit = { levies_to_liege < 2350 }
+			add = 2300
+		}
+		else_if = {
+			limit = { levies_to_liege < 2450 }
+			add = 2400
+		}
+		else_if = {
+			limit = { levies_to_liege < 2550 }
+			add = 2500
+		}
+		else_if = {
+			limit = { levies_to_liege < 2650 }
+			add = 2600
+		}
+		else_if = {
+			limit = { levies_to_liege < 2750 }
+			add = 2700
+		}
+		else_if = {
+			limit = { levies_to_liege < 2850 }
+			add = 2800
+		}
+		else_if = {
+			limit = { levies_to_liege < 2950 }
+			add = 2900
+		}
+		else_if = {
+			limit = { levies_to_liege < 3050 }
+			add = 3000
+		}
+		else_if = {
+			limit = { levies_to_liege < 3150 }
+			add = 3100
+		}
+		else_if = {
+			limit = { levies_to_liege < 3250 }
+			add = 3200
+		}
+		else_if = {
+			limit = { levies_to_liege < 3350 }
+			add = 3300
+		}
+		else_if = {
+			limit = { levies_to_liege < 3450 }
+			add = 3400
+		}
+		else_if = {
+			limit = { levies_to_liege < 3550 }
+			add = 3500
+		}
+		else_if = {
+			limit = { levies_to_liege < 3650 }
+			add = 3600
+		}
+		else_if = {
+			limit = { levies_to_liege < 3750 }
+			add = 3700
+		}
+		else_if = {
+			limit = { levies_to_liege < 3850 }
+			add = 3800
+		}
+		else_if = {
+			limit = { levies_to_liege < 3950 }
+			add = 3900
+		}
+		else_if = {
+			limit = { levies_to_liege < 4050 }
+			add = 4000
+		}
+		else_if = {
+			limit = { levies_to_liege < 4150 }
+			add = 4100
+		}
+		else_if = {
+			limit = { levies_to_liege < 4250 }
+			add = 4200
+		}
+		else_if = {
+			limit = { levies_to_liege < 4350 }
+			add = 4300
+		}
+		else_if = {
+			limit = { levies_to_liege < 4450 }
+			add = 4400
+		}
+		else_if = {
+			limit = { levies_to_liege < 4550 }
+			add = 4500
+		}
+		else_if = {
+			limit = { levies_to_liege < 4650 }
+			add = 4600
+		}
+		else_if = {
+			limit = { levies_to_liege < 4750 }
+			add = 4700
+		}
+		else_if = {
+			limit = { levies_to_liege < 4850 }
+			add = 4800
+		}
+		else_if = {
+			limit = { levies_to_liege < 4950 }
+			add = 4900
+		}
+		else_if = {
+			limit = { levies_to_liege < 5050 }
+			add = 5000
+		}
+		else_if = {
+			limit = { levies_to_liege < 5150 }
+			add = 5100
+		}
+		else_if = {
+			limit = { levies_to_liege < 5250 }
+			add = 5200
+		}
+		else_if = {
+			limit = { levies_to_liege < 5350 }
+			add = 5300
+		}
+		else_if = {
+			limit = { levies_to_liege < 5450 }
+			add = 5400
+		}
+		else_if = {
+			limit = { levies_to_liege < 5550 }
+			add = 5500
+		}
+		else_if = {
+			limit = { levies_to_liege < 5650 }
+			add = 5600
+		}
+		else_if = {
+			limit = { levies_to_liege < 5750 }
+			add = 5700
+		}
+		else_if = {
+			limit = { levies_to_liege < 5850 }
+			add = 5800
+		}
+		else_if = {
+			limit = { levies_to_liege < 5950 }
+			add = 5900
+		}
+		else_if = {
+			limit = { levies_to_liege < 6050 }
+			add = 6000
+		}
+		else_if = {
+			limit = { levies_to_liege < 6150 }
+			add = 6100
+		}
+		else_if = {
+			limit = { levies_to_liege < 6250 }
+			add = 6200
+		}
+		else_if = {
+			limit = { levies_to_liege < 6350 }
+			add = 6300
+		}
+		else_if = {
+			limit = { levies_to_liege < 6450 }
+			add = 6400
+		}
+		else_if = {
+			limit = { levies_to_liege < 6550 }
+			add = 6500
+		}
+		else_if = {
+			limit = { levies_to_liege < 6650 }
+			add = 6600
+		}
+		else_if = {
+			limit = { levies_to_liege < 6750 }
+			add = 6700
+		}
+		else_if = {
+			limit = { levies_to_liege < 6850 }
+			add = 6800
+		}
+		else_if = {
+			limit = { levies_to_liege < 6950 }
+			add = 6900
+		}
+		else_if = {
+			limit = { levies_to_liege < 7050 }
+			add = 7000
+		}
+		else_if = {
+			limit = { levies_to_liege < 7150 }
+			add = 7100
+		}
+		else_if = {
+			limit = { levies_to_liege < 7250 }
+			add = 7200
+		}
+		else_if = {
+			limit = { levies_to_liege < 7350 }
+			add = 7300
+		}
+		else_if = {
+			limit = { levies_to_liege < 7450 }
+			add = 7400
+		}
+		else_if = {
+			limit = { levies_to_liege < 7550 }
+			add = 7500
+		}
+		else_if = {
+			limit = { levies_to_liege < 7650 }
+			add = 7600
+		}
+		else_if = {
+			limit = { levies_to_liege < 7750 }
+			add = 7700
+		}
+		else_if = {
+			limit = { levies_to_liege < 7850 }
+			add = 7800
+		}
+		else_if = {
+			limit = { levies_to_liege < 7950 }
+			add = 7900
+		}
+		else_if = {
+			limit = { levies_to_liege < 8050 }
+			add = 8000
+		}
+		else_if = {
+			limit = { levies_to_liege < 8150 }
+			add = 8100
+		}
+		else_if = {
+			limit = { levies_to_liege < 8250 }
+			add = 8200
+		}
+		else_if = {
+			limit = { levies_to_liege < 8350 }
+			add = 8300
+		}
+		else_if = {
+			limit = { levies_to_liege < 8450 }
+			add = 8400
+		}
+		else_if = {
+			limit = { levies_to_liege < 8550 }
+			add = 8500
+		}
+		else_if = {
+			limit = { levies_to_liege < 8650 }
+			add = 8600
+		}
+		else_if = {
+			limit = { levies_to_liege < 8750 }
+			add = 8700
+		}
+		else_if = {
+			limit = { levies_to_liege < 8850 }
+			add = 8800
+		}
+		else_if = {
+			limit = { levies_to_liege < 8950 }
+			add = 8900
+		}
+		else_if = {
+			limit = { levies_to_liege < 9050 }
+			add = 9000
+		}
+		else_if = {
+			limit = { levies_to_liege < 9150 }
+			add = 9100
+		}
+		else_if = {
+			limit = { levies_to_liege < 9250 }
+			add = 9200
+		}
+		else_if = {
+			limit = { levies_to_liege < 9350 }
+			add = 9300
+		}
+		else_if = {
+			limit = { levies_to_liege < 9450 }
+			add = 9400
+		}
+		else_if = {
+			limit = { levies_to_liege < 9550 }
+			add = 9500
+		}
+		else_if = {
+			limit = { levies_to_liege < 9650 }
+			add = 9600
+		}
+		else_if = {
+			limit = { levies_to_liege < 9750 }
+			add = 9700
+		}
+		else_if = {
+			limit = { levies_to_liege < 9850 }
+			add = 9800
+		}
+		else_if = {
+			limit = { levies_to_liege < 9950 }
+			add = 9900
+		}
+		else_if = {
+			limit = { levies_to_liege < 10250 }
+			add = 10000
+		}
+		else_if = {
+			limit = { levies_to_liege < 10750 }
+			add = 10500
+		}
+		else_if = {
+			limit = { levies_to_liege < 11250 }
+			add = 11000
+		}
+		else_if = {
+			limit = { levies_to_liege < 11750 }
+			add = 11500
+		}
+		else_if = {
+			limit = { levies_to_liege < 12250 }
+			add = 12000
+		}
+		else_if = {
+			limit = { levies_to_liege < 12750 }
+			add = 12500
+		}
+		else_if = {
+			limit = { levies_to_liege < 13250 }
+			add = 13000
+		}
+		else_if = {
+			limit = { levies_to_liege < 13750 }
+			add = 13500
+		}
+		else_if = {
+			limit = { levies_to_liege < 14250 }
+			add = 14000
+		}
+		else_if = {
+			limit = { levies_to_liege < 14750 }
+			add = 14500
+		}
+		else_if = {
+			limit = { levies_to_liege < 15250 }
+			add = 15000
+		}
+		else_if = {
+			limit = { levies_to_liege < 15750 }
+			add = 15500
+		}
+		else_if = {
+			limit = { levies_to_liege < 16250 }
+			add = 16000
+		}
+		else_if = {
+			limit = { levies_to_liege < 16750 }
+			add = 16500
+		}
+		else_if = {
+			limit = { levies_to_liege < 17250 }
+			add = 17000
+		}
+		else_if = {
+			limit = { levies_to_liege < 17750 }
+			add = 17500
+		}
+		else_if = {
+			limit = { levies_to_liege < 18250 }
+			add = 18000
+		}
+		else_if = {
+			limit = { levies_to_liege < 18750 }
+			add = 18500
+		}
+		else_if = {
+			limit = { levies_to_liege < 19250 }
+			add = 19000
+		}
+		else_if = {
+			limit = { levies_to_liege < 19750 }
+			add = 19500
+		}
+		else_if = {
+			limit = { levies_to_liege < 20250 }
+			add = 20000
+		}
+		else_if = {
+			limit = { levies_to_liege < 20750 }
+			add = 20500
+		}
+		else_if = {
+			limit = { levies_to_liege < 21250 }
+			add = 21000
+		}
+		else_if = {
+			limit = { levies_to_liege < 21750 }
+			add = 21500
+		}
+		else_if = {
+			limit = { levies_to_liege < 22250 }
+			add = 22000
+		}
+		else_if = {
+			limit = { levies_to_liege < 22750 }
+			add = 22500
+		}
+		else_if = {
+			limit = { levies_to_liege < 23250 }
+			add = 23000
+		}
+		else_if = {
+			limit = { levies_to_liege < 23750 }
+			add = 23500
+		}
+		else_if = {
+			limit = { levies_to_liege < 24250 }
+			add = 24000
+		}
+		else_if = {
+			limit = { levies_to_liege < 24750 }
+			add = 24500
+		}
+		else_if = {
+			limit = { levies_to_liege < 25250 }
+			add = 25000
+		}
+		else_if = {
+			limit = { levies_to_liege < 25750 }
+			add = 25500
+		}
+		else_if = {
+			limit = { levies_to_liege < 26250 }
+			add = 26000
+		}
+		else_if = {
+			limit = { levies_to_liege < 26750 }
+			add = 26500
+		}
+		else_if = {
+			limit = { levies_to_liege < 27250 }
+			add = 27000
+		}
+		else_if = {
+			limit = { levies_to_liege < 27750 }
+			add = 27500
+		}
+		else_if = {
+			limit = { levies_to_liege < 28250 }
+			add = 28000
+		}
+		else_if = {
+			limit = { levies_to_liege < 28750 }
+			add = 28500
+		}
+		else_if = {
+			limit = { levies_to_liege < 29250 }
+			add = 29000
+		}
+		else_if = {
+			limit = { levies_to_liege < 29750 }
+			add = 29500
+		}
+		else_if = {
+			limit = { levies_to_liege < 30250 }
+			add = 30000
+		}
+		else_if = {
+			limit = { levies_to_liege < 30750 }
+			add = 30500
+		}
+		else_if = {
+			limit = { levies_to_liege < 31250 }
+			add = 31000
+		}
+		else_if = {
+			limit = { levies_to_liege < 31750 }
+			add = 31500
+		}
+		else_if = {
+			limit = { levies_to_liege < 32250 }
+			add = 32000
+		}
+		else_if = {
+			limit = { levies_to_liege < 32750 }
+			add = 32500
+		}
+		else_if = {
+			limit = { levies_to_liege < 33250 }
+			add = 33000
+		}
+		else_if = {
+			limit = { levies_to_liege < 33750 }
+			add = 33500
+		}
+		else_if = {
+			limit = { levies_to_liege < 34250 }
+			add = 34000
+		}
+		else_if = {
+			limit = { levies_to_liege < 34750 }
+			add = 34500
+		}
+		else_if = {
+			limit = { levies_to_liege < 35250 }
+			add = 35000
+		}
+		else_if = {
+			limit = { levies_to_liege < 35750 }
+			add = 35500
+		}
+		else_if = {
+			limit = { levies_to_liege < 36250 }
+			add = 36000
+		}
+		else_if = {
+			limit = { levies_to_liege < 36750 }
+			add = 36500
+		}
+		else_if = {
+			limit = { levies_to_liege < 37250 }
+			add = 37000
+		}
+		else_if = {
+			limit = { levies_to_liege < 37750 }
+			add = 37500
+		}
+		else_if = {
+			limit = { levies_to_liege < 38250 }
+			add = 38000
+		}
+		else_if = {
+			limit = { levies_to_liege < 38750 }
+			add = 38500
+		}
+		else_if = {
+			limit = { levies_to_liege < 39250 }
+			add = 39000
+		}
+		else_if = {
+			limit = { levies_to_liege < 39750 }
+			add = 39500
+		}
+		else_if = {
+			limit = { levies_to_liege < 40250 }
+			add = 40000
+		}
+		else_if = {
+			limit = { levies_to_liege < 40750 }
+			add = 40500
+		}
+		else_if = {
+			limit = { levies_to_liege < 41250 }
+			add = 41000
+		}
+		else_if = {
+			limit = { levies_to_liege < 41750 }
+			add = 41500
+		}
+		else_if = {
+			limit = { levies_to_liege < 42250 }
+			add = 42000
+		}
+		else_if = {
+			limit = { levies_to_liege < 42750 }
+			add = 42500
+		}
+		else_if = {
+			limit = { levies_to_liege < 43250 }
+			add = 43000
+		}
+		else_if = {
+			limit = { levies_to_liege < 43750 }
+			add = 43500
+		}
+		else_if = {
+			limit = { levies_to_liege < 44250 }
+			add = 44000
+		}
+		else_if = {
+			limit = { levies_to_liege < 44750 }
+			add = 44500
+		}
+		else_if = {
+			limit = { levies_to_liege < 45250 }
+			add = 45000
+		}
+		else_if = {
+			limit = { levies_to_liege < 45750 }
+			add = 45500
+		}
+		else_if = {
+			limit = { levies_to_liege < 46250 }
+			add = 46000
+		}
+		else_if = {
+			limit = { levies_to_liege < 46750 }
+			add = 46500
+		}
+		else_if = {
+			limit = { levies_to_liege < 47250 }
+			add = 47000
+		}
+		else_if = {
+			limit = { levies_to_liege < 47750 }
+			add = 47500
+		}
+		else_if = {
+			limit = { levies_to_liege < 48250 }
+			add = 48000
+		}
+		else_if = {
+			limit = { levies_to_liege < 48750 }
+			add = 48500
+		}
+		else_if = {
+			limit = { levies_to_liege < 49250 }
+			add = 49000
+		}
+		else_if = {
+			limit = { levies_to_liege < 49750 }
+			add = 49500
+		}
+		else_if = {
+			limit = { levies_to_liege < 52500 }
+			add = 50000
+		}
+		else_if = {
+			limit = { levies_to_liege < 57500 }
+			add = 55000
+		}
+		else_if = {
+			limit = { levies_to_liege < 62500 }
+			add = 60000
+		}
+		else_if = {
+			limit = { levies_to_liege < 67500 }
+			add = 65000
+		}
+		else_if = {
+			limit = { levies_to_liege < 72500 }
+			add = 70000
+		}
+		else_if = {
+			limit = { levies_to_liege < 77500 }
+			add = 75000
+		}
+		else_if = {
+			limit = { levies_to_liege < 82500 }
+			add = 80000
+		}
+		else_if = {
+			limit = { levies_to_liege < 87500 }
+			add = 85000
+		}
+		else_if = {
+			limit = { levies_to_liege < 92500 }
+			add = 90000
+		}
+		else_if = {
+			limit = { levies_to_liege < 97500 }
+			add = 95000
+		}
+		else_if = {
+			limit = { levies_to_liege < 105000 }
+			add = 100000
+		}
+		else_if = {
+			limit = { levies_to_liege < 115000 }
+			add = 110000
+		}
+		else_if = {
+			limit = { levies_to_liege < 125000 }
+			add = 120000
+		}
+		else_if = {
+			limit = { levies_to_liege < 135000 }
+			add = 130000
+		}
+		else_if = {
+			limit = { levies_to_liege < 145000 }
+			add = 140000
+		}
+		else_if = {
+			limit = { levies_to_liege < 155000 }
+			add = 150000
+		}
+		else_if = {
+			limit = { levies_to_liege < 165000 }
+			add = 160000
+		}
+		else_if = {
+			limit = { levies_to_liege < 175000 }
+			add = 170000
+		}
+		else_if = {
+			limit = { levies_to_liege < 185000 }
+			add = 180000
+		}
+		else_if = {
+			limit = { levies_to_liege < 195000 }
+			add = 190000
+		}
+		else = {
+			add = 200000
+		}
+	}
+}

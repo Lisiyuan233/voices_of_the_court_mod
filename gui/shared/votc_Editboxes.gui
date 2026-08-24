@@ -1,0 +1,56 @@
+﻿types Editboxes
+{
+    type editbox_votc_with_label = vbox {
+        spacing = 4
+
+        text_single = {
+            block "editbox_label"
+            {
+                raw_text = "#D block editbox_label#!"
+            }
+        }
+
+        hbox = {
+            layoutpolicy_horizontal = expanding
+            layoutpolicy_vertical = expanding
+
+            editbox_votc = {
+                layoutpolicy_horizontal = expanding
+                layoutpolicy_vertical = expanding
+            }
+
+            block "editbox_right_side"
+            {
+            }
+        }
+    }
+
+
+    type editbox_votc = margin_widget {
+        margin_left = 5
+        margin_right = 5
+        margin_top = 5
+        size = { 300 230 }
+
+        using = tooltip_es
+
+        background = {
+            texture = "gfx/interface/component_tiles/tile_editbox.dds"
+            spriteType = Corneredtiled
+            spriteborder = { 16 16 }
+        }
+
+        editbox = { 
+            block "editbox_properties" 
+            {
+                name = "give_me_a_unique_name_for_code_to_find_me"
+            }
+
+            align = top|left
+            size = {100% 100%}
+            alwaystransparent = no
+            focuspolicy = all
+            default_format = "#high"
+        }
+    }
+}

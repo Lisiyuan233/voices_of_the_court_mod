@@ -1,0 +1,970 @@
+﻿conversation_animation_v2 = {
+	male = {
+	
+		default = { head = "AI_rational_entry" torso = "AI_rational_entry" }
+		
+		##############################################
+		## Starting Poses / Scene Animations
+		
+		armycamp = {
+			animation = { head = "council_marshal" torso = "council_marshal" } 
+			portrait_modifier_pack = one_handed_sword
+			weight = {
+				base = 0
+				modifier = {
+					add = 90
+					has_global_variable = talk_scene
+					global_var:talk_scene = flag:talk_scene_armycamp
+				}
+			}
+		}
+		
+		hunt = {
+			animation = { head = "hunting_bow_down_entry" torso = "hunting_bow_down_entry" }
+			portrait_modifier_pack = hunting_shortbow_rest_arrow
+			weight = {
+				base = 0
+				modifier = {
+					add = 90
+					has_global_variable = talk_scene
+					global_var:talk_scene = flag:talk_scene_hunt
+				}
+			}
+		}
+		
+		feast = {
+			animation = { head = "emotion_toast1_entry" torso = "emotion_toast1_entry" }
+			portrait_modifier = {			
+				animations_props = goblet
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 90
+					has_global_variable = talk_scene
+					global_var:talk_scene = flag:talk_scene_feast
+				}
+			}
+		}
+		
+		prison = {
+			animation = { head = "misc_arrest" torso = "misc_arrest" }
+			portrait_modifier = {
+				animations_props = arrest_prop
+				animations = misc_arrest_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_global_variable = talk_scene
+					OR = {
+						is_in_prison_type = house_arrest
+						is_in_prison_type = dungeon
+					}
+				}
+			}
+		}
+		
+		dungeon = {
+			animation = { head = "misc_dungeon" torso = "misc_dungeon" }
+			portrait_modifier = {
+				animations_props = dungeon_props
+				animations = misc_dungeon_decal
+				animations = no_cloak
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					is_in_prison_type = dungeon
+					has_global_variable = talk_scene
+					global_var:talk_scene = flag:talk_scene_dungeon
+				}
+			}
+		}
+		
+		##############################################
+		## Basic Emotion Poses
+		
+		test = {
+			animation = { head = "throneRoom_bow1_entry" torso = "throneRoom_bow1_entry" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:test
+				}
+			}
+		}
+
+		idle = {
+			animation = { head = "idle" torso = "idle" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:idle
+				}
+			}
+		}
+		
+		sad = {
+			animation = { head = "emotion_sadness" torso = "emotion_sadness" }
+			portrait_modifier = {
+				animations = council_steward_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:sad
+				}
+			}
+		}
+		
+		sadness = {
+			animation = { head = "emotion_sadness_entry" torso = "emotion_sadness_entry" }
+			portrait_modifier = {
+				animations = emotion_sadness_decal
+				animations = cloak_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:sadness
+				}
+			}
+		}
+		
+		happy = {
+			animation = { head = "emotion_happy" torso = "emotion_happy" }
+			portrait_modifier = {
+				animations = emotion_happy_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:happy
+				}
+			}
+		}
+		
+		happiness = {
+			animation = { head = "emotion_happy_entry" torso = "emotion_happy_entry" }
+			portrait_modifier = {
+				animations = emotion_happy_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:happiness
+				}
+			}
+		}
+		
+		love = {
+			animation = { head = "emotion_admiration" torso = "emotion_admiration" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:love
+				}
+			}
+		}
+		
+		admiration = {
+			animation = { head = "emotion_admiration_entry" torso = "emotion_admiration_entry" }
+			portrait_modifier = {
+				animations = emotion_admiration_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:admiration
+				}
+			}
+		}
+		
+		pain = {
+			animation = { head = "emotion_pain_entry" torso = "emotion_pain_entry" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:pain
+				}
+			}
+		}
+		
+		worry = {
+			animation = { head = "emotion_worry" torso = "emotion_worry" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:worry
+				}
+			}
+		}
+		
+		speaking = {
+			animation = { head = "throneRoom_conversation2_entry" torso = "throneRoom_conversation2_entry" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:speaking
+				}
+			}
+		}
+		
+		##############################################
+		## Extended Emotion Poses
+		
+		anger = {
+			animation = { head = "emotion_angry_entry" torso = "emotion_angry_entry" }
+			portrait_modifier = {
+				animations = emotion_angry_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:anger
+				}
+			}
+		}
+		
+		rage = {
+			animation = { head = "emotion_rage_entry" torso = "emotion_rage_entry" }
+			portrait_modifier = {
+				animations = emotion_angry_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:rage
+				}
+			}
+		}
+		
+		fear = {
+			animation = { head = "emotion_fear_entry" torso = "emotion_fear_entry" }
+			portrait_modifier = {
+				animations = emotion_fear_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:fear
+				}
+			}
+		}
+		
+		shock = {
+			animation = { head = "shocked_entry" torso = "shocked_entry" }
+			portrait_modifier = {
+				animations = emotion_shock_decal
+				animations = dwarf_additive
+				animations = fat_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:shock
+				}
+			}
+		}
+		
+		stunned = {
+			animation = { head = "emotion_shock_entry" torso = "emotion_shock_entry" }
+			portrait_modifier = {
+				animations = emotion_shock_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:stunned
+				}
+			}
+		}
+		
+		disgust = {
+			animation = { head = "emotion_disgust_entry" torso = "emotion_disgust_entry" }
+			portrait_modifier = {
+				animations = emotion_disgust_decal
+				animations = cloak_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:disgust
+				}
+			}
+		}
+		
+		disbelief = {
+			animation = { head = "emotion_disbelief_entry" torso = "emotion_disbelief_entry" }
+			portrait_modifier = {
+				animations = emotion_disbelief_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:disbelief
+				}
+			}
+		}
+		
+		disapproval = {
+			animation = { head = "emotion_disapproving_entry" torso = "emotion_disapproving_entry" }
+			portrait_modifier = {
+				animations = emotion_disapproving_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:disapproval
+				}
+			}
+		}
+		
+		dismissal = {
+			animation = { head = "emotion_dismissive_entry" torso = "emotion_dismissive_entry" }
+			portrait_modifier = {
+				animations = emotion_dismissive_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:dismissal
+				}
+			}
+		}
+		
+		disappointed = {
+			animation = { head = "emotion_disappointed" torso = "emotion_disappointed" }
+			portrait_modifier = {
+				animations = female_prop_fix_additive
+				animations = dwarf_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:disappointed
+				}
+			}
+		}
+		
+		beg = {
+			animation = { head = "emotion_beg_entry" torso = "emotion_beg_entry" }
+			portrait_modifier = {
+				animations = emotion_beg_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:beg
+				}
+			}
+		}
+		
+		boredom = {
+			animation = { head = "emotion_boredom_entry" torso = "emotion_boredom_entry" }
+			portrait_modifier = {
+				animations = emotion_boredom_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:boredom
+				}
+			}
+		}
+		
+		grief = {
+			animation = { head = "emotion_grief_entry" torso = "emotion_grief_entry" }
+			portrait_modifier = {
+				animations = emotion_grief_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:grief
+				}
+			}
+		}
+		
+		crying = {
+			animation = { head = "emotion_teen_cry_loop1" torso = "emotion_teen_cry_loop1" }
+			portrait_modifier = {
+				animations = fat_additive
+				animations = dwarf_additive
+				animations = female_prop_fix_additive
+				animations = emotion_grief_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:crying
+				}
+			}
+		}
+		
+		laugh = {
+			animation = { head = "emotion_laugh_entry" torso = "emotion_laugh_entry" }
+			portrait_modifier = {
+				animations = emotion_happy_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:laugh
+				}
+			}
+		}
+		
+		ecstasy = {
+			animation = { head = "emotion_ecstasy_entry" torso = "emotion_ecstasy_entry" }
+			portrait_modifier = {
+				animations = emotion_happy_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:ecstasy
+				}
+			}
+		}
+		
+		flirtation = {
+			animation = { head = "emotion_flirty_entry" torso = "emotion_flirty_entry" }
+			portrait_modifier = {
+				animations = emotion_flirty_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:flirtation
+				}
+			}
+		}
+		
+		interested = {
+			animation = { head = "interested_start" torso = "interested_start" }
+			portrait_modifier = {
+				animations = fat_additive
+				animations = dwarf_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:interested
+				}
+			}
+		}
+		
+		paranoia = {
+			animation = { head = "emotion_paranoia_entry" torso = "emotion_paranoia_entry" }
+			portrait_modifier = {
+				animations = emotion_paranoia_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:paranoia
+				}
+			}
+		}
+		
+		scheme = {
+			animation = { head = "emotion_scheme_entry" torso = "emotion_scheme_entry" }
+			portrait_modifier = {
+				animations = emotion_paranoia_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:scheme
+				}
+			}
+		}
+		
+		schadenfreude = {
+			animation = { head = "emotion_schadenfreude_entry" torso = "emotion_schadenfreude_entry" }
+			portrait_modifier = {
+				animations = emotion_schadenfreude_decal
+				animations = cloak_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:schadenfreude
+				}
+			}
+		}
+		
+		shame = {
+			animation = { head = "emotion_shame_entry" torso = "emotion_shame_entry" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:shame
+				}
+			}
+		}
+		
+		stress = {
+			animation = { head = "emotion_stressed_entry" torso = "emotion_stressed_entry" }
+			portrait_modifier = {
+				animations = emotion_stressed_decal
+				animations = child_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:stress
+				}
+			}
+		}
+		
+		wailing = {
+			animation = { head = "wailing" torso = "wailing" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:wailing
+				}
+			}
+		}
+		
+		manic = {
+			animation = { head = "manic_entry" torso = "manic_entry" }
+			portrait_modifier = {
+				animations = AI_irrational_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:manic
+				}
+			}
+		}
+		
+		eccentric = {
+			animation = { head = "eccentric_entry" torso = "eccentric_entry" }
+			portrait_modifier = {
+				animations = AI_irrational_decal
+				animations = fat_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:eccentric
+				}
+			}
+		}
+		
+		delirium = {
+			animation = { head = "delirium" torso = "delirium" }
+			portrait_modifier = {
+				animations = dwarf_additive
+				animations = fat_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:delirium
+				}
+			}
+		}
+		##############################################
+		## Action Animations
+		
+		thinking = {
+			animation = { head = "emotion_thinking_entry" torso = "emotion_thinking_entry" }
+			portrait_modifier = {
+				animations = AI_rational_decal
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:thinking
+				}
+			}
+		}
+		
+		reading = {
+			animation = { head = "reading_loop" torso = "reading_loop" }
+			portrait_modifier = {
+				animations_props = bp2_reading_book_prop
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:reading
+				}
+			}
+		}
+		
+		writing = {
+			animation = { head = "writing" torso = "writing" }
+			portrait_modifier = {
+				animations_props = fp4_writing_book_prop
+				animations = female_prop_fix_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:writing
+				}
+			}
+		}
+		
+		pageflipping = {
+			animation = { head = "page_flipping" torso = "page_flipping" }
+			portrait_modifier = {
+				animations_props = fp4_paged_book_prop
+				animations = female_prop_fix_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:pageflipping
+				}
+			}
+		}
+		
+		drinking = {
+			animation = { head = "drink_entry" torso = "drink_entry" }
+			portrait_modifier = {
+				animations_props = tankard
+				animations = cloak_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:drinking
+				}
+			}
+		}
+		
+		toast = {
+			animation = { head = "toast1_entry" torso = "toast1_entry" }
+			portrait_modifier = {
+				animations_props = tankard
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:toast
+				}
+			}
+		}
+		
+		praying = {
+			animation = { head = "praying" torso = "praying" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:praying
+				}
+			}
+		}
+		
+		eavesdrop = {
+			animation = { head = "eavesdrop_entry" torso = "eavesdrop_entry" }
+			portrait_modifier = {
+				animations = cloak_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:eavesdrop
+				}
+			}
+		}
+		
+		debating = {
+			animation = { head = "debating" torso = "debating" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:debating
+				}
+			}
+		}
+		
+		storyteller = {
+			animation = { head = "storytelling" torso = "storytelling" }
+			portrait_modifier = {
+				animations = emotion_shock_decal
+				animations = dwarf_additive
+				animations = fat_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:storyteller
+				}
+			}
+		}
+		
+		dancing = {
+			animation = { head = "dancing_loop" torso = "dancing_loop" }
+			portrait_modifier = {
+				animations = dwarf_additive
+				animations = fat_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:dancing
+				}
+			}
+		}
+		
+		eyeroll = {
+			animation = { head = "eyeroll_entry" torso = "eyeroll_entry" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:eyeroll
+				}
+			}
+		}
+		
+		betting = {
+			animation = { head = "betting" torso = "betting" }
+			portrait_modifier = {
+				animations = fat_additive
+				animations_props = steward_prop
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:betting
+				}
+			}
+		}
+		
+		bribing = {
+			animation = { head = "bribing" torso = "bribing" }
+			portrait_modifier = {
+				animations = fat_additive
+				animations_props = money_pouch_prop
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:bribing
+				}
+			}
+		}
+		
+		physician = {
+			animation = { head = "physician" torso = "physician" }
+			portrait_modifier = {
+				animations_props = fp4_mortar_and_pestle_prop
+				animations = female_prop_fix_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:physician
+				}
+			}
+		}
+		
+		survey = {
+			animation = { head = "survey_start" torso = "survey_start" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:survey
+				}
+			}
+		}
+		
+		holdingstaff = {
+			animation = { head = "holding_staff_loop" torso = "holding_staff_loop" }
+			portrait_modifier = {
+				animations_props = bp3_walking_stick
+				animations = female_prop_fix_additive
+				animations = dwarf_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:holdingstaff
+				}
+			}
+		}
+		
+		scepter = {
+			animation = { head = "scepter" torso = "scepter" }
+			portrait_modifier = {
+				animations = fat_additive
+				animations_props = ep3_byzantine_scepter_prop
+				animations = cloak_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:scepter
+				}
+			}
+		}
+		
+		lantern = {
+			animation = { head = "lantern1_entry" torso = "lantern1_entry" }
+			portrait_modifier = {
+				animations_props = lantern
+				animations = cloak_additive
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:lantern
+				}
+			}
+		}
+		
+		stayback = {
+			animation = { head = "stay_back" torso = "stay_back" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:stayback
+				}
+			}
+		}
+		
+		heroflex = {
+			animation = { head = "hero_flex" torso = "hero_flex" }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_variable = talk_pose
+					var:talk_pose = flag:heroflex
+				}
+			}
+		}
+	}
+
+	boy = male
+	female = male
+	girl = male
+}
+

@@ -1,0 +1,32 @@
+window = {
+	name = "letters_runner"
+	size = { 1% 1% }
+	parentanchor = top|right
+	movable = no
+	#position = { -80 130 }
+	layer = bottom_bottom
+	
+	state = {
+		name = itsshowtime
+		trigger_on_create = yes
+		on_finish = "[GetVariableSystem.Set( 'blur', '1' )]"
+		
+	}
+
+	hbox = {
+		name = "letters_runner_counter"
+	
+		state = {
+			name = _show
+			trigger_on_create = yes
+			on_finish = "[ExecuteConsoleCommand('run letters.txt')]"
+		}
+	
+		state = {
+			name = _show2
+			trigger_when = "[Not(GetGlobalVariable('talk_scene').IsSet)]"
+			duration = 2
+			on_finish = "[ExecuteConsoleCommand('gui.createwidget gui/custom_gui/letters_runner.gui letters_runner_counter')]"
+		}
+	}
+}

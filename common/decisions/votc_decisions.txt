@@ -1,0 +1,111 @@
+﻿votc_relaese_letter_decision = {
+	decision_group_type = decisions
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	
+	effect = {
+		custom_tooltip = votc_relaese_letter_decision_effect_desc
+		remove_global_variable= votc_letter_1
+		remove_global_variable= votc_letter_2
+		remove_global_variable= votc_letter_3
+		remove_global_variable= votc_letter_4
+		remove_global_variable= votc_letter_5
+		remove_global_variable= votc_letter_6
+		remove_global_variable= votc_letter_7
+		remove_global_variable= votc_letter_8
+		remove_global_variable= votc_letter_9
+	}
+
+	ai_check_interval = 0
+    ai_will_do = {
+		base = 0
+	}
+}
+
+votc_relaese_battle_report_decision = {
+	decision_group_type = decisions
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	
+	effect = {
+		custom_tooltip = votc_relaese_battle_report_decision_effect_desc
+		remove_global_variable ?= votc_battle_report_pending
+		remove_global_variable ?= votc_battle_report_pending_valid
+		remove_global_variable ?= votc_battle_report_1
+		remove_global_variable ?= votc_battle_report_2
+		remove_global_variable ?= votc_battle_report_3
+		remove_global_variable ?= votc_battle_report_4
+		remove_global_variable ?= votc_battle_report_5
+		remove_global_variable ?= votc_battle_report_6
+		remove_global_variable ?= votc_battle_report_7
+		remove_global_variable ?= votc_battle_report_8
+		remove_global_variable ?= votc_battle_report_9
+		remove_global_variable ?= votc_battle_report_10
+		remove_global_variable ?= votc_battle_report_11
+		remove_global_variable ?= votc_battle_report_12
+		remove_global_variable ?= votc_battle_report_13
+		remove_global_variable ?= votc_battle_report_14
+		remove_global_variable ?= votc_battle_report_15
+		remove_variable ?= votc_battle_report_1_timer
+		remove_variable ?= votc_battle_report_1_sent_day
+		remove_variable ?= votc_battle_report_2_timer
+		remove_variable ?= votc_battle_report_2_sent_day
+		remove_variable ?= votc_battle_report_3_timer
+		remove_variable ?= votc_battle_report_3_sent_day
+		remove_variable ?= votc_battle_report_4_timer
+		remove_variable ?= votc_battle_report_4_sent_day
+		remove_variable ?= votc_battle_report_5_timer
+		remove_variable ?= votc_battle_report_5_sent_day
+		remove_variable ?= votc_battle_report_6_timer
+		remove_variable ?= votc_battle_report_6_sent_day
+		remove_variable ?= votc_battle_report_7_timer
+		remove_variable ?= votc_battle_report_7_sent_day
+		remove_variable ?= votc_battle_report_8_timer
+		remove_variable ?= votc_battle_report_8_sent_day
+		remove_variable ?= votc_battle_report_9_timer
+		remove_variable ?= votc_battle_report_9_sent_day
+		remove_variable ?= votc_battle_report_10_timer
+		remove_variable ?= votc_battle_report_10_sent_day
+		remove_variable ?= votc_battle_report_11_timer
+		remove_variable ?= votc_battle_report_11_sent_day
+		remove_variable ?= votc_battle_report_12_timer
+		remove_variable ?= votc_battle_report_12_sent_day
+		remove_variable ?= votc_battle_report_13_timer
+		remove_variable ?= votc_battle_report_13_sent_day
+		remove_variable ?= votc_battle_report_14_timer
+		remove_variable ?= votc_battle_report_14_sent_day
+		remove_variable ?= votc_battle_report_15_timer
+		remove_variable ?= votc_battle_report_15_sent_day
+	}
+
+	ai_check_interval = 0
+    ai_will_do = {
+		base = 0
+	}
+}
+
+votc_conversation_history_decision = {
+	decision_group_type = decisions
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	effect = {
+		save_scope_as = actor
+		votc_init_checkpoint_effect = yes
+		debug_log = "VOTC:conversation_history/;/[GetPlayer.GetID]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_epoch').GetValue|0]"
+		trigger_event = votc_checkpoint_event.9001
+	}
+
+	ai_check_interval = 0
+	ai_will_do = {
+		base = 0
+	}
+}

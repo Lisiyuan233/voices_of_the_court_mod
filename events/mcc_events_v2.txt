@@ -1,0 +1,675 @@
+﻿
+namespace = mcc_event_v2
+
+## TODO: We need to decide who can try to speak with player and where (or will we let player to decide, where to speak with a character)
+## Probably we could make more such events for another situations, e.g. make event of conversation before/after battle
+## Or maybe some prisoners could request to speak with you, especially if they have low health in dungeon
+mcc_event_v2.1000 = {
+	type = character_event
+	theme = diplomacy_family_focus
+	title = mcc_event.1000.title
+	desc = mcc_event.1000.desc
+	window = character_event
+	left_portrait = {
+		character = scope:recipient
+	}
+
+	immediate = {
+		random_courtier_or_guest = {
+			save_scope_as = recipient
+		}
+	}
+
+	option ={
+		name = votc_talk_together
+		scope:actor = {
+			trigger_event = mcc_event_v2.1002
+		}
+	}
+
+	option ={
+		name = mcc_event.1002.exit
+	}
+
+}
+
+#Travel arrival event
+mcc_event_v2.1001 = {
+	immediate = {
+		scope:actor = {
+			trigger_event = mcc_event_v2.1002
+		}
+	}
+}
+
+mcc_event_v2.1002 = {
+	type = character_event
+	theme = diplomacy_family_focus
+	title = mcc_event.1002.title
+	desc = mcc_event.1002.desc
+	window = character_event
+
+	immediate = {
+		involved_activity = {
+			save_scope_as = activity
+		}
+		if = {
+			limit = {
+				has_variable_list = talk_scene_flags
+			}
+			clear_variable_list = talk_scene_flags
+		}
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_throne_room
+		}
+		# Interior - Castle/Palace
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_throne_room
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_council_chamber
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_bedchamber
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_sitting_room
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_study
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_relaxing_room
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_corridor_day
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_corridor_night
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_nursery
+		}
+
+		# Interior - Functional Rooms
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_armory
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_kitchen
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_wine_cellar
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_physicians_study
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_bath_house
+		}
+
+		# Interior - Underground
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_dungeon
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_catacombs
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_cave
+		}
+
+		# Exterior - Castle/Estate
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_courtyard
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_garden
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_estate
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_dog_kennels
+		}
+
+		# Urban - Public Spaces
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_market
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_city_gate
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_alley_day
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_alley_night
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_gallows
+		}
+
+		# Urban - Buildings
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_tavern
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_crossroads_inn
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_university
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_burning_building
+		}
+
+		# Rural - Settlements
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_village
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_condemned_village
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_village_festival
+		}
+
+		# Religious
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_temple
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_holy_site
+		}
+
+		# Rural - Coastal/Water
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_docks
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_ocean
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_coast
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_beached_longships
+		}
+
+		# Military - Camps
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_army_camp
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_camp
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_camp_night
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_military_tent
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_relaxing_tent
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_campfire
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_bonfire
+		}
+
+		# Military - Battle
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_battlefield
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_legendary_battlefield
+		}
+
+		# Ceremonial
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_runestone
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_runestone_circle
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_funeral_pyre
+		}
+
+		# Events/Activities
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_feast
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_tournament
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_wedding_ceremony
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_involved_activity
+		}
+
+		# Hunting Scenes
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_hunt_forest_hut
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_hunt_forest_cave
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_hunt_foggy_forest
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_hunt_poachers_camp
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_hunt_activity_camp
+		}
+
+		# Travel/Terrain
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_farmland
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_terrain_travel
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_terrain_settlement
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_terrain_settlement_no_owner
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_travel_bridge
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_survey
+		}
+
+		# Urban - Special Cities
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_constantinople
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_city_steppe
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_chinese_city
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_japanese_city
+		}
+		add_to_variable_list = {
+			name = talk_scene_flags
+			target = flag:talk_scene_examination_room
+		}
+	}
+
+	widget = {
+        gui = "votc_scene_selector_widget"
+        container = "custom_widgets_container"
+    }
+
+	option ={
+		#trigger = {
+		#	has_global_variable = talk_scene
+		#}
+		name = votc_talk_alone
+		trigger_event = mcc_event_v2.9000
+	}
+	option ={
+		#trigger = {
+		#	has_global_variable = talk_scene
+		#}
+		name = votc_talk_together
+		trigger_event = mcc_event_v2.9001
+	}
+
+	option ={
+		#trigger = {
+		#	has_global_variable = talk_scene
+		#}
+		name = votc_talk_mcc_selector
+		trigger_event = mcc_event_v2.1003
+	}
+
+    option ={
+        name = votc_talk_change_scene_selection
+        trigger_event = mcc_event_v2.1002
+    }
+
+	option ={
+		name = mcc_event.1002.exit
+	}
+}
+
+mcc_event_v2.1003 = {
+	type = character_event
+	theme = diplomacy_family_focus
+	title = mcc_event.1002.title
+	desc = mcc_event.1002.desc
+	window = character_event
+
+	immediate = {
+		clear_variable_list = mcc_characters
+		clear_variable_list = mcc_characters_all
+		clear_variable_list = mcc_characters_all_in_location
+		clear_variable_list = mcc_characters_selected
+		every_pinned_character = {
+			limit = {
+				is_alive = yes
+				not = { any_player = { this = prev } }
+				this.location = scope:actor.location
+			}
+			scope:actor = {
+				add_to_variable_list = {
+					name = mcc_characters
+					target = prev
+				}
+			}
+		}
+		every_pinned_character = {
+			limit = {
+				is_alive = yes
+				not = { any_player = { this = prev } }
+			}
+			scope:actor = {
+				add_to_variable_list = {
+					name = mcc_characters_all
+					target = prev
+				}
+			}
+		}
+		scope:actor.location = {
+			every_character_in_location = {
+				limit = {
+					is_alive = yes
+					not = { any_player = { this = prev } }
+				}
+				scope:actor = {
+					add_to_variable_list = {
+						name = mcc_characters_all_in_location
+						target = prev
+					}
+				}
+			}
+		}
+
+	}
+
+	widget = {
+        gui = "mcc_select_characters_widget"
+        container = "custom_widgets_container"
+    }
+
+	option ={
+		name = votc_talk_change_mcc_selection
+		trigger_event = mcc_event_v2.1003
+	}
+	option ={
+		#trigger = {
+		#	has_global_variable = talk_scene
+		#}
+		name = votc_talk_selected
+		trigger_event = mcc_event_v2.8999
+	}
+
+	option ={
+		name = mcc_event.1002.exit
+	}
+}
+#log_backgrounds
+mcc_event_v2.7001 = {
+	type = character_event
+		title = votc_placeholder
+		window = fullscreen_event
+		theme = clipboard_transfer_event_theme
+		desc = mcc_event_v2.7001.desc
+
+
+		widget = {
+			gui = "event_window_widget_talk_clear"
+			container = "custom_widgets_container"
+	    }
+
+}
+
+#hidden Event fired when initating conversation with someone.
+#The only reason this exist is to open the 'event_window_widget_talk' gui event widget, so we can copy the data to the clipboard using the EventWindowData.CopyToClipboard guifunction.
+mcc_event_v2.8999 = {
+	type = character_event
+	title = votc_placeholder
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9001.desc
+
+	immediate = {
+		votc_init_checkpoint_effect = yes
+		scope:recipient = {
+			log_gamedata_v3s = yes
+		}
+	}
+
+	#this widget is what calls the EventWindowData.CopyToClipboard guifunction,
+	widget = {
+        gui = "event_window_widget_talk_v2"
+        container = "custom_widgets_container"
+    }
+}
+
+mcc_event_v2.9000 = {
+	type = character_event
+	title = votc_placeholder
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9001.desc
+
+	immediate = {
+		votc_init_checkpoint_effect = yes
+		scope:recipient = {
+			log_gamedata_v3l = yes
+		}
+	}
+
+	#this widget is what calls the EventWindowData.CopyToClipboard guifunction,
+	widget = {
+        gui = "event_window_widget_talk_v2"
+        container = "custom_widgets_container"
+    }
+
+
+	#option ={
+	#	name = "debug"
+	#}
+}
+
+mcc_event_v2.9001 = {
+	type = character_event
+	title = votc_placeholder
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9001.desc
+
+	immediate = {
+		votc_init_checkpoint_effect = yes
+		scope:recipient = {
+			log_gamedata_v3 = yes
+		}
+
+	}
+
+	#this widget is what calls the EventWindowData.CopyToClipboard guifunction,
+	widget = {
+        gui = "event_window_widget_talk_v2"
+        container = "custom_widgets_container"
+    }
+
+
+	#option ={
+	#	name = "debug"
+	#}
+}
+
+#close talk window
+mcc_event_v2.9002 = {
+	type = character_event
+	title = votc_placeholder
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9002.desc
+
+	widget = {
+        gui = "event_window_widget_talk_close_v2"
+        container = "custom_widgets_container"
+    }
+
+	immediate = {
+		remove_global_variable = talk_scene
+		every_in_global_list = {
+			variable = mcc_characters_list_v2
+			remove_variable = talk_pose
+		}
+
+		remove_global_variable = mcc_character_0
+		remove_global_variable = mcc_character_1
+		remove_global_variable = mcc_character_2
+		remove_global_variable = mcc_character_3
+		remove_global_variable = mcc_character_4
+		remove_global_variable = mcc_character_5
+		remove_global_variable = mcc_character_6
+		remove_global_variable = mcc_character_7
+		remove_global_variable = mcc_character_8
+		remove_global_variable = mcc_character_9
+		remove_global_variable = mcc_character_10
+		remove_global_variable = mcc_character_11
+		remove_global_variable = mcc_character_12
+		remove_global_variable = mcc_character_13
+		remove_global_variable = mcc_character_14
+		remove_global_variable = mcc_character_15
+
+		clear_global_variable_list = mcc_characters_list_v2
+	}
+}
+
+## action event
+mcc_event_v2.9003 = {
+	type = character_event
+	title = votc_placeholder
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9003.desc
+
+	widget = {
+        gui = "event_window_widget_talk_clear"
+        container = "custom_widgets_container"
+    }
+
+
+}
+
+#run/letters.txt executor
+mcc_event_v2.9998 = {
+	type = character_event
+	title = votc_placeholder
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9999.desc
+
+	widget = {
+        gui = "event_window_widget_message"
+        container = "custom_widgets_container"
+    }
+}
+
+mcc_event_v2.9999 = {
+	type = character_event
+	title = votc_placeholder
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9999.desc
+
+	#this widget is what calls the EventWindowData.CopyToClipboard guifunction,
+	widget = {
+        gui = "event_window_widget_message_clear"
+        container = "custom_widgets_container"
+    }
+
+	immediate = {
+		trigger_event = mcc_event_v2.9998
+
+	}
+
+	#option ={
+	#	name = "debug"
+	#}
+}

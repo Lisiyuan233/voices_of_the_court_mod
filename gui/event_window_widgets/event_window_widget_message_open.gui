@@ -1,0 +1,17 @@
+hbox = {
+	name = "event_window_widget_message_open"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+
+
+
+	state = {
+        name = widget_show
+        trigger_on_create = yes
+		on_start = "[EventWindowData.CopyToClipboard]"
+		on_finish = "[ExecuteConsoleCommand('gui.createwidget gui/custom_gui/votc_letter.gui votc_letter')]"
+	}
+
+
+	expand = {}
+} 

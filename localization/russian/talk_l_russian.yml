@@ -1,0 +1,210 @@
+﻿l_russian:
+
+
+talk_interaction:0 "Поговорить"
+talk_interaction.desc:0 "Начать разговор"
+
+
+invite_to_talk_interaction:0 "Пригласить на разговор"
+invite_to_talk_interaction.desc:0 "Пригласить [recipient.GetTitledFirstName] прибыть в ваше местоположение для разговора."
+i_said_we_will_meet:0 "Я сказал, что мы встретимся (чит)"
+
+
+talk_herhim:0 "[recipient.GetHerHim]"
+talk_event.1001.title:0 "Прибытие"
+talk_event.1001.desc:0 "Вы наконец прибыли в [actor.GetCurrentLocation.GetName], чтобы встретиться с [recipient.GetTitledFirstName]. Теперь вопрос в том, где нам встретиться с $talk_herhim$?"
+talk_event.1001.exit:0 "Вообще-то, я не хочу с $talk_herhim$ разговаривать."
+
+
+talk_window_end:0 "Завершить разговор"
+
+
+conversation_opinion:0 "From conversations"
+
+
+not_in_same_province:0 "Мы в одной провинции"
+
+
+
+message_interaction.desc:0 "Написать письмо"
+message_interaction:0 "Написать письмо"
+votc_message_title:0 "Написать [recipient.GetShortUINamePossessive]"
+votc_message_desc:0 " "
+votc_message_tooltip:0 "Если сообщение неполное, проверьте соответствующий артефакт письма."
+message_text:0 "VOTC:LETTER/;/[GetPlayer.GetLocalizedText( 'votc_message_text' )]/;/[GetGlobalVariable('votc_letter_num').GetFlagName]/;/[GetCurrentDate.GetDateAsTotalDays]/;/[GetGlobalVariable('votc_letter_distance').GetValue]/;/"
+send_message:0 "Отправить"
+
+
+# Titles for each letter thread
+votc_huixin_title1:0 "Ответ от [GetGlobalVariable('message_second_scope_letter_1').Char.GetTitledFirstName]"
+votc_huixin_title2:0 "Ответ от [GetGlobalVariable('message_second_scope_letter_2').Char.GetTitledFirstName]"
+votc_huixin_title3:0 "Ответ от [GetGlobalVariable('message_second_scope_letter_3').Char.GetTitledFirstName]"
+votc_huixin_title4:0 "Ответ от [GetGlobalVariable('message_second_scope_letter_4').Char.GetTitledFirstName]"
+votc_huixin_title5:0 "Ответ от [GetGlobalVariable('message_second_scope_letter_5').Char.GetTitledFirstName]"
+votc_huixin_title6:0 "Ответ от [GetGlobalVariable('message_second_scope_letter_6').Char.GetTitledFirstName]"
+votc_huixin_title7:0 "Ответ от [GetGlobalVariable('message_second_scope_letter_7').Char.GetTitledFirstName]"
+votc_huixin_title8:0 "Ответ от [GetGlobalVariable('message_second_scope_letter_8').Char.GetTitledFirstName]"
+votc_huixin_title9:0 "Ответ от [GetGlobalVariable('message_second_scope_letter_9').Char.GetTitledFirstName]"
+
+
+votc_letter_full:0 "Цепочка писем заполнена (9/9), дождитесь ответов"
+
+
+event_window_widget_message_write_prompt:0 "Введите содержание письма"
+
+
+letter_greet:0 ""
+letter_message:0 "[GetGlobalVariable('votc_latest_letter').Artifact.GetDesc]"
+
+
+talk_scene_alley_night_title:0 "Тёмный переулок"
+talk_scene_alley_day_title:0 "Светлый переулок"
+talk_scene_armory_title:0 "Оружейная"
+talk_scene_battlefield_title:0 "Поле боя"
+talk_scene_temple_title:0 "Храм"
+talk_scene_corridor_night_title:0 "Тёмный коридор"
+talk_scene_corridor_day_title:0 "Освещённый коридор"
+talk_scene_council_chamber_title:0 "Палата совета"
+talk_scene_courtyard_title:0 "Внутренний двор"
+talk_scene_dungeon_title:0 "Темница"
+talk_scene_ocean_title:0 "Океан"
+talk_scene_terrain_travel_title:0 "Открытая дорога"
+talk_scene_docks_title:0 "Доки"
+talk_scene_farmland_title:0 "Пахотные земли"
+talk_scene_feast_title:0 "Пиршественный зал"
+talk_scene_gallows_title:0 "Виселица"
+talk_scene_garden_title:0 "Сад"
+talk_scene_market_title:0 "Рыночная площадь"
+talk_scene_village_title:0 "Деревня"
+talk_scene_burning_building_title:0 "Горящее здание"
+talk_scene_sitting_room_title:0 "Гостиная"
+talk_scene_bedchamber_title:0 "Опочивальня"
+talk_scene_study_title:0 "Кабинет"
+talk_scene_relaxing_room_title:0 "Комната отдыха"
+talk_scene_physicians_study_title:0 "Кабинет врача"
+talk_scene_tavern_title:0 "Таверна"
+talk_scene_throne_room_title:0 "Тронный зал"
+talk_scene_estate_title:0 "Поместье"
+talk_scene_army_camp_title:0 "Военный лагерь"
+talk_scene_bath_house_title:0 "Баня"
+talk_scene_runestone_title:0 "Рунный камень"
+talk_scene_runestone_circle_title:0 "Круг рунных камней"
+talk_scene_beached_longships_title:0 "Причаленные ладьи"
+talk_scene_kitchen_title:0 "Кухня"
+talk_scene_bonfire_title:0 "Костёр"
+talk_scene_wine_cellar_title:0 "Винный погреб"
+talk_scene_crossroads_inn_title:0 "Придорожная таверна"
+talk_scene_cave_title:0 "Пещера"
+talk_scene_tournament_title:0 "Турнирная площадка"
+talk_scene_holy_site_title:0 "Святое место"
+talk_scene_travel_bridge_title:0 "Мост"
+talk_scene_hunt_forest_hut_title:0 "Лесная хижина"
+talk_scene_hunt_forest_cave_title:0 "Лесная пещера"
+talk_scene_hunt_foggy_forest_title:0 "Туманный лес"
+talk_scene_dog_kennels_title:0 "Псарня"
+talk_scene_hunt_poachers_camp_title:0 "Лагерь браконьеров"
+talk_scene_hunt_activity_camp_title:0 "Охотничий лагерь"
+talk_scene_wedding_ceremony_title:0 "Свадебная церемония"
+talk_scene_involved_activity_title:0 "Место мероприятия"
+talk_scene_nursery_title:0 "Детская"
+talk_scene_university_title:0 "Университет"
+talk_scene_catacombs_title:0 "Катакомбы"
+talk_scene_condemned_village_title:0 "Проклятая деревня"
+talk_scene_funeral_pyre_title:0 "Погребальный костёр"
+talk_scene_legendary_battlefield_title:0 "Легендарное поле боя"
+talk_scene_constantinople_title:0 "Константинополь"
+talk_scene_city_gate_title:0 "Городские ворота"
+talk_scene_relaxing_tent_title:0 "Шатёр для отдыха"
+talk_scene_survey_title:0 "Точка обзора"
+talk_scene_terrain_settlement_title:0 "Поселение"
+talk_scene_terrain_settlement_no_owner_title:0 "Заброшенное поселение"
+talk_scene_campfire_title:0 "Костёр"
+talk_scene_camp_title:0 "Лагерь"
+talk_scene_camp_night_title:0 "Ночной лагерь"
+talk_scene_military_tent_title:0 "Военный шатёр"
+talk_scene_village_festival_title:0 "Деревенский праздник"
+talk_scene_coast_title:0 "Прибрежная полоса"
+talk_scene_city_steppe_title:0 "Степной город"
+talk_scene_examination_room_title:0 "Экзаменационная комната"
+talk_scene_chinese_city_title:0 "Китайский город"
+talk_scene_japanese_city_title:0 "Японский город"
+
+
+mcc_interaction:0 "Начать разговор"
+mcc_interaction.desc:0 "Начать разговор с выбранным персонажем или отправиться в его местоположение."
+mcc_event.1000.title:0 "Просьба о разговоре"
+mcc_event.1000.desc:0 "Кто-то желает поговорить с вами."
+mcc_event.1002.title:0 "Прибытие"
+mcc_event.1002.exit:0 "Уйти"
+mcc_event.1002.desc:0 "Вы встретили [recipient.GetShortUINamePossessive] в [actor.GetCurrentLocation.GetName]. Теперь вопрос в том, где нам встретиться с $talk_herhim$, и будем ли мы одни или с другими персонажами (закреплёнными персонажами в этом месте)."
+votc_talk_together:0 "Поговорить вместе с закреплёнными персонажами"
+votc_talk_alone:0 "Поговорить наедине с [recipient.GetTitledFirstName]"
+votc_talk_change_scene_selection:0 "Изменить выбор сцены"
+votc_scene_selector_title:0 "Выбрать сцену разговора - Voices of the Court 2.0 - Community Edition"
+
+
+mcc_event_v2.7001.desc:0 "VOTC:BACKGROUND/;/[GetGlobalVariable('votc_background_texture').GetFlagName]"
+votc_placeholder:0 " "
+
+burn_letters_interaction:0 "Сжечь все письма!"
+burn_letters_interaction.desc:0 "Это взаимодействие позволяет вам сжечь все письма, полученные от других персонажей. (VOTC)"
+
+# Council Gathering Activity
+TRAVEL_NAME_FOR_activity_votc_council_gathering:0 "Заседание совета"
+activity_votc_council_gathering:0 "Заседание совета"
+activity_votc_council_gathering_name:0 "Заседание совета"
+activity_votc_council_gathering_desc:0 "Соберите свой совет для обсуждения важных дел королевства."
+activity_votc_council_gathering_conclusion_desc:0 "Собрание совета завершилось. Были приняты важные решения, которые определят будущее королевства."
+activity_votc_council_gathering_destination_selection:0 "Выберите место для собрания совета."
+activity_votc_council_gathering_guest_desc:0 "Вас пригласили на собрание совета."
+activity_votc_council_gathering_guest_help_text:0 "Присутствуйте на собрании совета, чтобы предоставить свои советы по важным вопросам."
+activity_votc_council_gathering_host_desc:0 "Проведите собрание совета для обсуждения важных вопросов с вашими советниками."
+activity_votc_council_gathering_owner:0 "Совет собрания"
+activity_votc_council_gathering_predicted_cost:0 "Стоимость: [Scope.GetLocalizedText('activity_votc_council_gathering_cost_desc')]"
+activity_votc_council_gathering_province_desc:0 "Подходящее место для собрания совета."
+activity_votc_council_gathering_selection_tooltip:0 "Соберите свой совет для обсуждения важных дел."
+
+# Council Gathering Amenities
+votc_council_gathering_amenities_amount:0 "Продолжительность"
+votc_council_gathering_amenities_amount_small:0 "Малая продолжительность"
+votc_council_gathering_amenities_amount_small_desc:0 "Собрание совета продлится 3 месяца."
+votc_council_gathering_amenities_amount_medium:0 "Средняя продолжительность"
+votc_council_gathering_amenities_amount_medium_desc:0 "Собрание совета продлится 6 месяцев."
+votc_council_gathering_amenities_amount_large:0 "Большая продолжительность"
+votc_council_gathering_amenities_amount_large_desc:0 "Собрание совета продлится 1 год."
+
+# Council Gathering Phases
+phase_travel:0 "Путешествие"
+phase_travel_desc:0 "Путешествие к месту собрания совета."
+votc_council_gathering_council_phase:0 "Сессия совета"
+votc_council_gathering_council_phase_desc:0 "Совет проводит сессию, обсуждая важные дела."
+
+VOTC_CG_DUR_DEBUFF:0 "Продолжительность совета"
+VOTC_CG_DUR_DEBUFF_DESC:0 "Модификатор от продолжительности собрания."
+
+# Council Gathering Intents
+votc_council_intent:0 "Дела совета"
+votc_council_intent_desc:0 "Сосредоточиться на делах государства и обязанностях совета."
+
+
+votc_mcc_selector_mode1:0 "Закрепленные персонажи в этой локации"
+votc_mcc_selector_mode2:0 "Все закрепленные персонажи (без ограничений)"
+votc_mcc_selector_mode3:0 "Все персонажи в этой локации"
+mcc_characters_window_title:0 "Выберите персонажей для беседы - Voices of the Court 2.0 - Community Edition"
+votc_talk_selected:0 "Начать разговор с [recipient.GetTitledFirstName] и выбранными персонажами"
+votc_talk_change_mcc_selection:0 "Изменить выбор персонажей"
+votc_talk_mcc_selector:0 "Выберите персонажей для разговора с [recipient.GetTitledFirstName]"
+
+votc_relaese_letter_decision:0 "VOTC Освободить цепочку писем"
+votc_relaese_letter_decision_desc:0 "Освободить текущую цепочку писем, ожидающую ответа"
+votc_relaese_letter_decision_tooltip:0 "Освободить цепочку писем"
+votc_relaese_letter_decision_confirm:0 "Освободить цепочку писем"
+votc_relaese_letter_decision_effect_desc:0 "Вы освободите текущую цепочку писем, ожидающую ответа. Это действие позволит вам обойти счётчик процесса писем и, скорее всего, перезапишет любые предыдущие ответы, которые ещё не были получены. Если вы использовали функцию написания писем без запущенной бэкенд-программы, рекомендуется выполнить эту операцию вручную один раз!"
+
+votc_battle_report_message_title:0 "Боевой отчет"
+votc_relaese_battle_report_decision_effect_desc:0 "Вы освободите все застрявшие потоки боевых отчетов и позволите создавать новые."
+
+votc_conversation_history_decision:0 "Просмотр истории диалогов"
+votc_conversation_history_decision_tooltip:0 "Открыть просмотрщик истории диалогов в приложении VOTC."
+votc_conversation_history_decision_confirm:0 "Просмотр истории диалогов"
+votc_conversation_history_decision_effect_desc:0 "Открывает просмотрщик истории диалогов. Это также синхронизирует эпоху контрольной точки, чтобы просмотрщик показывал только диалоги, соответствующие текущему сохранению."

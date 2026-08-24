@@ -1,0 +1,340 @@
+window = {
+	name = "votc_letter"
+	layer = middle
+	size = { 675 830 }
+	position = { 450 200 }
+	using = Window_Movable
+
+	state = {
+		name = _show
+		trigger_on_create = yes
+
+		on_start = "[GetVariableSystem.Clear( 'event_window_mouse_leave')]"
+
+		on_start = "[PdxGuiWidget.AccessChild('letter_paper').TriggerAnimation('show')]"
+		on_start = "[PdxGuiWidget.AccessChild('letter_content').TriggerAnimation('show')]"
+		on_start = "[PdxGuiWidget.AccessChild('letter_edges').TriggerAnimation('show')]"
+
+		# Tabs setup
+		start_sound = {
+			soundeffect = "event:/SFX/Events/Panels/sfx_event_panel_letter"
+		}
+	}
+
+	state = {
+		name = hide_votc_letter
+		duration = 1
+		on_start = "[PdxGuiWidget.AccessChild('letter_paper').TriggerAnimation('hide')]"
+		on_start = "[PdxGuiWidget.AccessChild('letter_content').TriggerAnimation('hide')]"
+		on_start = "[PdxGuiWidget.AccessChild('letter_edges').TriggerAnimation('hide')]"
+		on_finish = "[ExecuteConsoleCommand('GUI.ClearWidgets votc_letter')]"
+	}
+
+	state = {
+		name = _mouse_hierarchy_leave
+		on_start = "[GetVariableSystem.Set( 'event_window_mouse_leave', 'true' )]"
+	}
+
+	### PAPER ###
+	widget = {
+		name = "letter_paper"
+		size = { 675 45 }
+		widgetanchor = center
+		parentanchor = center
+		alpha = 0
+
+		state = {
+			name = show
+			next = a
+			delay = 0.3
+
+			using = Animation_FadeIn_Standard
+
+			animation = {
+				alpha = 1
+				bezier = { 0.7 0 0.7 1 }
+			}
+		}
+
+		state = {
+			name = a
+			duration = 0.25
+			bezier = { 0.3 0 0.7 1 }
+
+			animation = {
+				size = { 675 830 }           ############ SIZES NEED TO MATCH
+				bezier = { 0.8 0.3 0 1 }
+			}
+
+			animation = {
+				alpha = 1
+				bezier = { 0.7 0 0.7 1 }
+			}
+		}
+
+		state = {
+			name = hide
+			next = hide_fade
+			
+			# Wait briefly for the text to disappear before shrinking
+			delay = 0.1
+			
+			# Mirror the 'a' state duration and bezier
+			duration = 0.25
+			bezier = { 0.3 0 0.7 1 }
+
+			animation = {
+				# Shrink back to the initial strip size
+				size = { 675 45 }
+				bezier = { 0.8 0.3 0 1 }
+			}
+		}
+
+		state = {
+			name = hide_fade
+			using = Animation_FadeOut_Standard
+		}
+
+		widget = {
+			visible = yes
+			size = { 100% 100% }
+			using = Background_Letter
+			vbox = {
+				layoutpolicy_vertical = expanding
+				hbox = {
+					name = "footer_buttons"
+					margin = { 0 10 }
+					margin_bottom = 34
+					layoutpolicy_horizontal = expanding
+
+					hbox = {
+						margin = { 10 10 }
+						spacing = 60
+						layoutpolicy_horizontal = expanding
+						
+						expand = {}
+
+						### Accept button
+						button_close = {
+							background = Background_Area_Dark
+							size = { 42 42 }
+							
+							visible = yes
+							enabled = yes
+							onclick = "[PdxGuiTriggerAllAnimations('hide_votc_letter')]"
+						}
+
+					}
+				}
+				expand = {}
+			}
+		}
+
+
+	}
+
+	### CONTRACT CONTENT ###
+	widget = {
+		name = "letter_content"
+		widgetanchor = center
+		parentanchor = center
+		size = { 675 830 }           ############ SIZES NEED TO MATCH
+		alpha = 0
+
+		state = {
+			name = show
+			delay = 0.8
+
+			using = Animation_FadeIn_Standard
+
+			animation = {
+				size = { 675 830 }           ############ SIZES NEED TO MATCH
+
+				bezier = { 0.8 0.3 0 1 }
+			}
+
+			animation = {
+				alpha = 1
+				bezier = { 0.7 0 0.7 1 }
+			}
+		}
+
+		state = {
+			name = hide
+			using = Animation_FadeOut_Quick
+			duration = 0.08
+		}
+
+		### Contents start here
+		vbox = {
+			
+
+
+			### Portrait and contract desc
+			hbox = {
+				margin = { 10 5 }
+				margin_top = 34
+				margin_bottom = 10
+				layoutpolicy_horizontal = expanding
+
+				### Contract desc
+				vbox = {
+					layoutpolicy_horizontal = expanding
+					layoutpolicy_vertical = expanding
+
+					expand = {}
+
+					vbox = {
+						icon = {
+							visible = yes
+							name = "decal"
+							size = { 262 20 }
+							texture = "gfx/interface/skinned/window_letter/marginalia_divider.dds"
+							alpha = 0.5
+							mirror = vertical
+						}
+
+						### Desc title
+					}
+
+					vbox = {
+						hbox = {
+							layoutpolicy_horizontal = expanding
+
+							text_single = {
+								margin = { 0 8 }
+								margin_right = 20
+								max_width = 450
+
+								text = "[Localize('letter_greet')]"
+								using = Font_Type_Flavor
+								using = Font_Size_Big
+								default_format = "#light_background"
+							}
+
+							expand = {}
+						}
+						### Desc
+						hbox = {
+							layoutpolicy_horizontal = expanding
+							margin_bottom = 10
+
+							text_multi = {
+								margin_right = 20
+								max_width = 490
+								autoresize = yes
+
+								text = "[Localize('letter_message')]"
+								default_format = "#light_background;italic"
+								using = Font_Size_Medium
+							}
+
+							expand = {}
+						}
+
+						icon = {
+							visible = yes
+							name = "decal"
+							size = { 262 20 }
+							texture = "gfx/interface/skinned/window_letter/marginalia_divider.dds"
+							alpha = 0.5
+						}
+
+					}
+
+					expand = {}
+				}
+
+				expand = {}
+			}
+			
+			expand = {}
+		}
+	}
+
+	widget = {
+		name = "letter_edges"
+		size = { 675 45 }
+		widgetanchor = center
+		parentanchor = center
+		alpha = 0
+
+		state = {
+			name = show
+			next = a
+			delay = 0.3
+
+			using = Animation_FadeIn_Standard
+
+			animation = {
+				alpha = 1
+				bezier = { 0.7 0 0.7 1 }
+			}
+		}
+
+		state = {
+			name = a
+			duration = 0.25
+			bezier = { 0.3 0 0.7 1 }
+
+			animation = {
+				size = { 675 830 }           ############ SIZES NEED TO MATCH
+				bezier = { 0.8 0.3 0 1 }
+			}
+
+			animation = {
+				alpha = 1
+				bezier = { 0.7 0 0.7 1 }
+			}
+		}
+		state = {
+			name = hide
+			next = hide_fade
+			
+			delay = 0.1
+			duration = 0.25
+			bezier = { 0.3 0 0.7 1 }
+
+			animation = {
+				size = { 675 45 }
+				bezier = { 0.8 0.3 0 1 }
+			}
+		}
+
+		state = {
+			name = hide_fade
+			using = Animation_FadeOut_Standard
+		}
+
+		widget = {
+			widgetanchor = center
+			parentanchor = top|hcenter
+			position = { 0 8 }
+			size = { 700 40 }
+
+			visible = yes
+
+			background = {
+				texture = "gfx/interface/skinned/window_letter/letter_event_edge_top.dds"
+				spriteType = Corneredstretched
+				spriteborder = { 35 5 }
+			}
+		}
+
+		widget = {
+			widgetanchor = center
+			parentanchor = bottom|hcenter
+			position = { 0 -7 }
+			size = { 700 40 }
+
+			visible = yes
+
+			background = {
+				texture = "gfx/interface/skinned/window_letter/letter_event_edge_bottom.dds"
+				spriteType = Corneredstretched
+				spriteborder = { 35 5 }
+			}
+		}
+
+	}
+}

@@ -1,0 +1,20 @@
+﻿l_french:
+
+talk_event.9001.desc:0 "VOTC:IN"
+
+talk_event.9002.desc:0 "VOTC:CLOSE"
+
+talk_event.9003.desc:0 "VOTC:EFFECT_ACCEPTED"
+
+##testing
+
+#talk_event.9001.desc:0 "[THIS.Char.GetPrimaryTitle]"
+
+message_event.361.desc:0 "VOTC:LETTER"
+message_event.362.desc:0 "VOTC:LETTER_ACCEPTED"
+talk_event.9999.desc:0 "VOTC:DATE/;/[GetCurrentDate.GetDateAsTotalDays]"
+
+battle_report_event.9001.desc:0 "VOTC:BATTLE_REPORT"
+battle_report_event.9002.desc:0 " "
+
+votc_checkpoint_event.9001.desc:0 "VOTC:CONVERSATION_HISTORY"

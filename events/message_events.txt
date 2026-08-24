@@ -1,0 +1,248 @@
+﻿namespace = message_event
+
+# Thanks to Lisiyuan233 (aka wushenggui137), who built some parts of this code, which has been used as foundation
+message_event.360 = {
+	type = character_event
+	title = votc_message_title
+	desc = votc_message_desc
+	theme = diplomacy
+	left_portrait = {
+		character = scope:recipient
+	}	
+	#orphan = yes
+
+	widget = {
+		gui = "event_window_widget_message_write"
+		container = "custom_widgets_container"
+		controller = {
+			type = text
+			data = {
+				key = votc_message_text
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	immediate = {
+		set_global_variable = {
+			name = message_first_scope
+			value = scope:actor
+		}
+		set_global_variable = {
+			name = message_second_scope
+			value = scope:recipient
+		}
+		# Testing distance calculation for days
+		set_global_variable = {
+			name = votc_letter_distance
+			value = votc_letter_delay
+		}
+
+		# if/else structure to set delivery thread based on variable availability
+		if = {
+			limit = { 
+				not = { exists = global_var:votc_letter_1 }
+			}
+			set_global_variable = votc_letter_1
+			set_global_variable = {
+				name = votc_letter_num
+				value = flag:letter_1
+			}
+			set_global_variable = {
+				name = message_second_scope_letter_1
+				value = scope:recipient
+			}
+		}
+		else_if = {
+			limit = { 
+				not = { exists = global_var:votc_letter_2 }
+			}
+			# When variable letter2 does not exist, set letter2 as the current thread
+			set_global_variable = votc_letter_2
+			set_global_variable = {
+				name = votc_letter_num
+				value = flag:letter_2
+			}
+			set_global_variable = {
+				name = message_second_scope_letter_2
+				value = scope:recipient
+			}
+		}
+		else_if = {
+			limit = { 
+				not = { exists = global_var:votc_letter_3 }
+			}
+			# When variable letter3 does not exist, set letter3 as the current thread
+			set_global_variable = votc_letter_3
+			set_global_variable = {
+				name = votc_letter_num
+				value = flag:letter_3
+			}
+			set_global_variable = {
+				name = message_second_scope_letter_3
+				value = scope:recipient
+			}
+		}
+		else_if = {
+			limit = { 
+				not = { exists = global_var:votc_letter_4 }
+			}
+			# When variable letter4 does not exist, set letter4 as the current thread
+			set_global_variable = votc_letter_4
+			set_global_variable = {
+				name = votc_letter_num
+				value = flag:letter_4
+			}
+			set_global_variable = {
+				name = message_second_scope_letter_4
+				value = scope:recipient
+			}
+		}
+		else_if = {
+			limit = { 
+				not = { exists = global_var:votc_letter_5 }
+			}
+			# When variable letter5 does not exist, set letter5 as the current thread
+			set_global_variable = votc_letter_5
+			set_global_variable = {
+				name = votc_letter_num
+				value = flag:letter_5
+			}
+			set_global_variable = {
+				name = message_second_scope_letter_5
+				value = scope:recipient
+			}
+		}
+		else_if = {
+			limit = { 
+				not = { exists = global_var:votc_letter_6 }
+			}
+			# When variable letter6 does not exist, set letter6 as the current thread
+			set_global_variable = votc_letter_6
+			set_global_variable = {
+				name = votc_letter_num
+				value = flag:letter_6
+			}
+			set_global_variable = {
+				name = message_second_scope_letter_6
+				value = scope:recipient
+			}
+			#debug_log = "VOTC:LETTER set to thread votc_letter_6"
+		}
+		else_if = {
+			limit = { 
+				not = { exists = global_var:votc_letter_7 }
+			}
+			# When variable letter7 does not exist, set letter7 as the current thread
+			set_global_variable = votc_letter_7
+			set_global_variable = {
+				name = votc_letter_num
+				value = flag:letter_7
+			}
+			set_global_variable = {
+				name = message_second_scope_letter_7
+				value = scope:recipient
+			}
+			#debug_log = "VOTC:LETTER set to thread votc_letter_7"
+		}
+		else_if = {
+			limit = { 
+				not = { exists = global_var:votc_letter_8 }
+			}
+			# When variable letter8 does not exist, set letter8 as the current thread
+			set_global_variable = votc_letter_8
+			set_global_variable = {
+				name = votc_letter_num
+				value = flag:letter_8
+			}
+			set_global_variable = {
+				name = message_second_scope_letter_8
+				value = scope:recipient
+			}
+		}
+		else_if = {
+			limit = { 
+				not = { exists = global_var:votc_letter_9 }
+			}
+			# When variable letter9 does not exist, set letter9 as the current thread
+			set_global_variable = votc_letter_9
+			set_global_variable = {
+				name = votc_letter_num
+				value = flag:letter_9
+			}
+			set_global_variable = {
+				name = message_second_scope_letter_9
+				value = scope:recipient
+			}
+		}
+		
+		votc_init_checkpoint_effect = yes
+		scope:recipient = {
+			log_gamedata_v3l = yes
+		}
+		remove_global_variable = mcc_character_0
+		remove_global_variable = mcc_character_1
+		remove_global_variable = mcc_character_2
+		remove_global_variable = mcc_character_3
+		remove_global_variable = mcc_character_4
+		remove_global_variable = mcc_character_5
+		remove_global_variable = mcc_character_6
+		remove_global_variable = mcc_character_7
+		remove_global_variable = mcc_character_8
+		remove_global_variable = mcc_character_9
+		remove_global_variable = mcc_character_10
+		remove_global_variable = mcc_character_11
+		remove_global_variable = mcc_character_12
+		remove_global_variable = mcc_character_13
+		remove_global_variable = mcc_character_14
+		remove_global_variable = mcc_character_15
+
+		clear_global_variable_list = mcc_characters_list_v2
+
+		trigger_event = {
+			id = message_event.361
+			# Setting delay to give debuglog and backend program time to react, otherwise debuglog reading may fail or produce errors
+			days = 1
+		}
+	}
+
+	option = {
+		name = send_message
+		#store_localized_text_in_death = test_saved_text
+		debug_log = message_text
+		trigger_event = mcc_event_v2.9998
+		#remove_variable = votc_message_text
+	}
+	option = {
+		name = mcc_event.1002.exit
+	}
+}
+
+# Clipboard event, used to notify backend program to begin processing letter messages with VOTC:LETTER signature
+message_event.361 = {
+	type = character_event
+	title = votc_placeholder
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	
+	desc = message_event.361.desc
+	widget = {
+        gui = "event_window_widget_talk_clear"
+        container = "custom_widgets_container"
+    }
+}
+
+
+# Opens letter widget
+message_event.362 = {
+	type = character_event
+	title = votc_placeholder
+	theme = realm
+	desc = message_event.362.desc
+	widget = {
+        gui = "event_window_widget_message_open"
+        container = "custom_widgets_container"
+    }
+}

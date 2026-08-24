@@ -1,0 +1,109 @@
+# Battle report delivery delay, based on the distance from the battlefield to the player.
+# Model: one-way delivery, courier speed 30 km/day
+# Formula: delay = round( km / 30 ), where km = sqrt(squared_distance)
+# Unit: 1 map-pixel ≈ 1 km (matches vanilla squared_distance_* constants)
+# Each tier's value is precomputed from the tier's lower-edge km; bottom tiers are
+# floored to 30 by min=30 so the LLM has time to generate the report; no max cap.
+
+votc_battle_report_delay = {
+	if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= 144000000
+		}
+		# >= 12000 km, ~400 days
+		value = 400
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= 100000000
+		}
+		# >= 10000 km, ~333 days
+		value = 333
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= 64000000
+		}
+		# >= 8000 km, ~267 days
+		value = 267
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= 36000000
+		}
+		# >= 6000 km, ~200 days
+		value = 200
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= squared_distance_monstrous
+		}
+		# >= 3000 km, ~100 days
+		value = 100
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= squared_distance_mega
+		}
+		# >= 2282 km, ~76 days
+		value = 76
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= squared_distance_massive
+		}
+		# >= 1550 km, ~52 days
+		value = 52
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= squared_distance_almost_massive
+		}
+		# >= 1200 km, ~40 days
+		value = 40
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= squared_distance_huge
+		}
+		# >= 850 km, round(850/30)=28 days, floored to 30
+		value = 30
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= squared_distance_large
+		}
+		# >= 650 km, round(650/30)=22 days, floored to 30
+		value = 30
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= squared_distance_major
+		}
+		# >= 460 km, round(460/30)=15 days, floored to 30
+		value = 30
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= squared_distance_medium
+		}
+		# >= 250 km, round(250/30)=8 days, floored to 30
+		value = 30
+	}
+	else_if = {
+		limit = {
+			votc_battle_report_squared_distance_value >= squared_distance_small
+		}
+		# >= 150 km, round(150/30)=5 days, floored to 30
+		value = 30
+	}
+	else = {
+		# nearby, minimum 30 days so the LLM has time to generate the report
+		value = 30
+	}
+	min = 30
+}
+
+votc_battle_report_squared_distance_value = {
+	value = "scope:votc_battle_report_location.squared_distance(scope:votc_battle_report_player.location)"
+}

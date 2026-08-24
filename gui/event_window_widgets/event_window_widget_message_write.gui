@@ -1,0 +1,31 @@
+﻿vbox = {
+	name = "event_window_widget_message_write"
+	layoutpolicy_horizontal = expanding
+	layoutpolicy_vertical = expanding
+
+	#margin = { 10 0 }
+	#spacing = 10
+
+	editbox_votc_with_label = {
+		layoutpolicy_horizontal = expanding
+		layoutpolicy_vertical = expanding
+		margin = { 30 30 }
+
+
+		blockoverride "editbox_properties" 
+		{
+			name = "enter_text" # name referenced in code
+			multiline = yes
+			ontextedited = "[EventWindowWidgetEnterText.OnEdit]"
+		}
+
+		blockoverride "editbox_label"
+		{
+			text = event_window_widget_message_write_prompt
+			
+		}
+	}
+
+
+	expand = {}
+}

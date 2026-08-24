@@ -1,0 +1,105 @@
+﻿# Letter delay time, calculated based on distance, in days, rounded to integer
+
+votc_letter_delay = {
+	if = {
+		limit = {
+			votc_squared_distance_value >= 70000000
+		}
+		# Round trip takes over 4 years
+		value = 600
+
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= 39325442
+		}
+		# Straight-line distance around 10,000 km, round trip takes 3 years
+		value = 360
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= 22940480
+		}
+		# Straight-line distance around 8,000 km, round trip takes 2 years
+		value = 300
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= 10735029
+		}
+		# Straight-line distance around 6,000 km, round trip takes 2 years
+		value = 220
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= squared_distance_monstrous
+		}
+		# 3,000 km, takes 1 year
+		value = 110
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= squared_distance_mega
+		}
+		# 2,282 km, takes 1 year
+		value = 75
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= squared_distance_massive
+		}
+		# 1,550 km, takes 1 year
+		value = 60
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= squared_distance_almost_massive
+		}
+		# 1,200 km, takes half a year
+		value = 50
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= squared_distance_huge
+		}
+		# 850 km, takes 5 months
+		value = 40
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= squared_distance_large
+		}
+		# 650 km, takes 4 months
+		value = 30
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= squared_distance_major
+		}
+		# 460 km, takes 3 months
+		value = 30
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= squared_distance_medium
+		}
+		# 250 km, takes 2 months
+		value = 30
+	}
+	else_if = {
+		limit = {
+			votc_squared_distance_value >= squared_distance_small
+		}
+		# 150 km, takes 1 month
+		value = 30
+	}
+	else = {
+		# Short distance, minimum 30 days to prevent issues with model not generating response yet
+		value = 30
+	}
+	min = 30
+}
+
+votc_squared_distance_value = {
+	value = "scope:recipient.location.squared_distance(scope:actor.location)"
+}

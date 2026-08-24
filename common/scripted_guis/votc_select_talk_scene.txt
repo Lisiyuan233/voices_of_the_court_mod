@@ -1,0 +1,8 @@
+﻿votc_select_talk_scene = {
+    effect = {
+        set_global_variable = {
+            name = talk_scene
+            value = scope:selected_scene
+        }
+    }
+}

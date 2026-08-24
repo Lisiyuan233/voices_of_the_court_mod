@@ -1,0 +1,15 @@
+hbox = {
+	name = "event_window_widget_battle_report_2"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+
+	state = {
+		name = widget_show
+		trigger_on_create = yes
+
+		on_start = "[ExecuteConsoleCommand('run battle_report2.txt')]"
+	}
+
+	expand = {}
+}
+

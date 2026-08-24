@@ -1,0 +1,21 @@
+﻿hbox = {
+	name = "votc_scene_selector_widget"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+	
+  	state = {
+        name = pause
+        trigger_when = "[Not(IsGamePaused)]"
+        on_start = "[OnPause]"
+    }
+  
+  	state = {
+        name = votc_scene_selector_show
+        trigger_on_create = yes
+    	on_start = "[ExecuteConsoleCommand('log.clearAll')]"
+    	on_finish = "[GetVariableSystem.Toggle('votc_scene_selector_opened')]"
+  	}
+	
+	expand = {}
+
+}

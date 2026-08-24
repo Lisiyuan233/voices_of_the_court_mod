@@ -1,0 +1,121 @@
+﻿message_interaction = {
+	category = interaction_category_friendly
+	use_diplomatic_range = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = 201
+	common_interaction = yes
+	desc = message_interaction.desc
+	icon = send_poem_interaction
+	cooldown = {days = 3 }
+	ai_will_do = {
+		base = 0
+	}
+	
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = votc_letter_full	
+			not = {
+				and =
+				{
+				exists = global_var:votc_letter_1
+				exists = global_var:votc_letter_2
+				exists = global_var:votc_letter_3
+				exists = global_var:votc_letter_4
+				exists = global_var:votc_letter_5
+				exists = global_var:votc_letter_6
+				exists = global_var:votc_letter_7
+				exists = global_var:votc_letter_8
+				exists = global_var:votc_letter_9
+				}
+        	}
+		}
+	}
+
+	on_send = {
+		scope:actor = {
+			trigger_event = message_event.360
+			trigger_event = mcc_event_v2.9999
+		}
+		debug_log = "Message sent"
+	}
+	
+	auto_accept = yes
+	
+}
+
+burn_letters_interaction = {
+	category = interaction_category_friendly
+	use_diplomatic_range = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = 201
+	common_interaction = yes
+	desc = burn_letters_interaction.desc
+	icon = send_poem_interaction
+	ai_will_do = {
+		base = 0
+	}
+
+	is_shown = {
+		scope:recipient = {	is_ai = no }
+	}
+
+	on_accept = {
+        scope:actor = { 
+			every_character_artifact = {
+				limit = { has_variable = votc_letter_artifact }
+				destroy_artifact = this
+			}
+		}
+    }
+}
+
+#test_gui_message_interaction = {
+#	category = interaction_category_friendly
+#	use_diplomatic_range = yes
+#	ignores_pending_interaction_block = yes
+#	interface_priority = 201
+#	common_interaction = yes
+#	desc = message_interaction.desc
+#	icon = send_poem_interaction
+#    use_diplomatic_range = {
+#        always = no
+#    }
+#	ai_will_do = {
+#		base = 0
+#	}
+#	
+#
+#	on_send = {
+#		every_player = {
+#		trigger_event = mcc_event_v2.1000
+#		}
+#	}
+#	
+#	auto_accept = yes
+#	
+#}
+
+#start_pooling = {
+#	category = interaction_category_friendly
+#	use_diplomatic_range = yes
+#	ignores_pending_interaction_block = yes
+#	interface_priority = 201
+#	common_interaction = yes
+#	desc = message_interaction.desc
+#	icon = send_poem_interaction
+#    use_diplomatic_range = {
+#        always = no
+#    }
+#	ai_will_do = {
+#		base = 0
+#	}
+#	
+#
+#	on_send = {
+#		every_player = {
+#		trigger_event = mcc_event_v2.9998
+#	}}
+#	
+#	auto_accept = yes
+#	
+#}

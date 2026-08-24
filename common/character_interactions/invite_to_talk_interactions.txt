@@ -1,0 +1,214 @@
+﻿invite_to_talk_interaction = {
+	category = interaction_category_friendly
+	use_diplomatic_range = yes
+	ignores_pending_interaction_block = yes
+	interface_priority = 200
+	common_interaction = yes
+	icon = offer_confederation_interaction
+	desc = invite_to_talk_interaction.desc
+
+	ai_will_do = {
+		base = 0
+	}
+
+	is_valid = {
+			custom_description = {
+				text = not_in_same_province
+				NOT = { scope:actor.location = scope:recipient.location }
+				
+			}
+			scope:actor = {
+				is_available_adult = yes
+			}
+	}
+	
+	on_accept = {
+		scope:recipient = {
+			start_travel_plan = {
+				destination = scope:actor.location
+				on_arrival_event = mcc_event_v2.1001
+			}		
+		}
+	}
+
+	auto_accept = no
+	ai_maybe = yes
+	can_send_despite_rejection = yes
+	ai_accept = {
+		# Try to make it 0 for most interactions.
+		base = 30
+
+		# more likely if lower rank than actor
+		modifier = {
+			add = 20
+			scope:actor.primary_title.tier > primary_title.tier
+			desc = RANK_DIFFERENCE_REASON
+		}
+
+		# less likely if that's the opposite
+		modifier = {
+			add = -20
+			scope:actor.primary_title.tier < primary_title.tier
+			desc = RANK_DIFFERENCE_REASON
+		}
+
+		# AI take opinion into account
+		opinion_modifier = {
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 1
+			desc = AI_OPINION_REASON
+		}
+
+		# sociability plays a lot as well
+		ai_value_modifier = {
+			ai_sociability = 1
+		}
+
+		# is rival or nemesis
+		modifier = {
+			add = -50
+			has_relation_rival = scope:actor
+			desc = WE_ARE_RIVALS
+		}
+
+		modifier = {
+			add = -100
+			has_relation_nemesis = scope:actor
+			desc = WE_ARE_NEMESES
+		}
+
+
+		# is friend
+		modifier = {
+			add = 25
+			has_relation_friend = scope:actor
+			desc = WE_ARE_FRIENDS
+		}
+
+		modifier = {
+ 			top_liege = scope:actor
+ 			add = 60
+ 			desc = AI_YOU_ARE_THE_SOVEREIGN
+ 		}
+
+		# is best friend
+		modifier = {
+			add = 50
+			has_relation_best_friend = scope:actor
+			desc = WE_ARE_BEST_FRIENDS
+		}
+
+		modifier = {
+			add = 100
+			OR = {
+				has_relation_lover = scope:actor
+				has_relation_soulmate = scope:actor
+			}
+			desc = WE_ARE_LOVERS
+		}
+
+		# Struggle agenda
+		modifier = {
+			desc = AI_STRUGGLE_INTENT
+			scope:recipient = {
+				any_character_struggle = {
+					involvement = involved
+					phase_has_catalyst = catalyst_invite_diff_faith_culture_to_feast
+				}
+			}
+			scope:actor = {
+				any_character_struggle = {
+					involvement = involved
+					phase_has_catalyst = catalyst_invite_diff_faith_culture_to_feast
+				}
+			}
+			NAND = {
+				scope:actor.faith = scope:recipient.faith
+				scope:actor.culture = scope:recipient.culture
+			}
+			add = {
+				value = 0
+				if = {
+					limit = {
+						scope:actor = {
+							has_character_flag = agenda_towards_deescalation
+						}
+					}
+					add = 100
+				}
+				else_if = {
+					limit = {
+						scope:actor = {
+							has_character_flag = agenda_towards_escalation
+						}
+					}
+					add = -100
+				}
+			}
+		}
+
+				modifier = { #Distant Realm — Overseas Connection
+			desc = offer_vassalization_interaction_aibehavior_distantrealm_tt
+			trigger = {
+				scope:actor = {
+					character_is_realm_neighbor = scope:recipient
+					NOT = { #Ibiza should want to be a vassal of Mallorca, etc.
+						character_is_land_realm_neighbor = scope:recipient
+						scope:actor = { is_rightful_liege_of = scope:recipient }
+					}
+				}
+			}
+			add = -50
+		}
+		modifier = { #Distant Realm — No Connection
+			desc = offer_vassalization_interaction_aibehavior_distantrealm_tt
+			trigger = {
+				scope:actor = {
+					NOT = {
+						character_is_realm_neighbor = scope:recipient
+					}
+				}
+				scope:recipient.capital_province = { squared_distance = { target = scope:actor.capital_province value < 200000 } }
+			}
+			add = -75
+		}
+		modifier = { #Remote Realm.
+			desc = offer_vassalization_interaction_aibehavior_remoterealm_tt
+			trigger = {
+				scope:actor = {
+					NOT = {
+						character_is_realm_neighbor = scope:recipient
+					}
+				}
+				scope:recipient.capital_province = { squared_distance = { target = scope:actor.capital_province value >= 200000 } }
+			}
+			add = -150
+		}
+
+
+
+		modifier = {
+			scope:enforce_convo = yes
+			add = 1000
+			desc = i_said_we_will_meet
+		}
+
+	 }
+
+	send_option = {
+		is_valid = {
+			scope:actor = {
+				has_usable_hook = scope:recipient
+			}
+		}
+		flag = hook
+		localization = SCHEME_HOOK
+	}
+
+	send_option = {
+		flag = enforce_convo
+		localization = i_said_we_will_meet
+	}
+	send_options_exclusive = no
+}

@@ -1,0 +1,16 @@
+﻿# Used to receive votc reply message popups
+votc_message_feed = {
+	display = feed
+	title = event_message_title
+	desc = event_message_text
+	tooltip = votc_message_tooltip
+
+}
+
+votc_message_popup = {
+	display = popup
+	title = event_message_title
+	desc = event_message_text
+	tooltip = votc_message_tooltip
+
+}

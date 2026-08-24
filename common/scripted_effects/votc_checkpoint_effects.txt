@@ -1,0 +1,8 @@
+votc_init_checkpoint_effect = {
+	scope:actor = {
+		if = {
+			limit = { NOT = { has_variable = votc_checkpoint_epoch } }
+			set_variable = { name = votc_checkpoint_epoch value = 0 }
+		}
+	}
+}

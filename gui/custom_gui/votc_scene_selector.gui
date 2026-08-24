@@ -1,0 +1,225 @@
+﻿window = {
+    visible = "[GetVariableSystem.Exists('votc_scene_selector_opened')]"
+	name = "votc_scene_selector"
+	size = { 100% 100% }
+	parentanchor = center
+	movable = no
+	layer = top
+    
+    using = Background_Letter_No_Frame
+    background = {
+        using = Background_Area_Dark
+        alpha = 0.8
+        modify_texture = {
+            texture = "gfx/interface/component_masks/mask_fade_horizontal_extended.dds"
+            blend_mode = alphamultiply
+        }
+    }
+
+    vbox = {
+        header_standard = {
+            layoutpolicy_horizontal = expanding
+
+            blockoverride "header_text"
+            {
+                text = "Select conversation scene"
+            }
+            icon = {
+                parentanchor = top|left
+                position = { 10 25 }
+                size = { 32 32 }
+                texture = "gfx/interface/icons/logo/logo_transparent.dds"
+            }
+
+            text_single = {
+                parentanchor = top|left
+                position = { 50 30 }
+                text = "Voices of the Court 2.0 - Community Edition"
+                default_format = "#low"
+                using = Font_Size_Small
+                max_width = 250
+            }
+
+            blockoverride "button_close"
+            {
+                onclick = "[GetVariableSystem.Clear('votc_scene_selector_opened')]"
+            }
+        }
+        hbox = {
+            layoutpolicy_horizontal = expanding
+            layoutpolicy_vertical = expanding
+            
+            vbox = {
+                layoutpolicy_horizontal = expanding
+                layoutpolicy_vertical = expanding
+                
+                scrollbox = {
+                    name = "votc_select_start_scene"
+                    layoutpolicy_horizontal = expanding
+                    layoutpolicy_vertical = expanding
+                    blockoverride "scrollbox_content"
+                    {
+
+                        dynamicgridbox = {
+                            datamodel = "[GetPlayer.MakeScope.GetList('talk_scene_flags')]"
+                            datamodel_wrap = 6
+                            flipdirection = yes
+                            setitemsizefromcell = no
+                            
+                            item = {
+                                container = {
+                                    size = { 324 184 }
+                                    background = {
+                                        name = "votc_scene_card_border"
+                                        texture = "gfx/interface/skinned/frame_border.dds"
+                                        color = { 0.8 0.7 0.5 0.3 }
+                                        framesize = { 4 4 }
+                                        size = { 324 184 }
+                                        alpha = 0.6
+                                            
+                                        state = {
+                                            name = load_animation
+                                            trigger_on_create = yes
+                                            duration = 0.5
+                                            on_finish = "[SetWidgetAlpha('votc_scene_card_border', 0.6)]"
+                                            property = alpha
+                                            start = 0.0
+                                            end = 0.6
+                                        }
+                                    }
+                                        button_standard_clean = {
+                                            size = { 320 180 }
+                                            onclick = "[GetScriptedGui('votc_select_talk_scene').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('selected_scene', MakeScopeFlag(Scope.GetFlagName)).End)]"
+                                            onclick = "[GetVariableSystem.Clear('votc_scene_selector_opened')]"
+                                            state = {
+                                                name = hover
+                                                trigger_on_hover_start = yes
+                                                on_finish = "[SetWidgetColor('votc_scene_card_border', 1.0, 0.9, 0.7, 0.8)]"
+                                            }
+                                            state = {
+                                                name = unhover
+                                                trigger_on_hover_end = yes
+                                                on_finish = "[SetWidgetColor('votc_scene_card_border', 0.8, 0.7, 0.5, 0.6)]"
+                                            }
+                                            state = {
+                                                name = select_animation
+                                                trigger_on_click = yes
+                                                duration = 0.3
+                                                on_finish = "[SetWidgetColor('votc_scene_card_border', 1.0, 0.8, 0.4, 0.9)]"
+                                                property = color
+                                                start = { 0.8 0.7 0.5 0.6 }
+                                                end = { 1.0 0.8 0.4 0.9 }
+                                            }
+                                            vbox = {
+                                                layoutpolicy_horizontal = expanding
+                                                layoutpolicy_vertical = expanding
+
+                                                background = {
+                                                    name = "votc_scene_background"
+                                                    texture = "[GetIllustration(Scope.GetFlagName).GetTexture( GetPlayer.MakeScope )]"
+                                                    using = Mask_Rough_Edges
+                                                    fittype = centercrop
+                                                    margin = { -1 -1 }
+                                                    size = { 100% 100% }
+                                                }
+
+                                                hbox = {
+                                                    visible = yes
+                                                    layoutpolicy_horizontal = expanding
+
+                                                    margin = { 0 5 }
+                                                        
+                                                    icon = {
+                                                        name = "recommended_indicator"
+                                                        size = { 12 12 }
+                                                        texture = "gfx/interface/icons/icon_star.dds"
+                                                        alpha = 0.8
+                                                        margin_right = 3
+                                                        visible = "[Scope.GetFlagName == 'recommended_scene']"  # Example condition
+                                                    }
+
+                                                    header_text = {
+                                                        visible = yes
+                                                        max_width = 576
+                                                        margin = { 0 5 }
+                                                            
+                                                        text = "[Localize(Concatenate(Scope.GetFlagName, '_title'))]"
+                                                        default_format = "#high"
+                                                        align = center
+                                                        fontsize_min = 16
+                                                        fontsize_max = 18
+                                                    }
+
+                                                    background = {
+                                                        using = Background_Area_Dark
+                                                        alpha = 0.8
+                                                        modify_texture = {
+                                                            texture = "gfx/interface/component_masks/mask_fade_horizontal.dds"
+                                                            blend_mode = alphamultiply
+                                                        }
+                                                    }
+                                                }
+
+                                                expand = {}
+
+                                                hbox = {
+                                                    layoutpolicy_horizontal = growing
+
+                                                    background =  {
+                                                        using = Background_Area_Dark
+                                                        alpha = 0.6
+
+                                                        modify_texture = {
+                                                            texture = "gfx/interface/component_masks/mask_fade_vertical.dds"
+                                                            blend_mode = alphamultiply
+                                                            mirror = vertical
+                                                        }
+                                                    }
+
+                                                    background = {
+                                                        texture ="gfx/interface/skinned/mask_pattern.dds"
+                                                        texture_density = 3
+                                                        spriteType = Corneredtiled
+                                                        color = { 0.6 0.7 0.65 0.3 }
+                                                        alpha = 0.8
+
+                                                        modify_texture = {
+                                                            texture = "gfx/interface/component_masks/mask_fade_vertical_up.dds"
+                                                            blend_mode = alphamultiply
+                                                        }
+                                                    }
+
+                                                    text_single = {
+                                                        margin = { 0 15 }
+                                                        default_format = "#medium"
+                                                        align = center
+                                                        alpha = 0.6
+                                                    }
+                                                }
+                                            }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    
+                }
+            }
+        }
+
+        text_single = {
+            layoutpolicy_horizontal = expanding
+            text = "Community Edition"
+            default_format = "#low"
+            align = center
+            alpha = 0.4
+            margin_bottom = 5
+        }
+    }
+
+    
+
+    
+}
+

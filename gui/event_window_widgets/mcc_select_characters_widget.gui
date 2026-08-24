@@ -1,0 +1,21 @@
+﻿hbox = {
+	name = "mcc_select_characters_widget"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+	
+  	state = {
+        name = pause
+        trigger_when = "[Not(IsGamePaused)]"
+        on_start = "[OnPause]"
+    }
+  
+  	state = {
+        name = mcc_window_show
+        trigger_on_create = yes
+    	on_start = ""
+    	on_finish = "[GetVariableSystem.Toggle('mcc_characters_window_opened')]"
+  	}
+	
+	expand = {}
+
+}

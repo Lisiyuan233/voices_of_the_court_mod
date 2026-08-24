@@ -1,0 +1,26 @@
+﻿activity_votc_cg_longevity_modifier = {
+	modifier = {
+		add = {
+			value = -10
+			if = {
+                limit = { 
+					scope:votc_council_gathering_amenities_amount = flag:votc_council_gathering_amenities_amount_large
+				}
+				multiply = 2
+			}
+			if = {
+                limit = { 
+					scope:votc_council_gathering_amenities_amount = flag:votc_council_gathering_amenities_amount_medium
+				}
+				multiply = 1.5
+			}
+			if = {
+                limit = { 
+					scope:votc_council_gathering_amenities_amount = flag:votc_council_gathering_amenities_amount_small
+				}
+				multiply = 1
+			}
+		}
+		desc = VOTC_CG_DUR_DEBUFF
+	}
+}

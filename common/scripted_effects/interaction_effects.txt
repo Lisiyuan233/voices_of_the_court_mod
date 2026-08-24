@@ -1,0 +1,40 @@
+﻿increase_opinion_of_player_interaction = {
+	
+	if = {
+		limit = {	
+			OR = {
+				NOT = {
+					has_opinion_modifier = {
+						target = global_var:talk_first_scope
+						modifier = conversation_opinion
+					}
+				}
+					
+				has_opinion_modifier = {
+					target = global_var:talk_first_scope
+					modifier = conversation_opinion
+					value < 50
+				}	
+			}
+			
+		}
+		
+		add_opinion = {
+			target = global_var:talk_first_scope
+			modifier = conversation_opinion
+			opinion = 5
+		}	
+	}
+	
+}
+
+mcc_select_all_characters_effect = {
+    every_in_global_list = {
+        list = mcc_characters_available
+        add_to_global_list = {
+            name = mcc_characters_selected
+            scope = character
+        }
+    }
+    clear_global_list = mcc_characters_available
+}

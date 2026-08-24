@@ -1,0 +1,21 @@
+﻿votc_council_intent = {
+	icon = scout_talent_intent
+
+	auto_complete = yes
+
+	is_shown = {
+		
+	}
+
+	on_invalidated = {
+		trigger_event = activity_system.0090
+	}
+
+	ai_will_do = {
+		value = 1
+	}
+
+	scripted_animation = {
+		animation = toast_goblet
+	}
+}

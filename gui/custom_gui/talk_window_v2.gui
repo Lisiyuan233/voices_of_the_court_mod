@@ -1,0 +1,150 @@
+window = {
+	name = "talk_window_v2"
+	size = { 100% 100% }
+	parentanchor = center
+	movable = no
+	#position = { -80 130 }
+	layer = royal_court
+	
+	state = {
+		name = itsshowtime
+		trigger_on_create = yes
+		on_finish = "[GetVariableSystem.Set( 'blur', '1' )]"
+		
+	}
+	datacontext = "[GetIllustration('talk_background')]"
+	background = {
+		texture = "[Illustration.GetTexture(GetPlayer.MakeScope)]"
+	}
+  
+	# First row from back
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_0').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_0').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 550 30}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_1').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_1').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 825 30}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_3').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_3').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 50 30}
+	}
+	conversation_partner_v2_front = {
+		visible = "[GetGlobalVariable('mcc_character_2').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_2').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 325 30}
+	}
+	# Second row from back
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_4').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_4').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 180 130}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_5').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_5').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 425 130}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_6').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_6').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 680 130}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_7').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_7').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 910 130}
+	}
+	# Third row from the back
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_8').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_8').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 625 230}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_9').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_9').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 865 230}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_10').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_10').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 120 230}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_11').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_11').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 380 230}
+	}
+	# Fourth row from the back
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_12').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_12').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 500 330}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_13').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_13').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 760 330}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_14').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_14').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 0 330}
+	}
+	conversation_partner_v2 = {
+		visible = "[GetGlobalVariable('mcc_character_15').IsSet]"
+		datacontext = "[GetGlobalVariable('mcc_character_15').GetCharacter]"
+		parentanchor = bottom|hcenter
+		position = { 250 330}
+	}
+
+
+
+		button_standard = {
+		parentanchor = top|left
+		position = { 0 0}
+		size = { 60 20 }
+		raw_text = "exit"
+		
+		onclick = "[ExecuteConsoleCommand('event mcc_event_v2.9002')]"		
+		onclick = "[ExecuteConsoleCommand('GUI.ClearWidgets talk_window_v2 talk_window_counter')]"		
+	}
+	
+	#close window
+	hbox = {
+		name = "talk_window_counter"
+	
+		state = {
+			name = _show
+			trigger_on_create = yes
+			on_finish = "[ExecuteConsoleCommand('run votc.txt')]"
+		}
+	
+		state = {
+			name = _show2
+			trigger_on_create = yes
+			duration = 0.4
+			on_finish = "[ExecuteConsoleCommand('gui.createwidget gui/custom_gui/talk_window_v2.gui talk_window_counter')]"
+		}
+	}
+}

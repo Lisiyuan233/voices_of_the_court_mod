@@ -1,0 +1,67 @@
+﻿mcc_select_char_sgui = {
+    scope = character
+    saved_scopes = { mcc_target }
+    effect = {
+        #every_in_list = {
+        #    variable = mcc_characters
+        #    if = { 
+        #        limit = { NOT = { this = scope:mcc_target } }
+        #        prev = {
+        #            add_to_variable_list = {
+        #                name = mcc_characters_tmp
+        #                target = prev
+        #            }
+        #        }
+        #    }
+        #}
+        add_to_variable_list = {
+            name = mcc_characters_selected
+            target = scope:mcc_target
+        }
+        #clear_variable_list = mcc_characters
+        #every_in_list = {
+        #    variable = mcc_characters_tmp
+        #    prev = {
+        #        add_to_variable_list = {
+        #            name = mcc_characters
+        #            target = prev
+        #        }
+        #    }
+        #}
+        clear_variable_list = mcc_characters_tmp
+    }
+}
+
+mcc_unselect_char_sgui = {
+    scope = character
+    saved_scopes = { mcc_target }
+    effect = {
+        every_in_list = {
+            variable = mcc_characters_selected
+            if = { 
+                limit = { NOT = { this = scope:mcc_target } }
+                prev = {
+                    add_to_variable_list = {
+                        name = mcc_characters_tmp
+                        target = prev
+                    }
+                }
+            }
+        }
+        add_to_variable_list = {
+            name = mcc_characters
+            target = scope:mcc_target
+        }
+        clear_variable_list = mcc_characters_selected
+        every_in_list = {
+            variable = mcc_characters_tmp
+            prev = {
+                add_to_variable_list = {
+                    name = mcc_characters_selected
+                    target = prev
+                }
+            }
+        }
+        clear_variable_list = mcc_characters_tmp
+    }
+}

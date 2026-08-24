@@ -1,0 +1,6222 @@
+﻿log_backgrounds = {
+
+	if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_alley_night 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_campfire_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_alley_night 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_alley_night_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_alley_night 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_alley }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_alley_day 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_camp_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_alley_day 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							geographical_region = graphical_mena
+							geographical_region = graphical_india
+							culture ?= { has_building_gfx = iranian_building_gfx }
+							culture ?= { has_building_gfx = indian_building_gfx }
+							culture ?= { has_building_gfx = mena_building_gfx }
+							AND = {
+								geographical_region = world_europe_west_iberia
+								faith ?= { religion = religion:islam_religion }
+							}
+						#Steppe mena fallback
+						steppe_building_gfx_use_mena_trigger = yes
+						steppe_building_gfx_use_indian_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_market_east }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_alley_day 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture = { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_alley_day_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_alley_day 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_alley_day }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_armory 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							is_landless_adventurer = yes
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_armory 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_military_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_armory 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_armory }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_battlefield 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_battlefield }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					is_landless_adventurer = yes
+					NOR = {
+						religion = religion:tengrism_religion
+						religion = religion:magyar_religion
+						religion = religion:siberian_religion
+						religion = religion:kamuyism_religion
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						religion = religion:tengrism_religion
+						religion = religion:magyar_religion
+						religion = religion:siberian_religion
+						religion = religion:kamuyism_religion
+						AND = {
+							religion = religion:buddhism_religion
+							root.location ?= {
+								OR = {
+									geographical_region = world_steppe_east
+									geographical_region = world_steppe_central
+									geographical_region = world_steppe_west
+									geographical_region = world_asia_north_east
+								}
+						}
+					}
+					AND = {
+						religion = religion:buddhism_religion
+						root.location ?= {
+							OR = {
+								geographical_region = world_tibet
+								geographical_region = world_steppe_tarim
+							}
+					}
+					OR = {
+						government_has_flag = government_is_tribal
+						government_has_flag = government_is_nomadic
+					}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_temple_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					primary_title = title:e_byzantium
+					capital_county ?= title:c_byzantion
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_hagia_sophia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					religion = religion:zoroastrianism_religion
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp3_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iberian_building_gfx }
+						}
+					root.location ?= { geographical_region = world_europe_west_iberia }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					faith = { religion = religion:christianity_religion }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_church }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					faith = { religion = religion:islam_religion }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mosque }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					religion = religion:germanic_religion
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_tribal_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					root.location = {
+						faith = {
+							religion ?= {
+								OR = {
+									is_in_family = rf_eastern
+									is_in_family = rf_sinitic
+									this = religion:shintoism_religion
+								}
+						}
+					}
+					OR = {
+						culture ?= {
+							has_graphical_east_asia_culture_group_trigger = yes
+						}
+					steppe_building_gfx_use_east_asian_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_temple_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					root.location = {
+						OR = {
+							faith = {
+								religion ?= { is_in_family = rf_eastern }
+							}
+						faith = {
+							religion ?= { is_in_family = rf_sinitic }
+						}
+					AND = {
+						NOT = { faith ?= { has_doctrine_parameter = unreformed } }
+						OR = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+							steppe_building_gfx_use_indian_trigger = yes
+						}
+					}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+			location = {
+				province_owner = {
+					religion = { is_in_family = rf_pagan }
+					OR = {
+						government_has_flag = government_is_tribal
+						government_has_flag = government_is_nomadic
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_temple 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_night 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							is_landless_adventurer = yes
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_campfire_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_night 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_adventurer_background }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_night 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_building_gfx = iranian_building_gfx }
+							steppe_building_gfx_use_iranian_trigger = yes
+						}
+					}
+					NOT = {
+						government_has_flag = government_is_tribal
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp3_courtyard_night }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_night 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iberian_building_gfx }
+						}
+					root.location ?= { geographical_region = world_europe_west_iberia }
+					root.location = {
+						culture ?= { has_building_gfx = mena_building_gfx }
+					}
+					root.location ?= {
+						steppe_building_gfx_use_mena_trigger = yes
+					}
+					}
+					NOT = {
+						government_has_flag = government_is_tribal
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_corridor_night }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_night 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+					NOT = {
+						government_has_flag = government_is_tribal
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_corridor_indian_night }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_night 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = norse_building_gfx }
+						}
+					government_has_flag = government_is_tribal
+					AND = {
+						government_has_flag = government_is_tribal
+						root.location = {
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_tribal_corridor }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_night 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+						}
+					root.location ?= {
+						steppe_building_gfx_use_east_asian_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_chinese_corridor_night }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_night 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_corridor }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_day 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							is_landless_adventurer = yes
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_camp_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_day 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_camp_arid_terrain }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_day 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iberian_building_gfx }
+						}
+					root.location ?= { geographical_region = world_europe_west_iberia }
+					root.location = {
+						culture ?= { has_building_gfx = mena_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = iranian_building_gfx }
+					}
+					root.location ?= {
+						steppe_building_gfx_use_mena_trigger = yes
+					}
+					}
+					NOT = {
+						government_has_flag = government_is_tribal
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_corridor_day }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_day 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= {has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+					NOT = {
+						government_has_flag = government_is_tribal
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_corridor_indian_day }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_day 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = norse_building_gfx }
+						}
+					government_has_flag = government_is_tribal
+					AND = {
+						government_has_flag = government_is_tribal
+						root.location = {
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_tribal_corridor }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_day 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= {has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_chinese_corridor_day }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_corridor_day 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_corridor_day }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					root.location = {
+						culture ?= { has_building_gfx = norse_building_gfx }
+					}
+					government_has_flag = government_is_tribal
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_throneroom_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_throneroom_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= {
+								OR = {
+									has_cultural_pillar = heritage_byzantine
+									has_cultural_pillar = heritage_caucasian
+									has_cultural_pillar = heritage_latin
+									has_graphical_mediterranean_culture_group_trigger = yes
+								}
+						}
+					}
+					root.location ?= { steppe_building_gfx_use_mediterranean_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_mena_culture_group_trigger = yes }
+						}
+					root.location = {
+						culture ?= { has_building_gfx = iranian_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_graphical_mena_culture_group_trigger = yes }
+					}
+					root.location = {
+						culture ?= { has_graphical_african_culture_group_trigger = yes }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = berber_group_building_gfx }
+					}
+					root.location ?= {
+						steppe_building_gfx_use_mena_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_relaxing_room_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_study_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_clothing_gfx = japanese_clothing_gfx }
+						}
+					root.location ?= { geographical_region = world_asia_japan }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_study_japan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_study_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+			location = {
+				province_owner = {
+					culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_study_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_council_chamber 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_councilchamber }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					OR = {
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= {
+									OR = {
+										has_cultural_tradition = tradition_saharan_nomads
+										has_cultural_tradition = tradition_desert_nomads
+									}
+							}
+					}
+					}
+					government_has_flag = government_is_nomadic
+					}
+					root.location = {
+						culture ?= { has_building_gfx = mena_building_gfx }
+					}
+					root.location ?= {
+						OR = {
+							terrain = drylands
+							terrain = desert
+							terrain = oasis
+							terrain = desert_mountains
+							terrain = floodplains
+							terrain = hills
+							terrain = steppe
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_desert_nomad }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_camp_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = western_building_gfx }
+						}
+					root.location = {
+						culture ?= { has_building_gfx = mediterranean_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = byzantine_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = norse_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = iberian_building_gfx }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_generic }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					root.location = {
+						culture ?= {
+							OR = {
+								has_cultural_pillar = heritage_tibetan
+								has_cultural_pillar = heritage_qiangic
+								has_cultural_pillar = heritage_chinese
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_rural_village_asian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = mena_building_gfx }
+						}
+					root.location = {
+						faith = {
+							religion ?= religion:islam_religion
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_market_east }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_camp_arid_terrain }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					root.location = {
+						county = title:c_byzantion
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_constantinople }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iberian_building_gfx }
+						}
+					root.location ?= { geographical_region = world_europe_west_iberia }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_courtyard }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_mediterranean_culture_group_trigger = yes }
+						}
+					root.location ?= { geographical_region = world_europe_south_east }
+					root.location ?= { geographical_region = world_europe_south_italy }
+					root.location ?= { steppe_building_gfx_use_mediterranean_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_courtyard }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_courtyard_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_mena_culture_group_trigger = yes }
+						}
+					root.location = {
+						culture ?= { has_building_gfx = iranian_building_gfx }
+					}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_courtyard_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_courtyard_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_courtyard }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_dungeon 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_nomadic
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_tribal_prison }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_dungeon 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_tribal_prison }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_dungeon 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = norse_building_gfx }
+						}
+					government_has_flag = government_is_tribal
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_tribal_prison }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_dungeon 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iberian_building_gfx }
+						}
+					root.location ?= { geographical_region = world_europe_west_iberia }
+					root.location = {
+						culture ?= { has_graphical_mena_culture_group_trigger = yes }
+					}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_prison }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_dungeon 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_dungeon }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_ocean 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_ocean }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				is_riverside_province = yes
+				geographical_region = world_europe
+				OR = {
+					terrain = farmlands
+					terrain = plains
+					terrain = mountains
+					terrain = hills
+				}
+				exists = province_owner
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_bridge }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				has_winter_trigger = no
+				is_riverside_province = yes
+				OR = {
+					terrain = plains
+					terrain = mountains
+					terrain = hills
+					terrain = steppe
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp3_riverside }
+	}
+
+	# This goes before other terrain since it can override in many different terrains if built
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				OR = {
+					terrain = terraced_hills
+					has_building_or_higher = paddy_fields_01
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_rice_fields }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				OR = {
+					terrain = farmlands
+					terrain = plains
+				}
+				has_winter_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp3_plains_winter }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				terrain = farmlands
+				exists = province_owner
+				culture = { has_graphical_east_asia_culture_group_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_farm_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				terrain = farmlands
+				exists = province_owner
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_farm }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				terrain = farmlands
+				NOT = { exists = province_owner }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_farms }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_plains_trigger = yes
+				exists = province_owner
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_hills }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_plains_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_plains }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_desert_trigger = yes
+				province_owner ?= { government_has_flag = government_is_tribal }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_desert_nomad }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_desert_trigger = yes
+				exists = province_owner
+				NOT = { province_owner = { government_has_flag = government_is_tribal } }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_desert_settlement }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				terrain = oasis
+				NOT = { exists = province_owner }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_legendary_oasis }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_desert_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_desert }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				root.location ?= { hunt_snowy_forest_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_snowy_forest }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_forest_pine_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_forest_pine }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_forest_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_forest }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_mountains_trigger = yes
+				has_winter_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp3_mountain_winter }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_mountains_trigger = yes
+				exists = province_owner
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_mountains }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_mountains_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mountains }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_steppe_trigger = yes
+				has_winter_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp3_steppe_winter }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_steppe_trigger = yes
+				exists = province_owner
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_steppe_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_drylands_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_drylands }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_wetlands_trigger = yes
+				has_winter_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp3_wetlands_winter }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_wetlands_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_wetlands }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_wilderness_jungle_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_jungle }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_hills_trigger = yes
+				has_winter_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp3_hills_winter }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_hills_trigger = yes
+				exists = province_owner
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_hills }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				graphical_hills_trigger = yes
+				NOT = { exists = province_owner }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_hills }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+			location = {
+				is_sea_province = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_ocean }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_travel 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_forest }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_docks 
+			root.location = {
+			is_coastal = yes
+			OR = {
+			steppe_building_gfx_use_southeast_asian_trigger = yes
+			culture ?= {
+			has_building_gfx = southeast_asian_building_gfx
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_village_sea }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_docks 
+			location = {
+				province_owner = {
+					OR = {
+						root.location ?= { fp3_should_use_iranian_graphics_trigger = yes }
+						root.location ?= { geographical_region = graphical_mena }
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					AND = {
+						NOR = {
+							government_has_flag = government_is_tribal
+							government_has_flag = government_is_nomadic
+						}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					}
+					AND = {
+						NOR = {
+							government_has_flag = government_is_tribal
+							government_has_flag = government_is_nomadic
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp3_docks }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_docks 
+			location = {
+				province_owner = {
+					OR = {
+						root.location ?= { fp1_should_use_norse_graphics_trigger = yes }
+						government_has_flag = government_is_tribal
+						government_has_flag = government_is_nomadic
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_docks_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_docks 
+			root.location ?= {
+			OR = {
+			culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_docks_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_docks 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_docks }
+	}
+
+	# First we check for Rice
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_farmland 
+			root.location ?= {
+			OR = {
+			terrain = terraced_hills
+			has_building_or_higher = paddy_fields_01
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_rice_fields }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_farmland 
+			root.location ?= {
+			OR = {
+			geographical_region = world_india
+			geographical_region = world_tibet
+			geographical_region = world_asia
+			geographical_region = world_burma
+			geographical_region = world_steppe_east
+			geographical_region = world_steppe_tarim
+			geographical_region = world_steppe_central
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_farm_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_farmland 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_farms }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_feast 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_feast 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_campfire }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_feast 
+			trigger_if = {
+			limit = {
+			NOT = { exists = scope:activity }
+			}
+			root.location = {
+			culture ?= { has_building_gfx = byzantine_building_gfx }
+			}
+			}
+			trigger_else = {
+			scope:activity = {
+			activity_location = {
+			culture ?= { has_building_gfx = byzantine_building_gfx }
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_feast_byzantine }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_feast 
+			OR = {
+			scope:activity = {
+			activity_location = {
+			culture ?= { has_building_gfx = norse_building_gfx }
+			}
+			}
+			should_use_tribal_realm_palace_graphics_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_viking_feast }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_feast 
+			trigger_if = {
+			limit = {
+			NOT = { exists = scope:activity }
+			}
+			OR = {
+			root.location = {
+			culture ?= { has_graphical_india_culture_group_trigger = yes }
+			}
+			root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+			}
+			}
+			trigger_else = {
+			OR = {
+			scope:activity = {
+			activity_location = {
+			culture ?= { has_graphical_india_culture_group_trigger = yes }
+			}
+			}
+			scope:activity = {
+			activity_location ?= { steppe_building_gfx_use_indian_trigger = yes }
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_feast 
+			trigger_if = {
+			limit = {
+			NOT = { exists = scope:activity }
+			}
+			root.location = {
+			culture ?= { has_building_gfx = african_building_gfx }
+			}
+			}
+			trigger_else = {
+			scope:activity = {
+			activity_location = {
+			culture ?= { has_building_gfx = african_building_gfx }
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_sub_saharan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_feast 
+			trigger_if = {
+			limit = {
+			NOT = { exists = scope:activity }
+			}
+			OR = {
+			root.location = {
+			culture ?= {
+			OR = {
+			has_graphical_mena_culture_group_trigger = yes
+			has_building_gfx = iberian_building_gfx
+			has_building_gfx = iranian_building_gfx
+			}
+			}
+			}
+			root.location ?= {
+			steppe_building_gfx_use_mena_trigger = yes
+			}
+			}
+			}
+			trigger_else = {
+			OR = {
+			scope:activity = {
+			activity_location = {
+			culture ?= {
+			OR = {
+			has_graphical_mena_culture_group_trigger = yes
+			has_building_gfx = iberian_building_gfx
+			has_building_gfx = iranian_building_gfx
+			}
+			}
+			}
+			}
+			scope:activity = {
+			activity_location ?= {
+			steppe_building_gfx_use_mena_trigger = yes
+			}
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_feast 
+			trigger_if = {
+			limit = {
+			NOT = { exists = scope:activity }
+			}
+			root.location ?= {
+			OR = {
+			culture ?= {
+			has_graphical_east_asia_culture_group_trigger = yes
+			}
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+			}
+			trigger_else = {
+			scope:activity = {
+			activity_location ?= {
+			OR = {
+			culture ?= {
+			has_graphical_east_asia_culture_group_trigger = yes
+			}
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_feast_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_feast 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_feast }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_gallows 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_building_gfx = steppe_building_gfx }
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_campfire_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_gallows 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_gallows }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_hunt_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_camp_arid_terrain }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			root.location = {
+			culture ?= { has_building_gfx = norse_building_gfx }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_runestone }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					root.location ?= {
+						OR = {
+							terrain = drylands
+							terrain = desert
+							terrain = oasis
+							terrain = desert_mountains
+							terrain = floodplains
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_legendary_oasis }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					root.location ?= {
+						OR = {
+							terrain = forest
+							terrain = taiga
+							terrain = mountains
+							terrain = jungle
+						}
+					NOR = {
+						geographical_region = world_asia_southeast
+						geographical_region = world_burma
+						geographical_region = world_india
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_legendary_spring }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					root.location ?= {
+						OR = {
+							terrain = hills
+							terrain = farmlands
+							terrain = plains
+							terrain = wetlands
+						}
+					NOR = {
+						geographical_region = world_asia_southeast
+						geographical_region = world_burma
+						geographical_region = world_india
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp3_riverside }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					root.location ?= {
+						terrain = steppe
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					root.location ?= {
+						OR = {
+							geographical_region = world_asia_southeast
+							geographical_region = world_burma
+							geographical_region = world_india
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_hunt_generic_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					OR = {
+						root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_indian_garden }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iberian_building_gfx }
+						}
+					root.location ?= { geographical_region = world_europe_west_iberia }
+					root.location = {
+						culture ?= {
+							has_graphical_mena_culture_group_trigger = yes
+						}
+					}
+					root.location ?= {
+						steppe_building_gfx_use_mena_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_garden }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_garden_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_garden 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_garden }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_market 
+			location = {
+				province_owner = {
+					root.location = {
+						county = {
+							holder ?= {
+								OR = {
+									government_has_flag = government_is_nomadic
+									government_has_flag = government_is_herder
+								}
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_hunt_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_market 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= {
+								has_graphical_japanese_culture_group_trigger = yes
+							}
+					}
+					root.location ?= {
+						geographical_region = world_asia_japan
+					}
+					root.location ?= {
+						geographical_region = world_asia_sakhalin_hokkaido
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_japanese_city }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_market 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= {
+								has_graphical_east_asia_culture_group_trigger = yes
+							}
+						steppe_building_gfx_use_east_asian_trigger = yes
+						steppe_building_gfx_use_southeast_asian_trigger = yes
+						culture ?= {
+							has_building_gfx = southeast_asian_building_gfx
+						}
+					}
+					}
+					root.location = {
+						county ?= {
+							NOR = {
+								title_province ?= {
+									OR = {
+										has_holding_type = tribal_holding
+										has_holding_type = nomad_holding
+										has_holding_type = herder_holding
+									}
+							}
+						development_level < 5
+					}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_market_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_market 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							steppe_building_gfx_use_southeast_asian_trigger = yes
+							culture ?= {
+								has_building_gfx = southeast_asian_building_gfx
+							}
+					}
+					is_coastal = yes
+					}
+					root.location = {
+						county ?= {
+							OR = {
+								title_province ?= {
+									OR = {
+										has_holding_type = tribal_holding
+										has_holding_type = nomad_holding
+										has_holding_type = herder_holding
+									}
+							}
+						development_level < 5
+					}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_village_sea }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_market 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= {
+								has_graphical_east_asia_culture_group_trigger = yes
+							}
+						steppe_building_gfx_use_east_asian_trigger = yes
+						steppe_building_gfx_use_southeast_asian_trigger = yes
+						culture ?= {
+							has_building_gfx = southeast_asian_building_gfx
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_rural_village_asian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_market 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							geographical_region = mediteranean_coast
+							geographical_region = world_asia_minor
+							culture ?= { has_graphical_mediterranean_culture_group_trigger = yes }
+							steppe_building_gfx_use_mediterranean_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_medi_market }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_market 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							geographical_region = graphical_mena
+							geographical_region = graphical_india
+							culture ?= { has_building_gfx = iranian_building_gfx }
+							culture ?= { has_building_gfx = indian_building_gfx }
+							AND = {
+								geographical_region = world_europe_west_iberia
+								faith ?= { religion = religion:islam_religion }
+							}
+						steppe_building_gfx_use_indian_trigger = yes
+						AND = {
+							steppe_building_gfx_use_mena_trigger = yes
+							NOT = {
+								government_has_flag = government_is_tribal
+								geographical_region = world_steppe
+							}
+					}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_market_east }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_market 
+			location = {
+				province_owner = {
+					root.location ?= {
+						county = {
+							holder ?= {
+								OR = {
+									government_has_flag = government_is_clan
+									government_has_flag = government_is_tribal
+								}
+						}
+					}
+					NOT = {
+						geographical_region = graphical_mena
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_market_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_market 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_market_west }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village 
+			root.location = {
+			county = {
+			holder ?= {
+			OR = {
+			government_has_flag = government_is_nomadic
+			government_has_flag = government_is_herder
+			}
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_hunt_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village 
+			root.location = {
+			is_coastal = yes
+			OR = {
+			steppe_building_gfx_use_indian_trigger = yes
+			culture ?= {
+			has_graphical_india_culture_group_trigger = yes
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_village_sea }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					root.location = {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							culture ?= {
+								has_graphical_india_culture_group_trigger = yes
+							}
+						geographical_region = world_asia
+						geographical_region = graphical_india
+						steppe_building_gfx_use_indian_trigger = yes
+						steppe_building_gfx_use_east_asian_trigger = yes
+						steppe_building_gfx_use_southeast_asian_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_hunt_generic_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village 
+			root.location = {
+			OR = {
+			culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+			culture ?= {
+			has_graphical_india_culture_group_trigger = yes
+			}
+			geographical_region = world_asia_southeast
+			geographical_region = world_asia_north_east
+			geographical_region = world_asia_sakhalin_hokkaido
+			geographical_region = graphical_india
+			steppe_building_gfx_use_indian_trigger = yes
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_rural_village_asian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village 
+			root.location ?= {
+			OR = {
+			geographical_region = graphical_mena
+			culture ?= { has_building_gfx = iranian_building_gfx }
+			AND = {
+			geographical_region = world_europe_west_iberia
+			faith ?= { religion = religion:islam_religion }
+			}
+			AND = {
+			steppe_building_gfx_use_mena_trigger = yes
+			NOT = {
+			root = { government_has_flag = government_is_tribal }
+			geographical_region = world_steppe
+			}
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_market_east }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village 
+			root.location ?= {
+			county = {
+			holder ?= {
+			government_has_flag = government_is_tribal
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_market_tribal }
+	}
+
+	# Uses Market
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village 
+			root.location ?= {
+			OR = {
+			geographical_region = mediteranean_coast
+			geographical_region = world_asia_minor
+			culture ?= { has_graphical_mediterranean_culture_group_trigger = yes }
+			steppe_building_gfx_use_mediterranean_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_medi_market }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_market_west }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_burning_building 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							culture ?= {
+								has_graphical_india_culture_group_trigger = yes
+							}
+						steppe_building_gfx_use_indian_trigger = yes
+						steppe_building_gfx_use_east_asian_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_raid_burning_asian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_burning_building 
+			location = {
+				province_owner = {
+					root.location = {
+						county ?= title:c_byzantion
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_constantinople_riot }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_burning_building 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_raid_burning }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+			location = {
+				province_owner = {
+					highest_held_title_tier >= tier_kingdom
+					OR = {
+						root.location = {
+							culture ?= {
+								has_graphical_mediterranean_culture_group_trigger = yes
+							}
+					}
+					root.location ?= {
+						steppe_building_gfx_use_mediterranean_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= {
+								OR = {
+									has_cultural_pillar = heritage_byzantine
+									has_cultural_pillar = heritage_caucasian
+									has_cultural_pillar = heritage_latin
+									has_graphical_mediterranean_culture_group_trigger = yes
+								}
+						}
+					}
+					root.location ?= {
+						steppe_building_gfx_use_mediterranean_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_medi_study }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= {
+								OR = {
+									has_building_gfx = iberian_building_gfx
+									has_building_gfx = iranian_building_gfx
+									has_building_gfx = mena_building_gfx
+								}
+						}
+					}
+					root.location ?= {
+						OR = {
+							geographical_region = world_europe_west_iberia
+							steppe_building_gfx_use_mena_trigger = yes
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_relaxing_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_study_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = japanese_building_gfx }
+						}
+					root.location ?= {
+						steppe_building_gfx_use_japanese_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_study_japan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+						}
+					root.location ?= {
+						steppe_building_gfx_use_east_asian_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_study_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = norse_building_gfx }
+						}
+					should_use_tribal_realm_palace_graphics_trigger = yes
+					AND = {
+						government_has_flag = government_is_tribal
+						root.location = {
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_steward_study }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_sitting_room 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_sittingroom }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bedchamber 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bedchamber 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bedchamber 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iberian_building_gfx }
+						}
+					root.location = {
+						culture ?= { has_building_gfx = mena_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = berber_group_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = african_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = iranian_building_gfx }
+					}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_bedroom_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bedchamber 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_bedroom_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bedchamber 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= {
+								has_graphical_east_asia_culture_group_trigger = yes
+							}
+						steppe_building_gfx_use_east_asian_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_wedding_bedroom_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bedchamber 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = norse_building_gfx }
+						}
+					should_use_tribal_realm_palace_graphics_trigger = yes
+					AND = {
+						government_has_flag = government_is_tribal
+						root.location = {
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_steward_study }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bedchamber 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bedchamber }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_study 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_study 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_study 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = norse_building_gfx }
+						}
+					should_use_tribal_realm_palace_graphics_trigger = yes
+					AND = {
+						government_has_flag = government_is_tribal
+						root.location = {
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_steward_study }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_study 
+			location = {
+				province_owner = {
+					root.location = {
+						culture ?= {
+							OR = {
+								has_cultural_pillar = heritage_byzantine
+								has_cultural_pillar = heritage_caucasian
+								has_cultural_pillar = heritage_latin
+								has_graphical_mediterranean_culture_group_trigger = yes
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_medi_study }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_study 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_mena_culture_group_trigger = yes }
+						}
+					root.location = {
+						culture ?= { has_building_gfx = iranian_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_graphical_african_culture_group_trigger = yes }
+					}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					root.location = {
+						culture ?= { has_building_gfx = berber_group_building_gfx }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_relaxing_room_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_study 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_study_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_study 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = japanese_building_gfx }
+						}
+					root.location ?= { steppe_building_gfx_use_japanese_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_study_japan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_study 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_study_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_study 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_study }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_room 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_room 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_room 
+			location = {
+				province_owner = {
+					highest_held_title_tier >= tier_kingdom
+					OR = {
+						root.location ?= { steppe_building_gfx_use_mediterranean_trigger = yes }
+						root.location = {
+							culture ?= {
+								OR = {
+									has_cultural_pillar = heritage_byzantine
+									has_cultural_pillar = heritage_caucasian
+									has_cultural_pillar = heritage_latin
+									has_graphical_mediterranean_culture_group_trigger = yes
+								}
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location ?= { steppe_building_gfx_use_mediterranean_trigger = yes }
+						root.location = {
+							culture ?= {
+								OR = {
+									has_cultural_pillar = heritage_byzantine
+									has_cultural_pillar = heritage_caucasian
+									has_cultural_pillar = heritage_latin
+									has_graphical_mediterranean_culture_group_trigger = yes
+								}
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_medi_study }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_study_physician_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location = {
+						culture ?= { has_graphical_mena_culture_group_trigger = yes }
+					}
+					root.location = {
+						culture ?= { has_graphical_african_culture_group_trigger = yes }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = iranian_building_gfx }
+					}
+					root.location ?= { exists = culture steppe_building_gfx_use_mena_trigger = yes }
+					root.location ?= { exists = culture steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_relaxing_room_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_room 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_relaxing_room_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = norse_building_gfx }
+						}
+					should_use_tribal_realm_palace_graphics_trigger = yes
+					AND = {
+						government_has_flag = government_is_tribal
+						root.location = {
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_steward_study }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_room 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_relaxing_room_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_physicians_study 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							is_landless_adventurer = yes
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_physicians_study 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_physicians_study 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = norse_building_gfx }
+						}
+					should_use_tribal_realm_palace_graphics_trigger = yes
+					AND = {
+						government_has_flag = government_is_tribal
+						root.location = {
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_physician_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_physicians_study 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_study_physician_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_physicians_study 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_east_asian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_physician_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_physicians_study 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_mena_culture_group_trigger = yes }
+						}
+					root.location = {
+						culture ?= { has_graphical_african_culture_group_trigger = yes }
+					}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_study_physician_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_physicians_study 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_study_physician }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tavern 
+			location = {
+				province_owner = {
+					root.location = {
+						county = {
+							holder ?= {
+								OR = {
+									government_has_flag = government_is_nomadic
+									AND = {
+										government_has_flag = government_is_tribal
+										root.location = {
+											culture ?= { has_building_gfx = steppe_building_gfx }
+										}
+								}
+						}
+					}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tavern 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_study_physician_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tavern 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_mena_culture_group_trigger = yes }
+						}
+					root.location = {
+						culture ?= { has_building_gfx = iranian_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_graphical_african_culture_group_trigger = yes }
+					}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_tavern_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tavern 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= {
+								has_graphical_east_asia_culture_group_trigger = yes
+							}
+						steppe_building_gfx_use_east_asian_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_tavern_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tavern 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tavern }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					tgp_has_ceremonial_liege_title_trigger = no
+					primary_title = title:e_japan
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_japan_throne_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					is_governor_or_admin_count = no
+					high_tier_throne_room_trigger = { REGION = east_asia }
+					OR = {
+						culture = { has_graphical_east_asia_culture_group_trigger = yes }
+						root.location = {
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+					highest_held_title_tier >= tier_empire
+					government_has_flag = government_has_merit
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_asia_throne_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_nomadic
+					OR = {
+						has_realm_law = nomadic_authority_3
+						has_realm_law = nomadic_authority_4
+						has_realm_law = nomadic_authority_5
+						has_trait = greatest_of_khans
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_frontend_nomad }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					OR = {
+						AND = {
+							government_has_flag = government_is_nomadic
+							NOR = {
+								has_realm_law = nomadic_authority_4
+								has_realm_law = nomadic_authority_5
+								has_trait = greatest_of_khans
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_military_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					root.location = {
+						culture ?= { has_building_gfx = norse_building_gfx }
+					}
+					government_has_flag = government_is_tribal
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_throneroom_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					root.location = {
+						culture ?= { has_building_gfx = african_building_gfx }
+					}
+					government_has_flag = government_is_tribal
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_sub_saharan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_throneroom_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location ?= province:b_constantinople
+						AND = {
+							primary_title = title:e_byzantium
+							title:c_byzantion = {
+								any_de_jure_top_liege = { this = root }
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_byzantine_throne_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					is_governor_or_admin_count = yes
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_mediterranean_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_mediterranean_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iranian_building_gfx }
+						}
+					root.location ?= { geographical_region = world_persian_empire }
+					root.location ?= { steppe_building_gfx_use_iranian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp3_throneroom }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iberian_building_gfx }
+						}
+					root.location ?= { geographical_region = world_europe_west_iberia }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_throneroom }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					root.location = {
+						culture ?= { has_building_gfx = norse_building_gfx }
+					}
+					NOT = { government_has_flag = government_is_tribal }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_throneroom_nontribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_mena_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_throneroom_east }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_throneroom_india }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_mediterranean_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_mediterranean_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_throneroom_mediterranean }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_relaxing_room_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_study_japan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+			location = {
+				province_owner = {
+					is_governor_or_admin_count = no
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_asia_throne_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_throne_room 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_throneroom_west }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_estate 
+			location = {
+				province_owner = {
+					domicile ?= { is_domicile_type = japanese_manor }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_moon_festival_japan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_estate 
+			location = {
+				province_owner = {
+					domicile ?= { is_domicile_type = east_asian_estate }
+					has_graphical_steppe_culture_group_trigger = yes
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_city_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_estate 
+			location = {
+				province_owner = {
+					domicile ?= { is_domicile_type = east_asian_estate }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_asia_estate }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_estate 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_asia_estate }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_estate 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+							steppe_building_gfx_use_indian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_indian_garden }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_estate 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= {
+								OR = {
+									has_graphical_mena_culture_group_trigger = yes
+									has_graphical_african_culture_group_trigger = yes
+								}
+						}
+					steppe_building_gfx_use_mena_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_garden }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_estate 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_medi_estate }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_army_camp 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						government_has_flag = government_is_tribal
+						AND = {
+							is_landless_adventurer = yes
+							culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_hunt_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_army_camp 
+			location = {
+				province_owner = {
+					OR = {
+						culture = { has_graphical_east_asia_culture_group_trigger = yes }
+						root.location = {
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_camp_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_army_camp 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_genericcamp }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bath_house 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp3_bathhouse }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_runestone 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_runestone }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_runestone_circle 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_runestone_circle }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_beached_longships 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_beached_longship }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_kitchen 
+			location = {
+				province_owner = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						AND = {
+							government_has_flag = government_is_tribal
+							root.location = {
+								culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+							}
+					}
+					AND = {
+						is_landless_adventurer = yes
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_kitchen 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+					OR = {
+						culture = { has_graphical_east_asia_culture_group_trigger = yes }
+						root.location = {
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_camp_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_kitchen 
+			location = {
+				province_owner = {
+					has_government = landless_adventurer_government
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_genericcamp }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_kitchen 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture ?= {
+								has_graphical_east_asia_culture_group_trigger = yes
+							}
+						steppe_building_gfx_use_east_asian_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_kitchen_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_kitchen 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_study_physician_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_kitchen 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_kitchen_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bonfire 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_nomadic
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_campfire_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_bonfire 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_bonfire }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_wine_cellar 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_nomadic
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_wine_cellar 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							culture = { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_tavern_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_wine_cellar 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_study_physician_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_wine_cellar 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_wine_cellar }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_crossroads_inn 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							graphical_wilderness_desert_trigger = yes
+							terrain = drylands
+						}
+					county = {
+						holder ?= {
+							OR = {
+								government_has_flag = government_is_tribal
+								government_has_flag = government_is_nomadic
+								government_has_flag = government_is_herder
+							}
+					}
+					}
+					NOT = { culture ?= { has_building_gfx = western_building_gfx } }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_desert_nomad }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_crossroads_inn 
+			root.location = {
+			county = {
+			holder ?= {
+			OR = {
+			government_has_flag = government_is_nomadic
+			government_has_flag = government_is_herder
+			AND = {
+			government_has_flag = government_is_tribal
+			culture = { has_graphical_steppe_culture_group_trigger = yes }
+			}
+			}
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_hunt_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_crossroads_inn 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							graphical_wilderness_desert_trigger = yes
+							terrain = drylands
+						}
+					NOT = {
+						culture ?= { has_building_gfx = western_building_gfx }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_desert_settlement }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_crossroads_inn 
+			root.location = {
+			is_coastal = yes
+			OR = {
+			steppe_building_gfx_use_indian_trigger = yes
+			culture ?= {
+			has_graphical_india_culture_group_trigger = yes
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_village_sea }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_crossroads_inn 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_tribal
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = western_building_gfx }
+						}
+					root.location = {
+						culture ?= { has_building_gfx = mediterranean_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = byzantine_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = norse_building_gfx }
+					}
+					root.location = {
+						culture ?= { has_building_gfx = iberian_building_gfx }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_generic }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_crossroads_inn 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							geographical_region = world_asia_southeast
+							geographical_region = world_burma
+							geographical_region = world_india
+							geographical_region = world_tibet
+							geographical_region = world_steppe
+						}
+					county = {
+						holder ?= {
+							OR = {
+								government_has_flag = government_is_tribal
+								government_has_flag = government_is_nomadic
+								government_has_flag = government_is_herder
+							}
+					}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_hunt_generic_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_crossroads_inn 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_east_asian_trigger = yes }
+					root.location ?= { geographical_region = world_asia }
+					root.location ?= { geographical_region = world_burma }
+					root.location ?= { geographical_region = world_tibet }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_crossroad_inn_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_crossroads_inn 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_crossroads_inn }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_cave 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp3_cave }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tournament 
+			root.location ?= {
+			county = {
+			title_province ?= {
+			OR = {
+			has_holding_type = tribal_holding
+			has_holding_type = herder_holding
+			has_holding_type = nomad_holding
+			}
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_tournament_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tournament 
+			root.location ?= {
+			OR = {
+			culture ?= { has_graphical_india_culture_group_trigger = yes }
+			steppe_building_gfx_use_indian_trigger = yes
+			geographical_region = graphical_india
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_tournament_india }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tournament 
+			root.location ?= {
+			OR = {
+			culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_courtyard_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tournament 
+			root.location ?= {
+			OR = {
+			geographical_region = graphical_mena
+			AND = {
+			geographical_region = world_europe_west_iberia
+			root = { faith = { religion = religion:islam_religion } }
+			}
+			culture ?= { has_building_gfx = iranian_building_gfx }
+			culture ?= { has_building_gfx = mena_building_gfx }
+			steppe_building_gfx_use_mena_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_tournament_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_tournament 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_tournament_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location = {
+			county = title:c_jerusalem
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_jerusalem }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location = {
+			county = title:c_mecca
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_mecca }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location = {
+			county = title:c_byzantion
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_hagia_sophia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location = {
+			religion ?= religion:zoroastrianism_religion
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp3_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location = {
+			OR = {
+			religion = {
+			OR = {
+			this = religion:tengrism_religion
+			this = religion:magyar_religion
+			this = religion:siberian_religion
+			}
+			}
+			AND = {
+			religion = religion:buddhism_religion
+			OR = {
+			geographical_region = world_steppe_east
+			geographical_region = world_steppe_central
+			geographical_region = world_steppe_west
+			geographical_region = world_asia_north_east
+			}
+			}
+			AND = {
+			religion = religion:buddhism_religion
+			OR = {
+			geographical_region = world_tibet
+			geographical_region = world_steppe_tarim
+			}
+			county = {
+			title_province ?= {
+			OR = {
+			has_holding_type = tribal_holding
+			has_holding_type = nomad_holding
+			has_holding_type = herder_holding
+			}
+			}
+			}
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_temple_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location ?= {
+			religion = religion:christianity_religion
+			OR = {
+			AND = {
+			culture = { has_graphical_mediterranean_culture_group_trigger = yes }
+			faith = faith:orthodox
+			}
+			geographical_region = graphical_mena
+			geographical_region = graphical_india
+			geographical_region = world_europe_south_east
+			geographical_region = world_asia_minor
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_holysite_orthodox }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location ?= {
+			OR = {
+			culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_holysite_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location ?= {
+			OR = {
+			culture ?= { has_graphical_india_culture_group_trigger = yes }
+			steppe_building_gfx_use_indian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location ?= {
+			OR = {
+			culture ?= { has_graphical_western_culture_group_trigger = yes }
+			steppe_building_gfx_use_western_trigger = yes
+			}
+			NOT = {
+			religion ?= { is_in_family = rf_pagan }
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location = {
+			culture = { has_graphical_norse_culture_group_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_tribal_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location = {
+			religion = { is_in_family = rf_pagan }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			OR = {
+			root.location ?= {
+			OR = {
+			culture ?= { has_graphical_mena_culture_group_trigger = yes }
+			steppe_building_gfx_use_mena_trigger = yes
+			}
+			}
+			root.location = {
+			culture ?= { has_building_gfx = iranian_building_gfx }
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+			root.location = {
+			culture ?= { has_graphical_iberian_culture_group_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_holy_site 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_travel_bridge 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_bridge }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_forest_hut 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_generic }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_forest_cave 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_cave_entrance }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_foggy_forest 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_foggy_forest }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_dog_kennels 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_dog_kennels }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_poachers_camp 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_poachers_camp }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_activity_camp 
+			scope:activity = {
+			activity_location ?= { hunt_snowy_forest_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_snowy_forest }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_activity_camp 
+			scope:activity = {
+			activity_location ?= { graphical_wilderness_mountains_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mountains }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_activity_camp 
+			scope:activity = {
+			activity_location ?= { graphical_wilderness_jungle_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_jungle }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_activity_camp 
+			scope:activity = {
+			activity_host = { government_has_flag = government_is_nomadic }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_hunt_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_activity_camp 
+			scope:activity = {
+			activity_location ?= { graphical_wilderness_steppe_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_activity_camp 
+			scope:activity = {
+			activity_location ?= { graphical_wilderness_desert_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_desert }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_activity_camp 
+			scope:activity = {
+			activity_location ?= { graphical_drylands_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_drylands }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_hunt_activity_camp 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_poachers_camp }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_wedding_ceremony 
+			trigger_if = {
+			limit = { exists = scope:activity }
+			scope:activity ?= { has_activity_type = activity_wedding }
+			}
+			OR = {
+			root.location = {
+			culture ?= { has_graphical_india_culture_group_trigger = yes }
+			}
+			root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_ceremony_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_wedding_ceremony 
+			trigger_if = {
+			limit = { exists = scope:activity }
+			scope:activity ?= { has_activity_type = activity_wedding }
+			}
+			root.location ?= {
+			OR = {
+			culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_wedding_ceremony_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_wedding_ceremony 
+			trigger_if = {
+			limit = { exists = scope:activity }
+			scope:activity ?= { has_activity_type = activity_wedding }
+			}
+			OR = {
+			root.location = {
+			culture ?= { has_graphical_mena_culture_group_trigger = yes }
+			}
+			root.location = {
+			culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+			}
+			root.location = {
+			culture ?= { has_graphical_african_culture_group_trigger = yes }
+			}
+			root.location = {
+			culture ?= { has_building_gfx = iranian_building_gfx }
+			}
+			root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_ceremony_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_wedding_ceremony 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_ceremony_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_tournament }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_village_festival_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_tour }
+					root.location ?= {
+						OR = {
+							culture = { has_graphical_japanese_culture_group_trigger = yes }
+							steppe_building_gfx_use_japanese_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_tanabata_festival_night_japan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_tour }
+					root.location ?= {
+						OR = {
+							culture = { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_wedding_ceremony_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_tour }
+					involved_activity = {
+						activity_location = {
+							culture = { has_building_gfx = steppe_building_gfx }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_tour }
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iranian_building_gfx }
+						}
+					root.location = {
+						culture ?= { has_graphical_mena_culture_group_trigger = yes }
+					}
+					root.location = {
+						culture ?= { has_graphical_african_culture_group_trigger = yes }
+					}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_sub_saharan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_tour }
+					OR = {
+						steppe_building_gfx_use_indian_trigger = yes
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_tour }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_village_festival_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_wedding }
+					capital_province = {
+						culture = { has_building_gfx = iberian_building_gfx }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_ceremony_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_wedding }
+					root.location = {
+						culture = { has_building_gfx = norse_building_gfx }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_ceremony_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_wedding }
+					OR = {
+						root.location = {
+							culture ?= { has_building_gfx = iranian_building_gfx }
+						}
+					root.location = {
+						culture ?= { has_graphical_mena_culture_group_trigger = yes }
+					}
+					root.location = {
+						culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+					}
+					root.location = {
+						culture ?= { has_graphical_african_culture_group_trigger = yes }
+					}
+					root.location ?= { steppe_building_gfx_use_mena_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_ceremony_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_wedding }
+					OR = {
+						steppe_building_gfx_use_indian_trigger = yes
+						root.location = {
+							culture ?= { has_graphical_india_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_ceremony_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_wedding }
+					root.location ?= {
+						OR = {
+							culture = { has_graphical_east_asia_culture_group_trigger = yes }
+							steppe_building_gfx_use_east_asian_trigger = yes
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_wedding_ceremony_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_wedding }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_wedding_ceremony_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity = {
+						has_activity_type = activity_hunt
+						activity_location ?= {
+							OR = {
+								has_province_modifier = winter_normal_modifier
+								has_province_modifier = winter_harsh_modifier
+							}
+						OR = {
+							graphical_wilderness_forest_trigger = yes
+							graphical_wilderness_forest_pine_trigger = yes
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_snowy_forest }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity = {
+						has_activity_type = activity_hunt
+						activity_location ?= {
+							OR = {
+								has_building_or_higher = royal_forest_01
+								has_building_or_higher = hunting_grounds_01
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_forest_managed }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity = {
+						has_activity_type = activity_hunt
+						activity_location ?= { graphical_wilderness_forest_pine_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_forest_pine }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity = {
+						has_activity_type = activity_hunt
+						activity_location ?= { graphical_wilderness_forest_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_forest }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= {
+						has_activity_type = activity_hunt
+						activity_location = {
+							culture = { has_graphical_east_asia_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_generic }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_hunt }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_generic }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					involved_activity = {
+						activity_location ?= { has_building_or_higher = hagia_sophia_01 }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_hagia_sophia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					religion = religion:zoroastrianism_religion
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp3_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					OR = {
+						religion = {
+							OR = {
+								this = religion:tengrism_religion
+								this = religion:magyar_religion
+								this = religion:siberian_religion
+							}
+					}
+					AND = {
+						religion = religion:buddhism_religion
+						involved_activity = {
+							activity_location = {
+								OR = {
+									geographical_region = world_steppe_east
+									geographical_region = world_steppe_central
+									geographical_region = world_steppe_west
+									geographical_region = world_asia_north_east
+								}
+						}
+					}
+					}
+					AND = {
+						religion = religion:buddhism_religion
+						involved_activity = {
+							activity_location = {
+								OR = {
+									geographical_region = world_tibet
+									geographical_region = world_steppe_tarim
+								}
+						}
+					}
+					involved_activity = {
+						activity_location = {
+							county = {
+								title_province ?= {
+									OR = {
+										has_holding_type = tribal_holding
+										has_holding_type = nomad_holding
+										has_holding_type = herder_holding
+									}
+							}
+					}
+					}
+					}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_temple_steppe }
+	}
+
+	# Orthodox and Oriental Christians
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					religion = religion:christianity_religion
+					involved_activity = {
+						activity_location ?= {
+							OR = {
+								faith = faith:orthodox
+								geographical_region = graphical_mena
+								geographical_region = graphical_india
+								geographical_region = world_europe_south_east
+								geographical_region = world_asia_minor
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_holysite_orthodox }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					involved_activity = {
+						activity_location = {
+							OR = {
+								steppe_building_gfx_use_east_asian_trigger = yes
+								culture = { has_graphical_east_asia_culture_group_trigger = yes }
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_holysite_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					involved_activity = {
+						activity_location = {
+							OR = {
+								steppe_building_gfx_use_mena_trigger = yes
+								culture = { has_graphical_mena_culture_group_trigger = yes }
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					involved_activity = {
+						activity_location = {
+							OR = {
+								steppe_building_gfx_use_indian_trigger = yes
+								culture = { has_graphical_india_culture_group_trigger = yes }
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					involved_activity = {
+						activity_location = {
+							culture = { has_graphical_iberian_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					involved_activity = {
+						activity_location = {
+							OR = {
+								steppe_building_gfx_use_western_trigger = yes
+								culture = { has_graphical_western_culture_group_trigger = yes }
+							}
+					}
+					}
+					NOT = {
+						religion ?= { is_in_family = rf_pagan }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					OR = {
+						involved_activity = {
+							activity_location = {
+								county = {
+									holder ?= {
+										OR = {
+											government_has_flag = government_is_tribal
+											government_has_flag = government_is_nomadic
+											government_has_flag = government_is_herder
+										}
+								}
+						}
+					}
+					}
+					involved_activity = {
+						activity_location = {
+							culture = { has_graphical_steppe_culture_group_trigger = yes }
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					involved_activity = {
+						activity_location = {
+							culture = { has_graphical_norse_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_tribal_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+					involved_activity = {
+						activity_location = {
+							county = {
+								holder ?= {
+									OR = {
+										government_has_flag = government_is_tribal
+										government_has_flag = government_is_nomadic
+										government_has_flag = government_is_herder
+									}
+							}
+					}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_holysite_tribal }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_pilgrimage }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_temple }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_feast }
+					involved_activity = {
+						activity_location = {
+							culture ?= { has_graphical_mediterranean_culture_group_trigger = yes }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_feast_byzantine }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_feast }
+					involved_activity = {
+						activity_location = {
+							culture = { has_building_gfx = norse_building_gfx }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_viking_feast }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_feast }
+					involved_activity = {
+						activity_location = {
+							culture = { has_building_gfx = indian_building_gfx }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_feast }
+					OR = {
+						involved_activity = {
+							activity_location = {
+								culture = { has_building_gfx = arabic_group_building_gfx }
+							}
+					}
+					involved_activity = {
+						activity_location = {
+							culture = { has_building_gfx = berber_group_building_gfx }
+						}
+					}
+					involved_activity = {
+						activity_location = {
+							culture = { has_building_gfx = iberian_building_gfx }
+						}
+					}
+					involved_activity = {
+						activity_location = {
+							culture ?= { has_building_gfx = iranian_building_gfx }
+						}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_feast }
+					involved_activity = {
+						activity_location = {
+							culture = { has_building_gfx = steppe_building_gfx }
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_feast }
+					culture = { has_building_gfx = african_building_gfx }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_sub_saharan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+			location = {
+				province_owner = {
+					involved_activity ?= { has_activity_type = activity_feast }
+					involved_activity = {
+						activity_location = {
+							OR = {
+								steppe_building_gfx_use_east_asian_trigger = yes
+								culture = { has_graphical_east_asia_culture_group_trigger = yes }
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_feast_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_involved_activity 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_feast }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_nursery 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_nomadic
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_nursery 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_nursery }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+			location = {
+				province_owner = {
+					government_has_flag = government_is_nomadic
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_camp_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_courtyard 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_courtyard }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_university 
+			location = {
+				province_owner = {
+					root.location = {
+						culture ?= {
+							OR = {
+								has_cultural_pillar = heritage_byzantine
+								has_cultural_pillar = heritage_caucasian
+							}
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_medi_study }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_university 
+			root.location ?= {
+			OR = {
+			culture = { has_graphical_east_asia_or_southeast_asia_group_trigger = yes }
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_examination_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_university 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture = {
+								OR = {
+									has_graphical_western_culture_group_trigger = yes
+									has_graphical_norse_culture_group_trigger = yes
+									has_graphical_iberian_culture_group_trigger = yes
+									has_graphical_mediterranean_culture_group_trigger = yes
+								}
+						}
+					}
+					root.location ?= {
+						steppe_building_gfx_use_mena_trigger = no
+						steppe_building_gfx_use_indian_trigger = no
+						culture = { has_building_gfx = steppe_building_gfx }
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_university }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_university 
+			location = {
+				province_owner = {
+					OR = {
+						root.location = {
+							culture = { has_graphical_india_culture_group_trigger = yes }
+						}
+					root.location ?= { steppe_building_gfx_use_indian_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_indian_garden }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_university 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_university_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_catacombs 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_catacombs }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_condemned_village 
+			culture_has_asian_heritage_pillar_trigger = yes
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_alley_night_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_condemned_village 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_condemned_village }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_funeral_pyre 
+			culture_has_asian_heritage_pillar_trigger = yes
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_raid_burning_asian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_funeral_pyre 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_funeral_pyre }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_legendary_battlefield 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp4_legendary_battlefield }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_constantinople 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_constantinople }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_city_gate 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_city_gate }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_tent 
+			location = {
+				province_owner = {
+					culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_relaxing_tent 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_relaxing_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_survey 
+			root.location = {
+			county = title:c_byzantion
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_constantinople }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_survey 
+			OR = {
+			root.location = {
+			culture ?= { has_building_gfx = iberian_building_gfx }
+			}
+			root.location ?= { geographical_region = world_europe_west_iberia }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp2_courtyard }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_survey 
+			root.location = {
+			culture ?= { has_graphical_india_culture_group_trigger = yes }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_courtyard_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_survey 
+			OR = {
+			root.location = {
+			culture ?= { has_graphical_mena_culture_group_trigger = yes }
+			}
+			root.location = {
+			culture ?= { has_building_gfx = iranian_building_gfx }
+			}
+			root.location = {
+			culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp1_courtyard_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_survey 
+			root.location ?= {
+			OR = {
+			culture ?= { has_graphical_east_asia_culture_group_trigger = yes }
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_courtyard_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_survey 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp2_courtyard }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						terrain = farmlands
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_farm }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						graphical_wilderness_desert_trigger = yes
+						NOT = { exists = province_owner }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_desert }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						graphical_wilderness_desert_trigger = yes
+						province_owner ?= { government_has_flag = government_is_tribal }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_desert_nomad }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						graphical_wilderness_desert_trigger = yes
+						exists = province_owner
+						NOT = { province_owner = { government_has_flag = government_is_tribal } }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_desert_settlement }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						graphical_wilderness_mountains_trigger = yes
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_mountains }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						graphical_wilderness_steppe_trigger = yes
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						graphical_plains_trigger = yes
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_hills }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						graphical_hills_trigger = yes
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_hills }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							terrain = forest
+							terrain = taiga
+						}
+					culture = {
+						has_graphical_east_asia_culture_group_trigger = yes
+					}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_hunt_generic_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							terrain = forest
+							terrain = taiga
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_generic }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_hills }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement_no_owner 
+			location = {
+				province_owner = {
+					root.location ?= { terrain = farmlands }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_farm }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement_no_owner 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							graphical_wilderness_desert_trigger = yes
+							graphical_drylands_trigger = yes #For now, until we get a settled Drylands version
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_desert }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement_no_owner 
+			location = {
+				province_owner = {
+					root.location ?= { graphical_wilderness_mountains_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_mountains }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement_no_owner 
+			location = {
+				province_owner = {
+					root.location ?= { graphical_wilderness_steppe_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement_no_owner 
+			location = {
+				province_owner = {
+					root.location ?= { graphical_plains_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_hills }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement_no_owner 
+			location = {
+				province_owner = {
+					root.location ?= { graphical_hills_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_hills }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement_no_owner 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							terrain = forest
+							terrain = taiga
+						}
+					culture = { has_graphical_east_asia_culture_group_trigger = yes }
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_hunt_generic_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement_no_owner 
+			location = {
+				province_owner = {
+					root.location ?= {
+						OR = {
+							terrain = forest
+							terrain = taiga
+						}
+					}
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_hunt_generic }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_terrain_settlement_no_owner 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_travel_hills }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_campfire 
+			location = {
+				province_owner = {
+					culture = { has_graphical_steppe_culture_group_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_campfire_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_campfire 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_campfire }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_camp 
+			location = {
+				province_owner = {
+					culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_camp_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_camp 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_camp_arid_terrain }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_camp_night 
+			location = {
+				province_owner = {
+					culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_campfire_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_camp_night 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_adventurer_background }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_military_tent 
+			location = {
+				province_owner = {
+					culture ?= { has_graphical_steppe_culture_group_trigger = yes }
+				}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_tent_interior_mongol }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_military_tent 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_military_tent }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village_festival 
+			root.location = {
+			culture ?= { has_building_gfx = steppe_building_gfx }
+			}
+			root.location = {
+			county = {
+			holder = {
+			OR = {
+			government_has_flag = government_is_tribal
+			government_has_flag = government_is_nomadic
+			government_has_flag = government_is_herder
+			}
+			}
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village_festival 
+			root.location = {
+			culture ?= { has_building_gfx = byzantine_building_gfx }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep3_feast_byzantine }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village_festival 
+			root.location ?= {
+			OR = {
+			culture ?= {
+			has_graphical_india_culture_group_trigger = yes
+			}
+			steppe_building_gfx_use_indian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_indian }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village_festival 
+			root.location ?= {
+			OR = {
+			culture ?= {
+			has_graphical_east_asia_culture_group_trigger = yes
+			}
+			steppe_building_gfx_use_east_asian_trigger = yes
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_feast_asia }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village_festival 
+			root.location = {
+			culture ?= { has_building_gfx = african_building_gfx }
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_sub_saharan }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village_festival 
+			root.location ?= {
+			OR = {
+			steppe_building_gfx_use_mena_trigger = yes
+			culture ?= { has_graphical_mena_culture_group_trigger = yes }
+			culture ?= { has_building_gfx = iberian_building_gfx }
+			culture ?= { has_building_gfx = iranian_building_gfx }
+			}
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_feast_mena }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village_festival 
+			OR = {
+			root.location = {
+			culture ?= { has_building_gfx = norse_building_gfx }
+			}
+			should_use_tribal_realm_palace_graphics_trigger = yes
+			}
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_fp1_viking_feast }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_village_festival 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_ep2_village_festival_western }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_coast 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_bp3_coast }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_city_steppe 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_mpo_city_steppe }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_examination_room 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_examination_room }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_chinese_city 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_chinese_city }
+	}
+
+	else_if = {
+		limit = {
+			global_var:talk_scene = flag:talk_scene_japanese_city 
+		}
+		set_global_variable = { name = votc_background_texture value = flag:texture_tgp_japanese_city }
+	}
+
+}
