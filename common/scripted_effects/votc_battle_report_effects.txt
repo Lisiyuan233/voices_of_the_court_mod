@@ -1,4 +1,4 @@
-votc_battle_report_write_common_logs_effect = {
+﻿votc_battle_report_write_common_logs_effect = {
 	set_variable = {
 		name = votc_br_total_troops
 		value = combat.num_total_troops
@@ -16,6 +16,8 @@ votc_battle_report_write_common_logs_effect = {
 	remove_variable ?= votc_br_troops_ratio
 	remove_variable ?= votc_br_enemies_killed
 	scope:votc_battle_report_player = {
+		votc_init_checkpoint_effect = yes
+		debug_log = "VOTC:TIMELINE/;/snapshot/;/2/;/1/;/[THIS.Char.GetID]/;/battle/;/[THIS.Var('votc_checkpoint_epoch').GetValue|0]/;/[THIS.Var('votc_timeline_node_a').GetValue|0]/;/[THIS.Var('votc_timeline_node_b').GetValue|0]/;/[THIS.Var('votc_timeline_parent_a').GetValue|0]/;/[THIS.Var('votc_timeline_parent_b').GetValue|0]/;/[THIS.Var('votc_checkpoint_token').GetValue|0]/;/[THIS.Var('votc_checkpoint_pending_token').GetValue|0]"
 		debug_log = "VOTC:BATTLE_REPORT/;/stats/;/[THIS.Var('votc_battle_report_percent_enemies_killed').GetValue|0]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]"
 	}
 	scope:votc_battle_report_location = {
@@ -164,5 +166,13 @@ votc_battle_report_write_common_logs_effect = {
 			}
 		}
 		debug_log = "VOTC:BATTLE_REPORT/;/notable/;/captured_loser_side/;/[THIS.Char.GetID]/;/[THIS.Char.GetFullNameNicknamedNoTooltipRegnal]"
+	}
+
+	# Advance the checkpoint at record time, after the snapshot above logged the
+	# pre-bump state. The logged pending token is the one this bump promotes;
+	# the delayed arrival run script only writes the timeline node under guard
+	# and never sets epoch/token absolutely.
+	scope:votc_battle_report_player = {
+		votc_bump_checkpoint_effect = { SOURCE = battle }
 	}
 }

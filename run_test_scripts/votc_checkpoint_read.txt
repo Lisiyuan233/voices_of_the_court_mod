@@ -1,0 +1,13 @@
+﻿# VOTC checkpoint rollback test.
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_checkpoint_read.txt
+
+if = {
+	limit = { NOT = { has_variable = votc_checkpoint_test_epoch } }
+	debug_log = "VOTC:CHECKPOINT_TEST/;/read_missing/;/[THIS.Char.GetID]/;/0/;/0/;/[GetCurrentDate.GetStringShort]"
+}
+
+if = {
+	limit = { has_variable = votc_checkpoint_test_epoch }
+	debug_log = "VOTC:CHECKPOINT_TEST/;/read/;/[THIS.Char.GetID]/;/[THIS.Var('votc_checkpoint_test_epoch').GetValue|0]/;/[THIS.Var('votc_checkpoint_test_day').GetValue|0]/;/[GetCurrentDate.GetStringShort]"
+}
