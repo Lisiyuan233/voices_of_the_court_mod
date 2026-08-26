@@ -1,0 +1,92 @@
+﻿# VOTC campaign identity generation test.
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_campaign_id.txt
+#
+# WARNING: running this test writes to global variables in the current save.
+# The corrupt-detection phase saves and restores segment `a` so the save is
+# NOT left corrupt, but you should still back up your save first in case
+# something goes wrong (e.g. a CTD mid-run).
+#
+# Verifies that votc_init_campaign_id_effect:
+#   - commits votc_campaign_schema=1 after generating the four id segments
+#   - generates four non-zero 28-bit segments in [2^28, 2^29 - 1]
+#     = [268435456, 536870911] (leading bit always 1, same as checkpoint token)
+#   - is idempotent: a second call does NOT regenerate the id
+#   - detects corruption: removing one segment with schema still set logs
+#     VOTC:CAMPAIGN/;/corrupt and does NOT silently re-key
+#
+# Expected output (in debug.log), per run:
+#   VOTC:CAMPAIGN/;/created/;/<playerID>/;/1/;/<a>/;/<b>/;/<c>/;/<d>/;/<bootstrapKind>
+#     (only if campaign id was not yet committed; absent on a save that already
+#     has a committed id)
+#   VOTC:TEST/;/campaign_id/;/1/;/<schema>/;/<a>/;/<b>/;/<c>/;/<d>/;/<bootstrapKind>
+#   VOTC:TEST/;/campaign_id/;/2/;/<schema>/;/<a>/;/<b>/;/<c>/;/<d>/;/<bootstrapKind>
+#     (second read must be identical to the first - idempotent)
+#   VOTC:TEST/;/campaign_corrupt_setup/;/before
+#   VOTC:TEST/;/campaign_corrupt_saved_a/;/<saved_a>
+#   VOTC:CAMPAIGN/;/corrupt/;/<playerID>/;/1/;/0/;/<b>/;/<c>/;/<d>/;/1
+#     (after we delete segment a while schema is still 1)
+#   VOTC:TEST/;/campaign_corrupt_after/;/schema=1/;/a=<restored_a>
+#     (segment a is restored to its original saved value)
+#
+# Pass criteria:
+#   - schema is 1 after the first init
+#   - all four segments are in [268435456, 536870911]
+#   - read #1 and read #2 are byte-identical (idempotent)
+#   - after corrupt setup (remove_segment_a), a VOTC:CAMPAIGN/;/corrupt line
+#     appears and schema stays 1 (no silent re-key)
+#   - segment a is restored after the corrupt-detection phase so the save is
+#     not left corrupt
+#   - bootstrapKind is 1 (fresh) or 2 (had old checkpoint evidence)
+
+# Phase 1: commit a fresh campaign id if none exists. If one is already
+# committed (e.g. on a save that loaded the mod before), the init effect
+# returns early and emits no created line.
+votc_init_campaign_id_effect = {}
+
+# Read #1
+debug_log = "VOTC:TEST/;/campaign_id/;/1/;/[GetGlobalVariable('votc_campaign_schema').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]"
+
+# Range sanity checks (each segment is a 29-bit non-zero value with leading
+# bit = 1, same shape as the checkpoint token).
+if = {
+	limit = { OR = { global_var:votc_campaign_id_a < 268435456 global_var:votc_campaign_id_a > 536870911 } }
+	debug_log = "VOTC:TEST/;/campaign_range_error/;/a/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]"
+}
+if = {
+	limit = { OR = { global_var:votc_campaign_id_b < 268435456 global_var:votc_campaign_id_b > 536870911 } }
+	debug_log = "VOTC:TEST/;/campaign_range_error/;/b/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]"
+}
+if = {
+	limit = { OR = { global_var:votc_campaign_id_c < 268435456 global_var:votc_campaign_id_c > 536870911 } }
+	debug_log = "VOTC:TEST/;/campaign_range_error/;/c/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]"
+}
+if = {
+	limit = { OR = { global_var:votc_campaign_id_d < 268435456 global_var:votc_campaign_id_d > 536870911 } }
+	debug_log = "VOTC:TEST/;/campaign_range_error/;/d/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]"
+}
+
+# Phase 2: idempotency. A second init must NOT regenerate. With schema=1 and
+# all segments intact, the init effect returns early and emits no created line.
+votc_init_campaign_id_effect = {}
+debug_log = "VOTC:TEST/;/campaign_id/;/2/;/[GetGlobalVariable('votc_campaign_schema').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]"
+
+# Phase 3: corrupt detection. Save segment a's value, remove it while schema
+# is still set, call init (must log VOTC:CAMPAIGN/;/corrupt and NOT overwrite
+# the identity), then restore segment a from the saved value so the save is
+# not left corrupt.
+debug_log = "VOTC:TEST/;/campaign_corrupt_setup/;/before"
+set_global_variable = { name = votc_test_saved_id_a value = global_var:votc_campaign_id_a }
+debug_log = "VOTC:TEST/;/campaign_corrupt_saved_a/;/[GetGlobalVariable('votc_test_saved_id_a').GetValue|0]"
+remove_global_variable = votc_campaign_id_a
+votc_init_campaign_id_effect = {}
+debug_log = "VOTC:TEST/;/campaign_corrupt_after/;/schema=[GetGlobalVariable('votc_campaign_schema').GetValue|0]/;/a=[GetGlobalVariable('votc_campaign_id_a').GetValue|0]"
+
+# Restore segment a from the saved value so the save keeps its real id.
+set_global_variable = {
+	name = votc_campaign_id_a
+	value = global_var:votc_test_saved_id_a
+}
+remove_global_variable = votc_test_saved_id_a
+remove_global_variable ?= votc_campaign_corrupt
+debug_log = "VOTC:TEST/;/campaign_corrupt_restored/;/a=[GetGlobalVariable('votc_campaign_id_a').GetValue|0]"
