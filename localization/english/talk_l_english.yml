@@ -146,9 +146,9 @@ activity_votc_council_gathering_guest_desc:0 "You have been invited to a council
 activity_votc_council_gathering_guest_help_text:0 "Attend the council gathering to provide your counsel on important matters."
 activity_votc_council_gathering_host_desc:0 "Host a council gathering to discuss important matters with your councilors."
 activity_votc_council_gathering_owner:0 "Council Gathering"
+activity_votc_council_gathering_predicted_cost:0 "Cost: [Scope.GetLocalizedText('activity_votc_council_gathering_cost_desc')]"
 activity_votc_council_gathering_province_desc:0 "A suitable location for a council gathering."
 activity_votc_council_gathering_selection_tooltip:0 "Gather your council to discuss important matters."
-activity_votc_council_gathering_host_an_a:0 "a"
 
 # Council Gathering Amenities
 votc_council_gathering_amenities_amount:0 "Duration"
