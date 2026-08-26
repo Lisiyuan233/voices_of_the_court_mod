@@ -182,6 +182,7 @@ votc_talk_mcc_selector:0 "Select characters to talk along with [recipient.GetTit
 
 votc_relaese_letter_decision:0 "VOTC Release Letter Thread"
 votc_relaese_letter_decision_desc:0 "Release the current letter thread awaiting a reply"
+votc_letter_reply_fallback_desc:0 "The reply could not be generated. The letter thread was cleared and the timeline advanced."
 votc_relaese_letter_decision_tooltip:0 "Release Letter Thread"
 votc_relaese_letter_decision_confirm:0 "Release Letter Thread"
 votc_relaese_letter_decision_effect_desc:0 "You will release the current letter thread awaiting a reply. This action allows you to bypass the letter process counter and will most likely overwrite any previous replies not yet received. If you used the letter-writing function without the backend program running, it is recommended to manually perform this operation once!"
