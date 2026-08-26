@@ -331,8 +331,9 @@ votc_generate_battle_delivery_id_effect = {
 	votc_append_battle_delivery_id_bit_effect = yes
 }
 
-# 打开总结文本管理器。
-# 决策与 HUD 按钮共用此 effect，避免逻辑重复。
+# [2CE 标记] 当前 2CE 内没有任何调用方，effect 保留仅为与 mod1 逐行对应，降低后续合并成本。
+# trigger_event 指向的 hmd_event.9004 目前仅在 mod1 的 events/hmd_events.txt 中定义；
+# 调用本 effect 前需先把 hmd_events.txt 移植到 2CE（P7 待办）。
 votc_open_summary_manager_effect = {
 	root = {
 		votc_init_checkpoint_effect = yes
