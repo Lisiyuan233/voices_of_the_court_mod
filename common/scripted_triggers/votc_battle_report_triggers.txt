@@ -1,37 +1,47 @@
-votc_battle_report_has_required_scopes_trigger = {
+﻿votc_battle_report_has_required_scopes_trigger = {
 	exists = combat.location
 	exists = side_primary_participant
 	exists = enemy_side.side_primary_participant
 }
 
+## Battle delivery state is held as local variables and later consumed by a
+## console run script. Unlanded characters may participate in combat but do
+## not provide a persistent variable owner, so they must not become the
+## delivery target.
+votc_battle_report_variable_owner_trigger = {
+	is_ai = no
+	is_landed = yes
+	NOT = { has_variable = votc_battle_reports_disabled }
+}
+
 votc_battle_report_player_involved_trigger = {
 	OR = {
-		side_primary_participant = { is_ai = no }
-		enemy_side.side_primary_participant = { is_ai = no }
-		any_side_participant = { is_ai = no }
+		side_primary_participant = { votc_battle_report_variable_owner_trigger = yes }
+		enemy_side.side_primary_participant = { votc_battle_report_variable_owner_trigger = yes }
+		any_side_participant = { votc_battle_report_variable_owner_trigger = yes }
 		enemy_side = {
-			any_side_participant = { is_ai = no }
+			any_side_participant = { votc_battle_report_variable_owner_trigger = yes }
 		}
-		side_commander ?= { is_ai = no }
-		enemy_side.side_commander ?= { is_ai = no }
-		any_side_commander = { is_ai = no }
+		side_commander ?= { votc_battle_report_variable_owner_trigger = yes }
+		enemy_side.side_commander ?= { votc_battle_report_variable_owner_trigger = yes }
+		any_side_commander = { votc_battle_report_variable_owner_trigger = yes }
 		enemy_side = {
-			any_side_commander = { is_ai = no }
+			any_side_commander = { votc_battle_report_variable_owner_trigger = yes }
 		}
-		any_side_knight = { is_ai = no }
+		any_side_knight = { votc_battle_report_variable_owner_trigger = yes }
 		enemy_side = {
-			any_side_knight = { is_ai = no }
+			any_side_knight = { votc_battle_report_variable_owner_trigger = yes }
 		}
 	}
 }
 
 votc_battle_report_winning_side_player_trigger = {
 	OR = {
-		side_primary_participant = { is_ai = no }
-		any_side_participant = { is_ai = no }
-		side_commander ?= { is_ai = no }
-		any_side_commander = { is_ai = no }
-		any_side_knight = { is_ai = no }
+		side_primary_participant = { votc_battle_report_variable_owner_trigger = yes }
+		any_side_participant = { votc_battle_report_variable_owner_trigger = yes }
+		side_commander ?= { votc_battle_report_variable_owner_trigger = yes }
+		any_side_commander = { votc_battle_report_variable_owner_trigger = yes }
+		any_side_knight = { votc_battle_report_variable_owner_trigger = yes }
 	}
 }
 

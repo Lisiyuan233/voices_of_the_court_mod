@@ -1,0 +1,36 @@
+﻿namespace = hmd_event
+
+hmd_event.9003 = {
+	type = character_event
+	title = "aha"
+	theme = realm
+	desc = hmd_event.9003.desc
+	widget = {
+        gui = "event_window_widget_talk_clear"
+        container = "custom_widgets_container"
+    }
+}
+
+hmd_event.9004 = {
+	type = character_event
+	title = "aha"
+	theme = realm
+	desc = hmd_event.9004.desc
+	widget = {
+        gui = "event_window_widget_talk_clear"
+        container = "custom_widgets_container"
+    }
+}
+
+hmd_event.9005 = {
+	type = character_event
+	title = "aha"
+	theme = realm
+	desc = hmd_event.9005.desc
+	widget = {
+        gui = "event_window_widget_talk_clear"
+        container = "custom_widgets_container"
+    }
+}
+		
+
