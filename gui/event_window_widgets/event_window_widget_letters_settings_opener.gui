@@ -1,0 +1,23 @@
+﻿## Opens the NPC incoming letters settings window from a bridge event.
+## mod2 ce deliberately does not replace hud.gui, so the decision entry fires
+## votc_letters_settings_bridge_event.9001, which shows this widget whose
+## buttons issue the same console commands as the mod1 HUD button.
+hbox = {
+	name = "event_window_widget_letters_settings_opener"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+
+	flowcontainer = {
+		direction = vertical
+		center = yes
+
+		button_standard = {
+			parentanchor = hcenter
+			size = { 260 34 }
+			text = votc_letters_settings_bridge_open_option
+			onclick = "[ExecuteConsoleCommands('GUI.ClearWidgets votc_incoming_letters_window; gui.createwidget gui/custom_gui/votc_incoming_letters_window.gui votc_incoming_letters_window')]"
+		}
+	}
+
+	expand = {}
+}

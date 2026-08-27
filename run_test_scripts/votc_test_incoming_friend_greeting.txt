@@ -1,0 +1,49 @@
+﻿# VOTC incoming letter test: dear friend greeting.
+# Console command: run votc_test_incoming_friend_greeting.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# ROOT is the player character. Triggers a dear_friend_greeting incoming letter
+# from a random valid friend, bypassing the quarterly probability gate.
+
+save_scope_as = actor
+
+scope:actor = {
+	random_relation = {
+		type = friend
+		limit = {
+			votc_incoming_letter_friend_author_valid_trigger = yes
+		}
+		save_scope_as = recipient
+	}
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	scope:recipient = {
+		if = {
+			limit = { has_relation_soulmate = scope:actor }
+			set_variable = { name = votc_relation_type value = flag:soulmate }
+		}
+		else_if = {
+			limit = { has_relation_best_friend = scope:actor }
+			set_variable = { name = votc_relation_type value = flag:best_friend }
+		}
+		else = {
+			set_variable = { name = votc_relation_type value = flag:friend }
+		}
+		if = {
+			limit = { stress_level >= 2 }
+			set_variable = { name = votc_sender_mood value = flag:distressed }
+		}
+		else_if = {
+			limit = { stress_level >= 1 }
+			set_variable = { name = votc_sender_mood value = flag:anxious }
+		}
+		else = {
+			set_variable = { name = votc_sender_mood value = flag:cheerful }
+		}
+	}
+	votc_start_incoming_letter_effect = { TYPE = flag:dear_friend_greeting }
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_friend"
+}

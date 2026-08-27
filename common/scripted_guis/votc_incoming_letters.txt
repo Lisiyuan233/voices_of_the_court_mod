@@ -1,0 +1,279 @@
+﻿# VOTC NPC-initiated letters: direct controls used by the custom HUD window.
+# The GUI root is always the local player character.
+
+votc_incoming_letters_enable_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_enabled
+			value = 1
+		}
+		if = {
+			limit = { NOT = { has_variable = votc_incoming_letters_frequency } }
+			set_variable = {
+				name = votc_incoming_letters_frequency
+				value = 2
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = votc_incoming_letters_event_frequency } }
+			set_variable = {
+				name = votc_incoming_letters_event_frequency
+				value = 2
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = votc_incoming_letters_family_frequency } }
+			set_variable = {
+				name = votc_incoming_letters_family_frequency
+				value = 2
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = votc_incoming_letters_poetry_frequency } }
+			set_variable = {
+				name = votc_incoming_letters_poetry_frequency
+				value = 2
+			}
+		}
+	}
+}
+
+votc_incoming_letters_disable_sgui = {
+	scope = character
+	effect = {
+		remove_variable = votc_incoming_letters_enabled
+	}
+}
+
+votc_battle_reports_enable_sgui = {
+	scope = character
+	effect = {
+		# Absence means enabled so existing saves retain their current behaviour.
+		remove_variable ?= votc_battle_reports_disabled
+	}
+}
+
+votc_battle_reports_disable_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_battle_reports_disabled
+			value = 1
+		}
+	}
+}
+
+votc_incoming_letters_frequency_off_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_frequency
+			value = 5
+		}
+	}
+}
+
+votc_incoming_letters_frequency_low_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_frequency
+			value = 1
+		}
+	}
+}
+
+votc_incoming_letters_frequency_normal_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_frequency
+			value = 2
+		}
+	}
+}
+
+votc_incoming_letters_frequency_high_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_frequency
+			value = 3
+		}
+	}
+}
+
+votc_incoming_letters_frequency_maximum_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_frequency
+			value = 4
+		}
+		# Maximum frequency deliberately has no global cooldown, including one
+		# created before this setting was selected.
+		remove_variable ?= votc_incoming_letters_global_cooldown
+	}
+}
+
+votc_incoming_letters_family_frequency_low_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_family_frequency
+			value = 1
+		}
+	}
+}
+
+votc_incoming_letters_family_frequency_off_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_family_frequency
+			value = 5
+		}
+	}
+}
+
+votc_incoming_letters_family_frequency_normal_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_family_frequency
+			value = 2
+		}
+	}
+}
+
+votc_incoming_letters_family_frequency_high_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_family_frequency
+			value = 3
+		}
+	}
+}
+
+votc_incoming_letters_family_frequency_maximum_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_family_frequency
+			value = 4
+		}
+		# The dedicated family category has no cooldown at maximum frequency.
+		remove_variable ?= votc_incoming_letter_family_cooldown
+		every_spouse = {
+			remove_variable ?= votc_incoming_letter_family_sent_recently
+		}
+		every_close_family_member = {
+			remove_variable ?= votc_incoming_letter_family_sent_recently
+		}
+	}
+}
+
+votc_incoming_letters_poetry_frequency_low_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_poetry_frequency
+			value = 1
+		}
+	}
+}
+
+votc_incoming_letters_poetry_frequency_off_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_poetry_frequency
+			value = 5
+		}
+	}
+}
+
+votc_incoming_letters_poetry_frequency_normal_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_poetry_frequency
+			value = 2
+		}
+	}
+}
+
+votc_incoming_letters_poetry_frequency_high_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_poetry_frequency
+			value = 3
+		}
+	}
+}
+
+votc_incoming_letters_poetry_frequency_maximum_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_poetry_frequency
+			value = 4
+		}
+		# The dedicated poetry category has no cooldown at maximum frequency.
+		# Per-author cooldowns are ignored by the author-valid trigger.
+		remove_variable ?= votc_incoming_letter_poetry_cooldown
+	}
+}
+
+votc_incoming_letters_event_frequency_low_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_event_frequency
+			value = 1
+		}
+	}
+}
+
+votc_incoming_letters_event_frequency_off_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_event_frequency
+			value = 5
+		}
+	}
+}
+
+votc_incoming_letters_event_frequency_normal_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_event_frequency
+			value = 2
+		}
+	}
+}
+
+votc_incoming_letters_event_frequency_high_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_event_frequency
+			value = 3
+		}
+	}
+}
+
+votc_incoming_letters_event_frequency_maximum_sgui = {
+	scope = character
+	effect = {
+		set_variable = {
+			name = votc_incoming_letters_event_frequency
+			value = 4
+		}
+	}
+}

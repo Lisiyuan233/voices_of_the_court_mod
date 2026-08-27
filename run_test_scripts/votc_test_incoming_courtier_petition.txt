@@ -1,0 +1,27 @@
+﻿# VOTC incoming letter test: courtier petition.
+# Console command: run votc_test_incoming_courtier_petition.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# ROOT is the player character. Triggers a courtier_petition incoming letter
+# from a random valid courtier, bypassing the quarterly probability gate but
+# going through the full slot/log/bridge/arrival/cleanup pipeline. Requires
+# the player to have enabled incoming letters via the settings decision first.
+
+save_scope_as = actor
+
+random_courtier = {
+	limit = {
+		votc_incoming_letter_courtier_author_valid_trigger = yes
+	}
+	save_scope_as = recipient
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	scope:recipient = {
+		votc_prepare_courtier_petition_effect = yes
+	}
+	votc_start_incoming_letter_effect = { TYPE = flag:courtier_petition }
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_courtier"
+}

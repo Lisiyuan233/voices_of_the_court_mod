@@ -1,0 +1,17 @@
+﻿## VOTC NPC-initiated incoming letter widget (slot 2)
+## Runs the desktop-generated letter script for slot 2.
+
+hbox = {
+	name = "event_window_widget_incoming_letter_2"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+
+	state = {
+        name = widget_show
+        trigger_on_create = yes
+
+		on_start = "[ExecuteConsoleCommand('run incomingletter_v2_2.txt')]"
+	}
+
+	expand = {}
+}

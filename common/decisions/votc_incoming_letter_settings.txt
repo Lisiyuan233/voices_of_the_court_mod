@@ -1,0 +1,87 @@
+﻿votc_enable_incoming_letters_decision = {
+	decision_group_type = decisions
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	is_shown = {
+		NOT = { has_variable = votc_incoming_letters_enabled }
+	}
+
+	effect = {
+		custom_tooltip = votc_enable_incoming_letters_decision_effect_desc
+		set_variable = {
+			name = votc_incoming_letters_enabled
+			value = 1
+		}
+	}
+
+	ai_check_interval = 0
+}
+
+votc_disable_incoming_letters_decision = {
+	decision_group_type = decisions
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	is_shown = {
+		has_variable = votc_incoming_letters_enabled
+	}
+
+	effect = {
+		custom_tooltip = votc_disable_incoming_letters_decision_effect_desc
+		remove_variable = votc_incoming_letters_enabled
+	}
+
+	ai_check_interval = 0
+}
+
+votc_clear_incoming_letters_decision = {
+	decision_group_type = debug
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	is_shown = {
+		is_ai = no
+	}
+
+		effect = {
+			custom_tooltip = votc_clear_incoming_letters_decision_effect_desc
+			save_scope_as = actor
+			votc_clear_incoming_letter_1_effect = yes
+			votc_clear_incoming_letter_2_effect = yes
+			votc_clear_incoming_letter_3_effect = yes
+			votc_clear_incoming_letter_4_effect = yes
+			votc_clear_incoming_letter_5_effect = yes
+			votc_clear_incoming_letter_6_effect = yes
+			votc_clear_incoming_letter_7_effect = yes
+			votc_clear_incoming_letter_8_effect = yes
+		}
+
+	ai_check_interval = 0
+}
+
+# Opens the settings window via the bridge event, replacing mod1's HUD button.
+votc_open_incoming_letters_settings_decision = {
+	decision_group_type = decisions
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	is_shown = {
+		is_ai = no
+	}
+
+	effect = {
+		custom_tooltip = votc_open_incoming_letters_settings_decision_effect_desc
+		trigger_event = votc_letters_settings_bridge_event.9001
+	}
+
+	ai_check_interval = 0
+}

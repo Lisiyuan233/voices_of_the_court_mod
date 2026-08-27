@@ -1,0 +1,81 @@
+﻿# VOTC NPC-initiated letters: quarterly selection on_action.
+# Vanilla quarterly_playable_pulse (common/on_action/yearly_on_actions.txt) is
+# fired once per quarter for each playable character. It has no events block,
+# so we add one that schedules the delayed VOTC check. Do not add another
+# on_actions or random_on_action block here; those already exist in vanilla.
+quarterly_playable_pulse = {
+	events = {
+		votc_incoming_letter_event.0004
+		votc_incoming_letter_event.0005
+		votc_incoming_letter_event.0012
+		votc_incoming_letter_event.0016
+		votc_incoming_letter_event.0019
+	}
+}
+
+# on_army_monthly: vanilla has an effect = { } block and an empty events = { }.
+# We only register .0002 here (CK3 merging forbids a second effect block for the
+# same on_action). root = army owner, scope:army = the army. Logic lives in the
+# event immediate block. Fires for every army owner (including AI) - the event
+# trigger gates on is_ai = no so only the local player proceeds.
+on_army_monthly = {
+	events = {
+		votc_incoming_letter_event.0002
+	}
+}
+
+# on_siege_completion: vanilla has an effect = { } block and an events = { }.
+# We only register .0003 here. root = occupant (attacker who took the holding),
+# scope:barony = occupied barony, scope:county = county title,
+# scope:previous_controller = who LOST control of the county,
+# scope:war = the war. The player is the LIEGE of scope:previous_controller;
+# the event switches to player scope internally.
+on_siege_completion = {
+	events = {
+		votc_incoming_letter_event.0003
+	}
+}
+
+# on_war_started: vanilla fires this for every declared war.
+# scope:attacker = the attacker, scope:defender = the defender, scope:war = the war.
+# We register one shared event that internally splits into ally_call_for_aid and revolt_urgent.
+on_war_started = {
+	events = {
+		votc_incoming_letter_event.0006
+	}
+}
+
+# on_death: vanilla fires this when a character dies. root = the dead character.
+# A surviving relative/friend/rival writes to the player about the death.
+on_death = {
+	events = {
+		votc_incoming_letter_event.0007
+	}
+}
+
+# on_travel_plan_complete: vanilla fires this when a travel plan finishes. root = the traveller.
+on_travel_plan_complete = {
+	events = {
+		votc_incoming_letter_event.0008
+	}
+}
+
+# Do not register a character event for on_scheme_discovered. The on_action root
+# is a scheme, while the event queue supplies a character-compatible root; that
+# mismatch made every scheme_owner/scheme_target_character lookup invalid. A
+# future compatibility-safe implementation must first hand off explicit facts
+# from the scheme scope before triggering a character event.
+
+# on_building_started / on_building_completed: vanilla fires these when a building
+# construction starts or finishes. Root = the province; scope:character = the builder.
+on_building_started = {
+	events = {
+		votc_incoming_letter_event.0010
+	}
+}
+
+on_building_completed = {
+	events = {
+		votc_incoming_letter_event.0011
+	}
+}

@@ -1,0 +1,671 @@
+﻿window = {
+	name = "votc_incoming_letters_window"
+	size = { 700 940 }
+	parentanchor = center
+	movable = no
+	layer = top
+	filter_mouse = all
+	alwaystransparent = no
+
+	using = Background_Letter_No_Frame
+	background = {
+		using = Background_Area_Dark
+		alpha = 0.92
+	}
+
+	# A container is the vanilla absolute-positioning parent.  Unlike widget,
+	# it does not add the positions of successive children as a vertical flow.
+	container = {
+		name = "votc_incoming_letters_content"
+		size = { 660 900 }
+		parentanchor = top|left
+		widgetanchor = top|left
+		position = { 20 20 }
+
+		widget = {
+			size = { 660 56 }
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 0 }
+
+			background = {
+				using = Background_Header
+				margin = { 2 0 }
+			}
+			background = {
+				using = Background_Header_Pattern
+				margin = { 2 0 }
+			}
+
+			text_single = {
+				parentanchor = hcenter|vcenter
+				widgetanchor = hcenter|vcenter
+				text = votc_incoming_letters_settings_title
+				using = Font_Type_Flavor
+				using = Font_Size_Big
+				align = center
+			}
+
+			button_close = {
+				parentanchor = right|vcenter
+				widgetanchor = right|vcenter
+				position = { -8 0 }
+				onclick = "[ExecuteConsoleCommand('GUI.ClearWidgets votc_incoming_letters_window')]"
+				tooltip = CLOSE_TOOLTIP
+			}
+		}
+
+		text_single = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 68 }
+			size = { 660 46 }
+			text = votc_incoming_letters_settings_desc
+			default_format = "#weak"
+			multiline = yes
+		}
+
+		text_single = {
+			visible = "[GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_enabled').GetValue, '(CFixedPoint)0' )]"
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 122 }
+			size = { 320 28 }
+			text = votc_incoming_letters_status_enabled
+			align = center
+		}
+		text_single = {
+			visible = "[Not( GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_enabled').GetValue, '(CFixedPoint)0' ) )]"
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 122 }
+			size = { 320 28 }
+			text = votc_incoming_letters_status_disabled
+			align = center
+		}
+		text_single = {
+			visible = "[Not( GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_battle_reports_disabled').GetValue, '(CFixedPoint)0' ) )]"
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 340 122 }
+			size = { 320 28 }
+			text = votc_battle_reports_status_enabled
+			align = center
+		}
+		text_single = {
+			visible = "[GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_battle_reports_disabled').GetValue, '(CFixedPoint)0' )]"
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 340 122 }
+			size = { 320 28 }
+			text = votc_battle_reports_status_disabled
+			align = center
+		}
+
+		button_standard = {
+			visible = "[Not( GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_enabled').GetValue, '(CFixedPoint)0' ) )]"
+			parentanchor = top|hcenter
+			widgetanchor = top|hcenter
+			position = { -115 150 }
+			size = { 210 34 }
+			text = votc_incoming_letters_enable_option
+			onclick = "[GetScriptedGui('votc_incoming_letters_enable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+		}
+		button_standard = {
+			visible = "[GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_enabled').GetValue, '(CFixedPoint)0' )]"
+			parentanchor = top|hcenter
+			widgetanchor = top|hcenter
+			position = { -115 150 }
+			size = { 210 34 }
+			text = votc_incoming_letters_disable_option
+			onclick = "[GetScriptedGui('votc_incoming_letters_disable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+		}
+		button_standard = {
+			visible = "[GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_battle_reports_disabled').GetValue, '(CFixedPoint)0' )]"
+			parentanchor = top|hcenter
+			widgetanchor = top|hcenter
+			position = { 115 150 }
+			size = { 210 34 }
+			text = votc_battle_reports_enable_option
+			onclick = "[GetScriptedGui('votc_battle_reports_enable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+		}
+		button_standard = {
+			visible = "[Not( GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_battle_reports_disabled').GetValue, '(CFixedPoint)0' ) )]"
+			parentanchor = top|hcenter
+			widgetanchor = top|hcenter
+			position = { 115 150 }
+			size = { 210 34 }
+			text = votc_battle_reports_disable_option
+			onclick = "[GetScriptedGui('votc_battle_reports_disable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+		}
+
+		text_single = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 194 }
+			size = { 660 30 }
+			text = votc_incoming_letters_frequency_heading
+			using = Font_Size_Medium
+			align = center
+		}
+
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 252 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_frequency').GetValue, '(CFixedPoint)1' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_frequency_low_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_frequency_low_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 276 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( Or( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_frequency').GetValue, '(CFixedPoint)0' ), EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_frequency').GetValue, '(CFixedPoint)2' ) ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_frequency_normal_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_frequency_normal_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 300 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_frequency').GetValue, '(CFixedPoint)3' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_frequency_high_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_frequency_high_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 324 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_frequency').GetValue, '(CFixedPoint)4' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_frequency_maximum_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_frequency_maximum_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 228 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_frequency').GetValue, '(CFixedPoint)5' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_frequency_off_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_frequency_off_desc
+					align = nobaseline
+				}
+			}
+		}
+
+		text_single = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 358 }
+			size = { 660 30 }
+			text = votc_incoming_letters_family_frequency_heading
+			using = Font_Size_Medium
+			align = center
+		}
+
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 416 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_family_frequency').GetValue, '(CFixedPoint)1' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_family_frequency_low_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_family_frequency_low_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 440 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( Or( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_family_frequency').GetValue, '(CFixedPoint)0' ), EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_family_frequency').GetValue, '(CFixedPoint)2' ) ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_family_frequency_normal_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_family_frequency_normal_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 464 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_family_frequency').GetValue, '(CFixedPoint)3' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_family_frequency_high_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_family_frequency_high_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 488 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_family_frequency').GetValue, '(CFixedPoint)4' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_family_frequency_maximum_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_family_frequency_maximum_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 392 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_family_frequency').GetValue, '(CFixedPoint)5' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_family_frequency_off_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_family_frequency_off_desc
+					align = nobaseline
+				}
+			}
+		}
+
+		text_single = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 522 }
+			size = { 660 30 }
+			text = votc_incoming_letters_poetry_frequency_heading
+			using = Font_Size_Medium
+			align = center
+		}
+
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 580 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_poetry_frequency').GetValue, '(CFixedPoint)1' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_poetry_frequency_low_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_poetry_frequency_low_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 604 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( Or( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_poetry_frequency').GetValue, '(CFixedPoint)0' ), EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_poetry_frequency').GetValue, '(CFixedPoint)2' ) ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_poetry_frequency_normal_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_poetry_frequency_normal_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 628 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_poetry_frequency').GetValue, '(CFixedPoint)3' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_poetry_frequency_high_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_poetry_frequency_high_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 652 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_poetry_frequency').GetValue, '(CFixedPoint)4' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_poetry_frequency_maximum_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_poetry_frequency_maximum_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 556 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_poetry_frequency').GetValue, '(CFixedPoint)5' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_poetry_frequency_off_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_poetry_frequency_off_desc
+					align = nobaseline
+				}
+			}
+		}
+
+		text_single = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 686 }
+			size = { 660 30 }
+			text = votc_incoming_letters_event_frequency_heading
+			using = Font_Size_Medium
+			align = center
+		}
+
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 744 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_event_frequency').GetValue, '(CFixedPoint)1' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_event_frequency_low_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_event_frequency_low_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 768 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( Or( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_event_frequency').GetValue, '(CFixedPoint)0' ), EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_event_frequency').GetValue, '(CFixedPoint)2' ) ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_event_frequency_normal_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_event_frequency_normal_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 792 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_event_frequency').GetValue, '(CFixedPoint)3' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_event_frequency_high_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_event_frequency_high_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 816 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_event_frequency').GetValue, '(CFixedPoint)4' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_event_frequency_maximum_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_event_frequency_maximum_desc
+					align = nobaseline
+					multiline = yes
+				}
+			}
+		}
+		widget = {
+			parentanchor = top|left
+			widgetanchor = top|left
+			position = { 0 720 }
+			size = { 660 24 }
+			flowcontainer = {
+				size = { 660 24 }
+				direction = horizontal
+				spacing = 8
+				button_radio = {
+					size = { 24 24 }
+					parentanchor = vcenter
+					frame = "[BoolTo1And2( EqualTo_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_event_frequency').GetValue, '(CFixedPoint)5' ) )]"
+					onclick = "[GetScriptedGui('votc_incoming_letters_event_frequency_off_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+				}
+				text_single = {
+					size = { 628 24 }
+					parentanchor = vcenter
+					text = votc_incoming_letters_event_frequency_off_desc
+					align = nobaseline
+				}
+			}
+		}
+
+		button_standard = {
+			parentanchor = top|hcenter
+			widgetanchor = top|hcenter
+			position = { 0 850 }
+			size = { 210 34 }
+			text = votc_incoming_letters_close_option
+			onclick = "[ExecuteConsoleCommand('GUI.ClearWidgets votc_incoming_letters_window')]"
+		}
+	}
+}
