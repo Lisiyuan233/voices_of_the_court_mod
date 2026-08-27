@@ -111,3 +111,27 @@ votc_conversation_history_decision = {
 		base = 0
 	}
 }
+# Opens the desktop app's Court Chronicle window via the manual tick effect,
+# which exports the memory snapshot and fires the CHRONICLE_MANAGER bridge.
+# Replaces mod1's HUD button (mod2 ce does not ship hud.gui).
+votc_open_chronicle_manager_decision = {
+	decision_group_type = decisions
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	is_shown = {
+		is_ai = no
+	}
+
+	effect = {
+		custom_tooltip = votc_open_chronicle_manager_decision_effect_desc
+		votc_open_chronicle_manager_manual_effect = yes
+	}
+
+	ai_check_interval = 0
+	ai_will_do = {
+		base = 0
+	}
+}

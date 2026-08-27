@@ -1,0 +1,65 @@
+﻿namespace = votc_chronicle_event
+
+# Quarterly pulse tick. Triggered by quarterly_playable_pulse on_action.
+# Hidden event: immediately calls the chronicle quarterly effect.
+votc_chronicle_event.9001 = {
+	type = character_event
+	title = votc_chronicle_event.9001.title
+	desc = votc_chronicle_event.9001.desc
+	theme = realm
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+	}
+
+	immediate = {
+		votc_chronicle_quarterly_tick_effect = yes
+	}
+}
+
+# Yearly pulse tick. Triggered by yearly_playable_pulse on_action.
+# Hidden event: immediately calls the chronicle yearly effect.
+votc_chronicle_event.9002 = {
+	type = character_event
+	title = votc_chronicle_event.9002.title
+	desc = votc_chronicle_event.9002.desc
+	theme = realm
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+	}
+
+	immediate = {
+		votc_chronicle_yearly_tick_effect = yes
+	}
+}
+
+# Clipboard transfer event for automatic pulses (quarterly/yearly).
+# Carries the 25-field VOTC:CHRONICLE_TICK payload in its desc.
+# App processes silently without opening window.
+votc_chronicle_event.9003 = {
+	type = character_event
+	title = votc_chronicle_event.9003.title
+	desc = votc_chronicle_event.9003.desc
+	theme = realm
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+# Clipboard transfer event for manual (HUD button) trigger.
+# Carries the 25-field VOTC:CHRONICLE_MANAGER payload in its desc.
+# App opens the ChronicleWindow upon receiving this.
+votc_chronicle_event.9004 = {
+	type = character_event
+	title = votc_chronicle_event.9004.title
+	desc = votc_chronicle_event.9004.desc
+	theme = realm
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}

@@ -1,0 +1,146 @@
+﻿# VOTC Chronicle Memory Block effects.
+#
+# Request ID generation: 28-bit non-zero value stored in a global variable
+# so data-binding expressions in event desc localization can reference it.
+# Mirrors votc_generate_battle_delivery_id_effect but uses a global scope.
+
+votc_append_chronicle_request_id_bit_effect = {
+	change_global_variable = {
+		name = votc_chronicle_memory_request_id
+		multiply = 2
+	}
+	random = {
+		chance = 50
+		change_global_variable = {
+			name = votc_chronicle_memory_request_id
+			add = 1
+		}
+	}
+}
+
+votc_generate_chronicle_request_id_effect = {
+	# Start at one so every generated id is non-zero even if all random bits
+	# are zero. 28 appended bits yield 2^28 distinct positive values.
+	set_global_variable = { name = votc_chronicle_memory_request_id value = 1 }
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+	votc_append_chronicle_request_id_bit_effect = yes
+}
+
+# Output the player's full character memory block via debug_log.
+# Format:
+#   VOTC:CHRONICLE_MEMORY/;/start/;/requestId/;/playerId/;/currentDateTotalDays
+#   VOTC:CHRONICLE_MEMORY/;/memory/;/requestId/;/ordinal/;/ownerId/;/ownerName/;/typeToken/;/memoryName/;/creationTotalDays/;/creationDisplay/;/description/;/relevance/;/participantCount
+#   VOTC:CHRONICLE_MEMORY/;/participant/;/requestId/;/ordinal/;/participantId
+#   VOTC:CHRONICLE_MEMORY/;/end/;/requestId/;/memoryCount
+#
+# Scope: character (the player). Requires votc_chronicle_memory_request_id
+# global to already be set.
+votc_log_chronicle_memory_block_effect = {
+	# start line
+	debug_log = "VOTC:CHRONICLE_MEMORY/;/start/;/[GetGlobalVariable('votc_chronicle_memory_request_id').GetValue|0]/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetDateAsTotalDays]"
+	set_global_variable = { name = votc_spike_ordinal value = 0 }
+	set_global_variable = { name = votc_chronicle_memory_count value = 0 }
+	every_memory = {
+		change_global_variable = { name = votc_spike_ordinal add = 1 }
+		change_global_variable = { name = votc_chronicle_memory_count add = 1 }
+		set_variable = { name = votc_memory_pcount value = 0 }
+		every_memory_participant = {
+			PREV = {
+				change_variable = { name = votc_memory_pcount add = 1 }
+			}
+		}
+		debug_log = "VOTC:CHRONICLE_MEMORY/;/memory/;/[GetGlobalVariable('votc_chronicle_memory_request_id').GetValue|0]/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/[THIS.CharacterMemory.GetOwner.GetID]/;/[THIS.CharacterMemory.GetOwner.GetFirstNameNoTooltip]/;/[THIS.CharacterMemory.GetName]/;/[THIS.CharacterMemory.GetName]/;/[THIS.CharacterMemory.GetCreationDate.GetDateAsTotalDays]/;/[THIS.CharacterMemory.GetCreationDate.GetStringShort]/;/[THIS.CharacterMemory.GetThirdPerspectiveDescription]/;/50/;/[THIS.Var('votc_memory_pcount').GetValue|0]"
+		every_memory_participant = {
+			debug_log = "VOTC:CHRONICLE_MEMORY/;/participant/;/[GetGlobalVariable('votc_chronicle_memory_request_id').GetValue|0]/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/[THIS.Char.GetID]"
+		}
+	}
+	# end line
+	debug_log = "VOTC:CHRONICLE_MEMORY/;/end/;/[GetGlobalVariable('votc_chronicle_memory_request_id').GetValue|0]/;/[GetGlobalVariable('votc_chronicle_memory_count').GetValue|0]"
+	remove_global_variable = votc_spike_ordinal
+	remove_global_variable = votc_chronicle_memory_count
+}
+
+# Compute pulse quarter (1-4) from current month into global variable.
+votc_set_chronicle_pulse_quarter_effect = {
+	if = {
+		limit = { current_month <= 3 }
+		set_global_variable = { name = votc_chronicle_pulse_quarter value = 1 }
+	}
+	else_if = {
+		limit = { current_month <= 6 }
+		set_global_variable = { name = votc_chronicle_pulse_quarter value = 2 }
+	}
+	else_if = {
+		limit = { current_month <= 9 }
+		set_global_variable = { name = votc_chronicle_pulse_quarter value = 3 }
+	}
+	else = {
+		set_global_variable = { name = votc_chronicle_pulse_quarter value = 4 }
+	}
+}
+
+# Manager effect: full chronicle clipboard payload + memory block.
+# Does NOT bump checkpoint. Scope: character (player).
+# Caller must set votc_chronicle_signal_kind global before invoking.
+# Triggers event 9003 (VOTC:CHRONICLE_TICK) for automatic pulses.
+votc_open_chronicle_manager_effect = {
+	votc_init_checkpoint_effect = yes
+	votc_set_chronicle_pulse_quarter_effect = yes
+	votc_generate_chronicle_request_id_effect = yes
+	votc_log_chronicle_memory_block_effect = yes
+	trigger_event = votc_chronicle_event.9003
+}
+
+# Manual manager effect: same setup but triggers event 9004
+# (VOTC:CHRONICLE_MANAGER) so the App opens the ChronicleWindow.
+votc_open_chronicle_manager_manual_effect = {
+	votc_init_checkpoint_effect = yes
+	votc_set_chronicle_pulse_quarter_effect = yes
+	votc_generate_chronicle_request_id_effect = yes
+	votc_log_chronicle_memory_block_effect = yes
+	trigger_event = votc_chronicle_event.9004
+}
+
+# Quarterly pulse entry point. Called from votc_chronicle_event.9001 immediate.
+votc_chronicle_quarterly_tick_effect = {
+	set_global_variable = { name = votc_chronicle_signal_kind value = flag:quarterly }
+	votc_open_chronicle_manager_effect = yes
+}
+
+# Yearly pulse entry point. Called from votc_chronicle_event.9002 immediate.
+votc_chronicle_yearly_tick_effect = {
+	set_global_variable = { name = votc_chronicle_signal_kind value = flag:yearly }
+	votc_open_chronicle_manager_effect = yes
+}
+
+# Manual (HUD button) entry point. Sends VOTC:CHRONICLE_MANAGER to open window.
+votc_chronicle_manual_tick_effect = {
+	set_global_variable = { name = votc_chronicle_signal_kind value = flag:manual }
+	votc_open_chronicle_manager_manual_effect = yes
+}
