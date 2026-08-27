@@ -1,0 +1,17 @@
+﻿## VOTC dedicated close-family incoming letter widget (slot 7)
+## Runs the desktop-generated close-family letter script.
+
+hbox = {
+	name = "event_window_widget_incoming_letter_7"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+
+	state = {
+        name = widget_show
+        trigger_on_create = yes
+
+		on_start = "[ExecuteConsoleCommand('run incomingletter_v2_7.txt')]"
+	}
+
+	expand = {}
+}

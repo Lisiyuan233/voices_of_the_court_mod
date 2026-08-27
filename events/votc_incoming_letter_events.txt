@@ -1,0 +1,2311 @@
+﻿namespace = votc_incoming_letter_event
+
+##
+## 0001 delayed quarterly selection event (NPC-initiated letters)
+## Fired 7-70 days after each quarterly_playable_pulse for the local player.
+## It rechecks readiness at execution time, then performs weighted topic selection.
+
+votc_incoming_letter_event.0001 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		votc_incoming_letters_ready_trigger = yes
+	}
+
+	immediate = {
+		# ROOT is the local player character.
+		save_scope_as = actor
+
+		# Low-noise permanent log: confirms the delayed quarterly entry fires only for
+		# the local player (trigger already gates is_ai = no).
+		debug_log = "VOTC:INCOMING_LETTER/;/quarterly"
+
+		# Default: 50% chance to attempt a letter this quarter. The player can
+		# select 25% (low), 80% (high), or 100% (maximum) in the HUD panel.
+		random_list = {
+			50 = {
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_frequency = 1 }
+					factor = 0.5
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_frequency = 3 }
+					factor = 1.6
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_frequency = 4 }
+					factor = 2
+				}
+				# Proceed to topic selection.
+				random_list = {
+					50 = {
+						# vassal_memorial
+						random_vassal = {
+							limit = {
+								votc_incoming_letter_author_valid_trigger = yes
+							}
+							save_scope_as = recipient
+						}
+						if = {
+							limit = { exists = scope:recipient }
+							votc_start_incoming_letter_effect = { TYPE = flag:vassal_memorial }
+						}
+						else = {
+							debug_log = "VOTC:INCOMING_LETTER/;/quarterly/;/skipped/;/no_vassal"
+						}
+					}
+					20 = {
+						# courtier_petition
+						random_courtier = {
+							limit = {
+								votc_incoming_letter_courtier_author_valid_trigger = yes
+							}
+							save_scope_as = recipient
+						}
+						if = {
+							limit = { exists = scope:recipient }
+							scope:recipient = {
+								votc_prepare_courtier_petition_effect = yes
+							}
+							votc_start_incoming_letter_effect = { TYPE = flag:courtier_petition }
+						}
+						else = {
+							debug_log = "VOTC:INCOMING_LETTER/;/quarterly/;/skipped/;/no_courtier"
+						}
+					}
+					10 = {
+						# rival_taunt
+						scope:actor = {
+							random_relation = {
+								type = rival
+								limit = {
+									votc_incoming_letter_rival_author_valid_trigger = yes
+								}
+								save_scope_as = recipient
+							}
+						}
+						if = {
+							limit = { exists = scope:recipient }
+							scope:recipient = {
+								if = {
+									limit = { has_relation_nemesis = scope:actor }
+									set_variable = { name = votc_rival_type value = flag:nemesis }
+								}
+								else = {
+									set_variable = { name = votc_rival_type value = flag:rival }
+								}
+							}
+							votc_start_incoming_letter_effect = { TYPE = flag:rival_taunt }
+						}
+						else = {
+							debug_log = "VOTC:INCOMING_LETTER/;/quarterly/;/skipped/;/no_rival"
+						}
+					}
+					15 = {
+						# dear_friend_greeting
+						scope:actor = {
+							random_relation = {
+								type = friend
+								limit = {
+									votc_incoming_letter_friend_author_valid_trigger = yes
+								}
+								save_scope_as = recipient
+							}
+						}
+						if = {
+							limit = { exists = scope:recipient }
+							scope:recipient = {
+								if = {
+									limit = { has_relation_soulmate = scope:actor }
+									set_variable = { name = votc_relation_type value = flag:soulmate }
+								}
+								else_if = {
+									limit = { has_relation_best_friend = scope:actor }
+									set_variable = { name = votc_relation_type value = flag:best_friend }
+								}
+								else = {
+									set_variable = { name = votc_relation_type value = flag:friend }
+								}
+								if = {
+									limit = { stress_level >= 2 }
+									set_variable = { name = votc_sender_mood value = flag:distressed }
+								}
+								else_if = {
+									limit = { stress_level >= 1 }
+									set_variable = { name = votc_sender_mood value = flag:anxious }
+								}
+								else = {
+									set_variable = { name = votc_sender_mood value = flag:cheerful }
+								}
+							}
+							votc_start_incoming_letter_effect = { TYPE = flag:dear_friend_greeting }
+						}
+						else = {
+							debug_log = "VOTC:INCOMING_LETTER/;/quarterly/;/skipped/;/no_friend"
+						}
+					}
+					15 = {
+						# natural_disaster
+						trigger = {
+							scope:actor = {
+								OR = {
+									any_character_situation = {
+										OR = {
+											situation_type = natural_disaster_earthquake
+											situation_type = natural_disaster_flood
+										}
+										NOT = { situation_current_phase = recovery }
+									}
+									any_sub_realm_county = {
+										count >= 1
+										any_county_province_epidemic = {
+											outbreak_intensity >= major
+										}
+									}
+								}
+							}
+						}
+						random_vassal = {
+							limit = {
+								votc_incoming_letter_disaster_reporter_valid_trigger = yes
+							}
+							save_scope_as = recipient
+						}
+						if = {
+							limit = { exists = scope:recipient }
+							scope:actor = {
+								if = {
+									limit = {
+										any_character_situation = {
+											situation_type = natural_disaster_earthquake
+											NOT = { situation_current_phase = recovery }
+										}
+									}
+									set_variable = { name = votc_disaster_type value = flag:earthquake }
+								}
+								else_if = {
+									limit = {
+										any_character_situation = {
+											situation_type = natural_disaster_flood
+											NOT = { situation_current_phase = recovery }
+										}
+									}
+									set_variable = { name = votc_disaster_type value = flag:flood }
+								}
+								else = {
+									set_variable = { name = votc_disaster_type value = flag:epidemic }
+								}
+							}
+							votc_start_incoming_letter_effect = { TYPE = flag:natural_disaster }
+						}
+						else = {
+							debug_log = "VOTC:INCOMING_LETTER/;/quarterly/;/skipped/;/no_disaster_reporter"
+						}
+					}
+					10 = {
+						# tributary_letter
+						trigger = {
+							scope:actor = { any_tributary = { count >= 1 } }
+						}
+						scope:actor = {
+							random_tributary = {
+								limit = {
+									votc_incoming_letter_author_valid_trigger = yes
+									NOT = { is_at_war_with = scope:actor }
+								}
+								save_scope_as = recipient
+							}
+						}
+						if = {
+							limit = { exists = scope:recipient }
+							votc_start_incoming_letter_effect = { TYPE = flag:tributary_letter }
+						}
+						else = {
+							debug_log = "VOTC:INCOMING_LETTER/;/quarterly/;/skipped/;/no_tributary"
+						}
+					}
+					10 = {
+						# liege_overlord_letter
+						trigger = {
+							scope:actor = {
+								exists = liege
+							}
+						}
+						scope:actor = {
+							if = {
+								limit = { liege = { votc_incoming_letter_author_valid_trigger = yes } }
+								liege = { save_scope_as = recipient }
+							}
+						}
+						if = {
+							limit = { exists = scope:recipient }
+							votc_start_incoming_letter_effect = { TYPE = flag:liege_overlord_letter }
+						}
+						else = {
+							debug_log = "VOTC:INCOMING_LETTER/;/quarterly/;/skipped/;/no_liege"
+						}
+					}
+				}
+			}
+			50 = {
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_frequency = 1 }
+					factor = 1.5
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_frequency = 3 }
+					factor = 0.4
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_frequency = 4 }
+					factor = 0
+				}
+				debug_log = "VOTC:INCOMING_LETTER/;/quarterly/;/skipped/;/chance"
+			}
+		}
+	}
+}
+
+##
+## 0004 quarterly scheduler
+## Adds a random delay so eligible letters do not all begin at the quarterly
+## pulse boundary. Event .0001 repeats the full readiness check after delay.
+
+votc_incoming_letter_event.0004 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		votc_incoming_letters_enabled_trigger = yes
+		NOT = { var:votc_incoming_letters_frequency = 5 }
+	}
+
+	immediate = {
+		trigger_event = {
+			id = votc_incoming_letter_event.0001
+			days = { 7 70 }
+		}
+		debug_log = "VOTC:INCOMING_LETTER/;/quarterly/;/scheduled"
+	}
+}
+
+##
+## 0012 close-family quarterly scheduler
+## Uses its own delayed check so family correspondence is independent from the
+## regular quarterly topic selector.
+
+votc_incoming_letter_event.0012 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		votc_incoming_letters_enabled_trigger = yes
+		NOT = { var:votc_incoming_letters_family_frequency = 5 }
+	}
+
+	immediate = {
+		trigger_event = {
+			id = votc_incoming_letter_event.0013
+			days = { 7 70 }
+		}
+		debug_log = "VOTC:INCOMING_LETTER/;/family/;/scheduled"
+	}
+}
+
+##
+## 0013 delayed close-family selection
+## Dedicated frequency, slot and cooldown; candidates include spouses and close
+## blood relatives regardless of whether they share the player's location.
+
+votc_incoming_letter_event.0013 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		votc_incoming_family_letter_ready_trigger = yes
+	}
+
+	immediate = {
+		save_scope_as = actor
+
+		random_list = {
+			50 = {
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_family_frequency = 1 }
+					factor = 0.5
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_family_frequency = 3 }
+					factor = 1.6
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_family_frequency = 4 }
+					factor = 2
+				}
+
+				scope:actor = {
+					votc_select_family_letter_author_effect = yes
+				}
+				if = {
+					limit = { exists = scope:recipient }
+					votc_start_family_incoming_letter_effect = yes
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/family/;/skipped/;/no_family"
+				}
+			}
+			50 = {
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_family_frequency = 1 }
+					factor = 1.5
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_family_frequency = 3 }
+					factor = 0.4
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_family_frequency = 4 }
+					factor = 0
+				}
+				debug_log = "VOTC:INCOMING_LETTER/;/family/;/skipped/;/chance"
+			}
+		}
+	}
+}
+
+##
+## 0016 poetry quarterly scheduler
+## Uses an independent delayed check, dedicated slot and dedicated cooldown.
+
+votc_incoming_letter_event.0016 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		votc_incoming_letters_enabled_trigger = yes
+		NOT = { var:votc_incoming_letters_poetry_frequency = 5 }
+	}
+
+	immediate = {
+		trigger_event = {
+			id = votc_incoming_letter_event.0018
+			days = { 7 70 }
+		}
+		debug_log = "VOTC:INCOMING_LETTER/;/poetry/;/scheduled"
+	}
+}
+
+##
+## 0018 delayed poetry author selection
+## Priority: friends/lovers/family/court poet, then own-realm poets, then poets
+## elsewhere under the same top liege.
+
+votc_incoming_letter_event.0018 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		votc_incoming_poetry_letter_ready_trigger = yes
+	}
+
+	immediate = {
+		save_scope_as = actor
+
+		random_list = {
+			50 = {
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_poetry_frequency = 1 }
+					factor = 0.5
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_poetry_frequency = 3 }
+					factor = 1.6
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_poetry_frequency = 4 }
+					factor = 2
+				}
+
+				scope:actor = {
+					votc_select_poetry_letter_author_effect = yes
+				}
+				if = {
+					limit = { exists = scope:recipient }
+					votc_start_poetry_incoming_letter_effect = yes
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/poetry/;/skipped/;/no_author"
+				}
+			}
+			50 = {
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_poetry_frequency = 1 }
+					factor = 1.5
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_poetry_frequency = 3 }
+					factor = 0.4
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_poetry_frequency = 4 }
+					factor = 0
+				}
+				debug_log = "VOTC:INCOMING_LETTER/;/poetry/;/skipped/;/chance"
+			}
+		}
+	}
+}
+
+##
+## 0002 siege commander report (ongoing siege)
+## Fired by on_army_monthly on_action. root = army owner (player), scope:army = army.
+## Only player-owned armies send letters. The army_commander (a knight) reports
+## on the siege they are leading. Topic flag: flag:siege_report.
+
+votc_incoming_letter_event.0002 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		votc_incoming_letters_enabled_trigger = yes
+		NOT = { var:votc_incoming_letters_event_frequency = 5 }
+	}
+
+	immediate = {
+		# ROOT is the local player (army owner). Save it as scope:actor.
+		save_scope_as = actor
+
+		# Default: 15% chance to attempt a siege report this army-monthly pulse.
+		random_list = {
+			15 = {
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_event_frequency = 1 }
+					factor = 0.33
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_event_frequency = 3 }
+					factor = 2
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_event_frequency = 4 }
+					factor = 1
+				}
+				# Proceed only if the player is ready (global cooldown + free slot)
+				# and the siege-specific cooldown has ended.
+				if = {
+					limit = {
+						votc_incoming_letters_slot_ready_trigger = yes
+						NOT = { has_variable = votc_incoming_letter_siege_cooldown }
+					}
+					# Inspect the army that triggered the pulse.
+					scope:army = {
+						if = {
+							limit = {
+								is_army_in_siege = yes
+								exists = army_commander
+							}
+							army_commander = {
+								if = {
+									limit = {
+										votc_incoming_letter_author_valid_trigger = yes
+									}
+									save_scope_as = recipient
+								}
+							}
+						}
+					}
+					if = {
+						limit = { exists = scope:recipient }
+						votc_start_incoming_letter_effect = { TYPE = flag:siege_report }
+					}
+					else = {
+						debug_log = "VOTC:INCOMING_LETTER/;/siege/;/skipped/;/no_commander"
+					}
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/siege/;/skipped/;/not_ready"
+				}
+			}
+			85 = {
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_event_frequency = 1 }
+					factor = 1.12
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_event_frequency = 3 }
+					factor = 0.82
+				}
+				modifier = {
+					scope:actor = { var:votc_incoming_letters_event_frequency = 4 }
+					factor = 0
+				}
+				# Silent skip: not this pulse.
+			}
+		}
+	}
+}
+
+##
+## 0003 lost holding report (county occupied)
+## Fired by on_siege_completion on_action. root = occupant (attacker),
+## scope:previous_controller = who LOST the county, scope:barony/county/war.
+## The player is the LIEGE of scope:previous_controller (a vassal who lost a city).
+## The vassal writes to their liege (the player) about the loss.
+## Topic flag: flag:lost_holding.
+## NOTE: vanilla on_siege_completion root is the occupant, NOT the player. We
+## switch into player scope via scope:previous_controller.liege.
+
+votc_incoming_letter_event.0003 = {
+	type = character_event
+	hidden = yes
+
+	# Trigger gates cheaply: previous_controller must be a valid author and
+	# their liege must be the local player. We do NOT gate on player-side
+	# readiness here (that is checked inside the immediate block in player scope).
+	trigger = {
+		scope:previous_controller = {
+			votc_incoming_letter_author_valid_trigger = yes
+			exists = liege
+			liege = {
+				is_ai = no
+				votc_incoming_letters_enabled_trigger = yes
+				NOT = { var:votc_incoming_letters_event_frequency = 5 }
+			}
+		}
+	}
+
+	immediate = {
+		# Switch to the player (liege of the loser) for all player-side checks.
+		# Vanilla on_siege_completion root is the occupant; scope:previous_controller
+		# is the vassal who lost the county; their liege is the local player.
+		scope:previous_controller = {
+			liege = {
+				# Save the player as scope:actor.
+				save_scope_as = actor
+
+				# Default: 35% chance to actually send a lost-holding letter.
+				random_list = {
+					35 = {
+						modifier = {
+							scope:actor = { var:votc_incoming_letters_event_frequency = 1 }
+							factor = 0.43
+						}
+						modifier = {
+							scope:actor = { var:votc_incoming_letters_event_frequency = 3 }
+							factor = 1.71
+						}
+						modifier = {
+							scope:actor = { var:votc_incoming_letters_event_frequency = 4 }
+							factor = 1
+						}
+						if = {
+							limit = {
+								votc_incoming_letters_slot_ready_trigger = yes
+								NOT = { has_variable = votc_incoming_letter_lost_holding_cooldown }
+							}
+							# recipient is the vassal who lost the holding.
+							# Self-letter guard is implicit: the trigger already requires
+							# scope:previous_controller to satisfy votc_incoming_letter_author_valid_trigger
+							# (which checks is_ai = yes), so it can never be the player (is_ai = no).
+							scope:previous_controller = {
+								save_scope_as = recipient
+							}
+							if = {
+								limit = { exists = scope:recipient }
+								votc_start_incoming_letter_effect = { TYPE = flag:lost_holding }
+							}
+							else = {
+								debug_log = "VOTC:INCOMING_LETTER/;/lost_holding/;/skipped/;/no_recipient"
+							}
+						}
+						else = {
+							debug_log = "VOTC:INCOMING_LETTER/;/lost_holding/;/skipped/;/not_ready"
+						}
+					}
+					65 = {
+						modifier = {
+							scope:actor = { var:votc_incoming_letters_event_frequency = 1 }
+							factor = 1.31
+						}
+						modifier = {
+							scope:actor = { var:votc_incoming_letters_event_frequency = 3 }
+							factor = 0.62
+						}
+						modifier = {
+							scope:actor = { var:votc_incoming_letters_event_frequency = 4 }
+							factor = 0
+						}
+						# Silent skip.
+					}
+				}
+			}
+		}
+	}
+}
+
+##
+## 9001 - 9099 hidden probe / bridge events for NPC-initiated letters
+
+# Task 0 probe: verify scope:actor=player and scope:recipient=NPC vassal are
+# established before log_gamedata writes the VOTC:IN snapshot.
+votc_incoming_letter_event.9001 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		# ROOT is the player character when triggered from player scope.
+		save_scope_as = actor
+
+		random_vassal = {
+			limit = {
+				is_alive = yes
+				is_adult = yes
+				is_ai = yes
+				is_imprisoned = no
+			}
+			save_scope_as = recipient
+		}
+
+		log_gamedata = yes
+
+		debug_log = "VOTC:INCOMING_LETTER/;/probe/;/[actor.GetID]/;/[recipient.GetID]"
+	}
+}
+
+# -------------------------------------------------
+# 0101-0108 arrival events (show widget + schedule cleanup)
+# -------------------------------------------------
+
+votc_incoming_letter_event.0101 = {
+	type = character_event
+	title = votc_incoming_letter_title1
+	theme = realm
+	desc = votc_incoming_letter_arrival_desc
+	trigger = {
+		exists = global_var:votc_incoming_letter_1
+		has_variable = votc_incoming_letter_1_delivery_id
+	}
+
+	immediate = {
+		save_scope_as = actor
+		trigger_event = {
+			id = votc_incoming_letter_event.0111
+			days = 1
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_incoming_letter_1"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0102 = {
+	type = character_event
+	title = votc_incoming_letter_title2
+	theme = realm
+	desc = votc_incoming_letter_arrival_desc
+	trigger = {
+		exists = global_var:votc_incoming_letter_2
+		has_variable = votc_incoming_letter_2_delivery_id
+	}
+
+	immediate = {
+		save_scope_as = actor
+		trigger_event = {
+			id = votc_incoming_letter_event.0112
+			days = 1
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_incoming_letter_2"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0103 = {
+	type = character_event
+	title = votc_incoming_letter_title3
+	theme = realm
+	desc = votc_incoming_letter_arrival_desc
+	trigger = {
+		exists = global_var:votc_incoming_letter_3
+		has_variable = votc_incoming_letter_3_delivery_id
+	}
+
+	immediate = {
+		save_scope_as = actor
+		trigger_event = {
+			id = votc_incoming_letter_event.0113
+			days = 1
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_incoming_letter_3"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0104 = {
+	type = character_event
+	title = votc_incoming_letter_title4
+	theme = realm
+	desc = votc_incoming_letter_arrival_desc
+	trigger = {
+		exists = global_var:votc_incoming_letter_4
+		has_variable = votc_incoming_letter_4_delivery_id
+	}
+
+	immediate = {
+		save_scope_as = actor
+		trigger_event = {
+			id = votc_incoming_letter_event.0114
+			days = 1
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_incoming_letter_4"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0105 = {
+	type = character_event
+	title = votc_incoming_letter_title5
+	theme = realm
+	desc = votc_incoming_letter_arrival_desc
+	trigger = {
+		exists = global_var:votc_incoming_letter_5
+		has_variable = votc_incoming_letter_5_delivery_id
+	}
+
+	immediate = {
+		save_scope_as = actor
+		trigger_event = {
+			id = votc_incoming_letter_event.0115
+			days = 1
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_incoming_letter_5"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0106 = {
+	type = character_event
+	title = votc_incoming_letter_title6
+	theme = realm
+	desc = votc_incoming_letter_arrival_desc
+	trigger = {
+		exists = global_var:votc_incoming_letter_6
+		has_variable = votc_incoming_letter_6_delivery_id
+	}
+
+	immediate = {
+		save_scope_as = actor
+		trigger_event = {
+			id = votc_incoming_letter_event.0116
+			days = 1
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_incoming_letter_6"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0107 = {
+	type = character_event
+	title = votc_incoming_letter_title7
+	theme = realm
+	desc = votc_incoming_letter_arrival_desc
+	trigger = {
+		exists = global_var:votc_incoming_letter_7
+		has_variable = votc_incoming_letter_7_delivery_id
+	}
+
+	immediate = {
+		save_scope_as = actor
+		trigger_event = {
+			id = votc_incoming_letter_event.0117
+			days = 1
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_incoming_letter_7"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0108 = {
+	type = character_event
+	title = votc_incoming_letter_title8
+	theme = realm
+	desc = votc_incoming_letter_arrival_desc
+	trigger = {
+		exists = global_var:votc_incoming_letter_8
+		has_variable = votc_incoming_letter_8_delivery_id
+	}
+
+	immediate = {
+		save_scope_as = actor
+		trigger_event = {
+			id = votc_incoming_letter_event.0118
+			days = 1
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_incoming_letter_8"
+		container = "custom_widgets_container"
+	}
+}
+
+# -------------------------------------------------
+# 0111-0118 hidden cleanup events (fallback slot clear)
+# -------------------------------------------------
+
+votc_incoming_letter_event.0111 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:actor = {
+			votc_clear_incoming_letter_1_effect = yes
+		}
+	}
+}
+
+votc_incoming_letter_event.0112 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:actor = {
+			votc_clear_incoming_letter_2_effect = yes
+		}
+	}
+}
+
+votc_incoming_letter_event.0113 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:actor = {
+			votc_clear_incoming_letter_3_effect = yes
+		}
+	}
+}
+
+votc_incoming_letter_event.0114 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:actor = {
+			votc_clear_incoming_letter_4_effect = yes
+		}
+	}
+}
+
+votc_incoming_letter_event.0115 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:actor = {
+			votc_clear_incoming_letter_5_effect = yes
+		}
+	}
+}
+
+votc_incoming_letter_event.0116 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:actor = {
+			votc_clear_incoming_letter_6_effect = yes
+		}
+	}
+}
+
+votc_incoming_letter_event.0117 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:actor = {
+			votc_clear_incoming_letter_7_effect = yes
+		}
+	}
+}
+
+votc_incoming_letter_event.0118 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		scope:actor = {
+			votc_clear_incoming_letter_8_effect = yes
+		}
+	}
+}
+
+# -------------------------------------------------
+# 0201-0208 clipboard bridge events (signal the desktop app)
+# -------------------------------------------------
+
+votc_incoming_letter_event.0201 = {
+	type = character_event
+	title = votc_incoming_letter_bridge_title
+	theme = clipboard_transfer_event_theme
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = global_var:votc_incoming_letter_1 } }
+				desc = message_event.361.cancelled_desc
+			}
+			desc = votc_incoming_letter_bridge_1
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0202 = {
+	type = character_event
+	title = votc_incoming_letter_bridge_title
+	theme = clipboard_transfer_event_theme
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = global_var:votc_incoming_letter_2 } }
+				desc = message_event.361.cancelled_desc
+			}
+			desc = votc_incoming_letter_bridge_2
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0203 = {
+	type = character_event
+	title = votc_incoming_letter_bridge_title
+	theme = clipboard_transfer_event_theme
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = global_var:votc_incoming_letter_3 } }
+				desc = message_event.361.cancelled_desc
+			}
+			desc = votc_incoming_letter_bridge_3
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0204 = {
+	type = character_event
+	title = votc_incoming_letter_bridge_title
+	theme = clipboard_transfer_event_theme
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = global_var:votc_incoming_letter_4 } }
+				desc = message_event.361.cancelled_desc
+			}
+			desc = votc_incoming_letter_bridge_4
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0205 = {
+	type = character_event
+	title = votc_incoming_letter_bridge_title
+	theme = clipboard_transfer_event_theme
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = global_var:votc_incoming_letter_5 } }
+				desc = message_event.361.cancelled_desc
+			}
+			desc = votc_incoming_letter_bridge_5
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0206 = {
+	type = character_event
+	title = votc_incoming_letter_bridge_title
+	theme = clipboard_transfer_event_theme
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = global_var:votc_incoming_letter_6 } }
+				desc = message_event.361.cancelled_desc
+			}
+			desc = votc_incoming_letter_bridge_6
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0207 = {
+	type = character_event
+	title = votc_incoming_letter_bridge_title
+	theme = clipboard_transfer_event_theme
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = global_var:votc_incoming_letter_7 } }
+				desc = message_event.361.cancelled_desc
+			}
+			desc = votc_incoming_letter_bridge_7
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+votc_incoming_letter_event.0208 = {
+	type = character_event
+	title = votc_incoming_letter_bridge_title
+	theme = clipboard_transfer_event_theme
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = global_var:votc_incoming_letter_8 } }
+				desc = message_event.361.cancelled_desc
+			}
+			desc = votc_incoming_letter_bridge_8
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+##
+## 0005 faction warning quarterly scheduler
+## Adds a random delay so faction checks do not cluster at the quarterly boundary.
+
+votc_incoming_letter_event.0005 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		votc_incoming_letters_enabled_trigger = yes
+	}
+
+	immediate = {
+		trigger_event = {
+			id = votc_incoming_letter_event.0015
+			days = { 7 70 }
+		}
+		debug_log = "VOTC:INCOMING_LETTER/;/faction/;/scheduled"
+	}
+}
+
+##
+## 0015 delayed faction warning selection event
+
+votc_incoming_letter_event.0015 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+		votc_incoming_letters_ready_trigger = yes
+	}
+
+	immediate = {
+		save_scope_as = actor
+
+		# Only attempt a warning if the player is actually targeted by a dangerous faction.
+		if = {
+			limit = {
+				votc_incoming_letters_ready_trigger = yes
+				NOT = { has_variable = votc_incoming_letter_faction_warning_cooldown }
+				any_targeting_faction = {
+					is_dangerous_faction_trigger = yes
+					NOT = { exists = faction_war }
+				}
+			}
+
+			random_targeting_faction = {
+				limit = {
+					is_dangerous_faction_trigger = yes
+					NOT = { exists = faction_war }
+				}
+				save_scope_as = faction
+			}
+
+			if = {
+				limit = { exists = scope:faction }
+				scope:faction = {
+					if = {
+						limit = { faction_is_type = populist_faction }
+						root = { set_variable = { name = votc_faction_type value = flag:populist_faction } }
+					}
+					else_if = {
+						limit = { faction_is_type = peasant_faction }
+						root = { set_variable = { name = votc_faction_type value = flag:peasant_faction } }
+					}
+					else_if = {
+						limit = { faction_is_type = claimant_faction }
+						root = { set_variable = { name = votc_faction_type value = flag:claimant_faction } }
+					}
+					else_if = {
+						limit = { faction_is_type = liberty_faction }
+						root = { set_variable = { name = votc_faction_type value = flag:liberty_faction } }
+					}
+					else = {
+						root = { set_variable = { name = votc_faction_type value = flag:other_faction } }
+					}
+				}
+
+				random_vassal = {
+					limit = {
+						votc_incoming_letter_loyal_vassal_author_valid_trigger = yes
+					}
+					save_scope_as = recipient
+				}
+
+				if = {
+					limit = { exists = scope:recipient }
+					set_global_variable = {
+						name = votc_incoming_letter_fact_faction
+						value = scope:faction
+					}
+					# Resolve the faction's figurehead into a temporary global
+					# character scope. Peasant/populist factions may only have a
+					# special_character (set when a demand is issued) while regular
+					# factions expose faction_leader; check both so the debug_log
+					# context line never dereferences a null scope.
+					scope:faction = {
+						if = {
+							limit = { exists = scope:faction.faction_leader }
+							set_global_variable = {
+								name = votc_incoming_letter_fact_faction_leader
+								value = scope:faction.faction_leader
+							}
+						}
+						else_if = {
+							limit = { exists = scope:faction.special_character }
+							set_global_variable = {
+								name = votc_incoming_letter_fact_faction_leader
+								value = scope:faction.special_character
+							}
+						}
+					}
+
+					# Bucket the faction's member count into a stable size label
+					# so the LLM can talk about scale without the script needing
+					# to expose an exact member count API. Faction scope only
+					# exposes any_faction_member as a count trigger.
+					scope:actor = {
+						if = {
+							limit = { scope:faction = { any_faction_member = { count >= 7 } } }
+							set_variable = { name = votc_faction_size value = flag:large }
+						}
+						else_if = {
+							limit = { scope:faction = { any_faction_member = { count >= 4 } } }
+							set_variable = { name = votc_faction_size value = flag:medium }
+						}
+						else = {
+							set_variable = { name = votc_faction_size value = flag:small }
+						}
+					}
+
+					votc_start_incoming_letter_effect = { TYPE = flag:faction_warning }
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/faction/;/skipped/;/no_loyal_vassal"
+				}
+			}
+			else = {
+				debug_log = "VOTC:INCOMING_LETTER/;/faction/;/skipped/;/no_faction"
+			}
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/faction/;/skipped/;/not_ready"
+		}
+	}
+}
+
+##
+## 0006 war-started event (ally call for aid + revolt urgent)
+## Fired by on_war_started. root has no expected scope; scope:attacker, scope:defender, scope:war are available.
+
+votc_incoming_letter_event.0006 = {
+	hidden = yes
+
+	immediate = {
+		# Case A: ally call for aid
+		# The defender is an AI ally of the local player, and the player is not already in this war.
+		if = {
+			limit = {
+				scope:defender = {
+					is_ai = yes
+					any_ally = {
+						is_ai = no
+						NOT = { this = scope:attacker }
+						NOT = { is_at_war_with = scope:attacker }
+					}
+				}
+			}
+
+			scope:defender = {
+				random_ally = {
+					limit = {
+						is_ai = no
+						NOT = { this = scope:attacker }
+						NOT = { is_at_war_with = scope:attacker }
+					}
+					save_scope_as = actor
+				}
+			}
+
+			if = {
+				limit = {
+					exists = scope:actor
+					scope:actor = {
+						votc_incoming_letters_enabled_trigger = yes
+						votc_incoming_letters_ready_trigger = yes
+						NOT = { has_variable = votc_incoming_letter_ally_cooldown }
+					}
+					scope:defender = { votc_incoming_letter_author_valid_trigger = yes }
+				}
+
+				scope:defender = {
+					save_scope_as = recipient
+				}
+				scope:attacker = {
+					save_scope_as = enemy
+				}
+
+				set_global_variable = {
+					name = votc_incoming_letter_fact_enemy
+					value = scope:enemy
+				}
+				set_global_variable = {
+					name = votc_incoming_letter_fact_war
+					value = scope:war
+				}
+
+				scope:actor = {
+					if = {
+						limit = { scope:war = { using_cb = peasant_war } }
+						set_variable = { name = votc_war_type value = flag:peasant_war }
+					}
+					else_if = {
+						limit = { scope:war = { using_cb = populist_war } }
+						set_variable = { name = votc_war_type value = flag:populist_war }
+					}
+					else = {
+						set_variable = { name = votc_war_type value = flag:normal_war }
+					}
+				}
+
+				votc_start_incoming_letter_effect = { TYPE = flag:ally_call_for_aid }
+			}
+			else = {
+				debug_log = "VOTC:INCOMING_LETTER/;/ally/;/skipped/;/not_ready"
+			}
+		}
+		# Case B: revolt urgent
+		# The war is a peasant/populist revolt and the defender is the player or a player vassal.
+		else_if = {
+			limit = {
+				scope:war = {
+					OR = {
+						using_cb = peasant_war
+						using_cb = populist_war
+					}
+				}
+				scope:defender = {
+					OR = {
+						is_ai = no
+						liege = { is_ai = no }
+					}
+				}
+			}
+
+			scope:defender = {
+				if = {
+					limit = { is_ai = no }
+					save_scope_as = actor
+				}
+				else = {
+					liege = {
+						save_scope_as = actor
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					scope:actor = {
+						votc_incoming_letters_enabled_trigger = yes
+						votc_incoming_letters_ready_trigger = yes
+						NOT = { has_variable = votc_incoming_letter_revolt_cooldown }
+					}
+				}
+
+				scope:defender = {
+					save_scope_as = revolt_defender
+				}
+				scope:attacker = {
+					save_scope_as = enemy
+				}
+
+				set_global_variable = {
+					name = votc_incoming_letter_fact_defender
+					value = scope:revolt_defender
+				}
+				set_global_variable = {
+					name = votc_incoming_letter_fact_enemy
+					value = scope:enemy
+				}
+				set_global_variable = {
+					name = votc_incoming_letter_fact_war
+					value = scope:war
+				}
+
+				scope:actor = {
+					random_vassal = {
+						limit = {
+							votc_incoming_letter_author_valid_trigger = yes
+							NOT = { this = scope:defender }
+						}
+						save_scope_as = recipient
+					}
+				}
+
+				if = {
+					limit = { exists = scope:recipient }
+					scope:actor = {
+						set_variable = { name = votc_war_type value = flag:revolt }
+					}
+					votc_start_incoming_letter_effect = { TYPE = flag:revolt_urgent }
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/revolt/;/skipped/;/no_vassal"
+				}
+			}
+			else = {
+				debug_log = "VOTC:INCOMING_LETTER/;/revolt/;/skipped/;/not_ready"
+			}
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/war/;/skipped/;/no_match"
+		}
+	}
+}
+
+##
+## 0007 death event (deathbed / mourning letter)
+## Fired by on_death. root = the deceased character.
+
+votc_incoming_letter_event.0007 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		# Only proceed if the deceased is relevant to the local player.
+		OR = {
+			this = { is_ai = no }
+			any_close_family_member = { is_ai = no }
+			any_relation = {
+				type = friend
+				is_ai = no
+			}
+			any_relation = {
+				type = rival
+				is_ai = no
+			}
+		}
+	}
+
+	immediate = {
+		# on_death fires while the character is still alive ("about to die"),
+		# so death_reason and post-death relation state are not available yet.
+		# Save the deceased and the local player, then defer the rest to a
+		# delayed follow-up event that runs after the death has fully applied.
+		save_scope_as = deceased
+
+		# Find the local player among close relations.
+		if = {
+			limit = { is_ai = no }
+			save_scope_as = actor
+		}
+		else_if = {
+			limit = {
+				any_close_family_member = {
+					is_ai = no
+				}
+			}
+			random_close_family_member = {
+				limit = { is_ai = no }
+				save_scope_as = actor
+			}
+		}
+		else_if = {
+			limit = {
+				any_relation = {
+					type = friend
+					is_ai = no
+				}
+			}
+			random_relation = {
+				type = friend
+				limit = { is_ai = no }
+				save_scope_as = actor
+			}
+		}
+		else = {
+			random_relation = {
+				type = rival
+				limit = { is_ai = no }
+				save_scope_as = actor
+			}
+		}
+
+		# Fallback: brute-force search all landed rulers for the local player.
+		if = {
+			limit = { NOT = { exists = scope:actor } }
+			random_ruler = {
+				limit = { is_ai = no }
+				save_scope_as = actor
+			}
+		}
+
+		# Defer the death-categorization and mourner search to a follow-up
+		# event that runs after the death has fully applied. Scopes saved by
+		# save_scope_as do NOT survive across delayed events, so we stash the
+		# deceased in a global variable and trigger the follow-up on the
+		# player (scope:actor) itself, which becomes ROOT of 0017.
+		if = {
+			limit = { exists = scope:actor }
+			set_global_variable = {
+				name = votc_incoming_letter_fact_deceased
+				value = root
+			}
+			scope:actor = {
+				trigger_event = {
+					id = votc_incoming_letter_event.0017
+					days = 1
+				}
+			}
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/death/;/skipped/;/no_valid_relation"
+		}
+	}
+}
+
+# Follow-up event: runs 1 day after on_death, when the death has fully
+# applied and death_reason / mourner relations are queryable. ROOT is the
+# local player (triggered on scope:actor by event 0007); the deceased is
+# read back from the votc_incoming_letter_fact_deceased global variable.
+votc_incoming_letter_event.0017 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		# ROOT is the player.
+		is_ai = no
+		exists = global_var:votc_incoming_letter_fact_deceased
+	}
+
+	immediate = {
+		save_scope_as = actor
+
+		debug_log = "VOTC:INCOMING_LETTER/;/death/;/debug/;/followup/;/player_id=[GetPlayer.GetID]/;/deceased_id=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]"
+
+		if = {
+			limit = { NOT = { votc_incoming_letters_enabled_trigger = yes } }
+			debug_log = "VOTC:INCOMING_LETTER/;/death/;/skipped/;/feature_disabled"
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/death/;/debug/;/feature_enabled"
+			if = {
+				limit = { NOT = { votc_incoming_letters_ready_trigger = yes } }
+				debug_log = "VOTC:INCOMING_LETTER/;/death/;/skipped/;/ready_check_failed"
+			}
+			else = {
+				if = {
+					limit = { has_variable = votc_incoming_letter_death_cooldown }
+					debug_log = "VOTC:INCOMING_LETTER/;/death/;/skipped/;/death_cooldown"
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/death/;/debug/;/before_category"
+
+					# Copy the deceased global scope into a local variable so we
+					# can use var:X as an effect scope target.
+					set_variable = {
+						name = votc_temp_deceased
+						value = global_var:votc_incoming_letter_fact_deceased
+					}
+
+					var:votc_temp_deceased = {
+						if = {
+							limit = { votc_death_natural_trigger = yes }
+							scope:actor = { set_variable = { name = votc_death_category value = flag:natural } }
+							scope:actor = { set_variable = { name = votc_sender_role value = flag:deceased } }
+							debug_log = "VOTC:INCOMING_LETTER/;/death/;/debug/;/category_natural"
+						}
+						else_if = {
+							limit = { votc_death_disease_trigger = yes }
+							scope:actor = { set_variable = { name = votc_death_category value = flag:disease } }
+							scope:actor = { set_variable = { name = votc_sender_role value = flag:deceased } }
+							debug_log = "VOTC:INCOMING_LETTER/;/death/;/debug/;/category_disease"
+						}
+						else = {
+							scope:actor = { set_variable = { name = votc_death_category value = flag:violent } }
+							scope:actor = { set_variable = { name = votc_sender_role value = flag:mourner } }
+							debug_log = "VOTC:INCOMING_LETTER/;/death/;/debug/;/category_violent"
+						}
+					}
+
+				scope:actor = {
+					if = {
+						limit = { is_spouse_of = var:votc_temp_deceased }
+						set_variable = { name = votc_death_relation value = flag:spouse }
+					}
+					else_if = {
+						limit = { is_child_of = var:votc_temp_deceased }
+						set_variable = { name = votc_death_relation value = flag:child }
+					}
+					else_if = {
+						limit = { is_parent_of = var:votc_temp_deceased }
+						set_variable = { name = votc_death_relation value = flag:parent }
+					}
+					else_if = {
+						limit = { has_relation_friend = var:votc_temp_deceased }
+						set_variable = { name = votc_death_relation value = flag:friend }
+					}
+					else = {
+						set_variable = { name = votc_death_relation value = flag:rival }
+					}
+					debug_log = "VOTC:INCOMING_LETTER/;/death/;/debug/;/relation_set"
+				}
+
+				var:votc_temp_deceased = {
+					random_close_family_member = {
+						limit = {
+							votc_incoming_letter_death_mourner_author_valid_trigger = yes
+							NOT = { this = scope:actor }
+						}
+						save_scope_as = recipient
+					}
+
+					if = {
+						limit = { NOT = { exists = scope:recipient } }
+						random_relation = {
+							type = friend
+							limit = {
+								votc_incoming_letter_death_mourner_author_valid_trigger = yes
+								NOT = { this = scope:actor }
+							}
+							save_scope_as = recipient
+						}
+					}
+				}
+
+					debug_log = "VOTC:INCOMING_LETTER/;/death/;/debug/;/after_mourner_search"
+
+					if = {
+						limit = { exists = scope:recipient }
+						votc_start_incoming_letter_effect = { TYPE = flag:deathbed_letter }
+					}
+					else = {
+						debug_log = "VOTC:INCOMING_LETTER/;/death/;/skipped/;/no_mourner"
+					}
+
+					# Clean up all deathbed_letter transient variables. The start effect's
+					# own cleanup block is skipped on any 0017 skip path, so without this
+					# the next non-deathbed incoming letter (vassal_memorial / family_letter
+					# / siege_report / etc.) would read the stale votc_sender_role and
+					# emit an init line whose aiID no longer matches the context line's
+					# sender_id, causing the app to write a fallback run file.
+					remove_variable ?= votc_temp_deceased
+					remove_variable ?= votc_death_category
+					remove_variable ?= votc_sender_role
+					remove_variable ?= votc_death_relation
+					remove_global_variable ?= votc_incoming_letter_fact_deceased
+				}
+			}
+		}
+	}
+}
+
+##
+## 0008 travel plan complete event (pilgrimage / tour / wedding / hunt / tournament / travel tales)
+## Fired by on_travel_plan_complete. root = the traveller.
+## on_travel_plan_complete fires for ANY finished travel plan (pilgrimage, tour,
+## wedding, hunt, tournament, or plain travel). The previous implementation
+## always sent flag:pilgrimage_tales, so non-pilgrimage travels were mislabeled
+## as pilgrimage. We now branch on the traveller's involved_activity type and
+## dispatch to the appropriate letter type. involved_activity is still valid at
+## this on_action (vanilla health_events.txt uses the same pattern).
+
+votc_incoming_letter_event.0008 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		# Only proceed if the traveller is an adult AI and relevant to a local player.
+		is_adult = yes
+		is_ai = yes
+		OR = {
+			any_close_family_member = { is_ai = no }
+			liege = { is_ai = no }
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_close_family_member = {
+					is_ai = no
+				}
+			}
+			random_close_family_member = {
+				limit = { is_ai = no }
+				save_scope_as = actor
+			}
+		}
+		else_if = {
+			limit = { liege = { is_ai = no } }
+			liege = {
+				save_scope_as = actor
+			}
+		}
+
+		scope:actor = {
+			if = {
+				limit = {
+					votc_incoming_letters_enabled_trigger = yes
+					votc_incoming_letters_ready_trigger = yes
+					# Cooldown is per travel-completion letter family; any of the
+					# travel-completion flags suppresses the next one.
+					NOT = { has_variable = votc_incoming_letter_pilgrimage_cooldown }
+				}
+
+				set_global_variable = {
+					name = votc_incoming_letter_fact_traveller
+					value = root
+				}
+
+				root = {
+					if = {
+						limit = { is_travelling = yes }
+						scope:actor = { set_variable = { name = votc_travel_stage value = flag:completed } }
+					}
+					else = {
+						scope:actor = { set_variable = { name = votc_travel_stage value = flag:completed } }
+					}
+				}
+
+				root = {
+					save_scope_as = recipient
+				}
+
+				if = {
+					limit = {
+						scope:recipient = { votc_incoming_letter_traveller_author_valid_trigger = yes }
+					}
+
+					# Dispatch the letter type based on what activity the traveller
+					# was involved in. involved_activity is still queryable here
+					# (vanilla health_events.txt uses the same pattern at this
+					# on_action). votc_start_incoming_letter_effect takes TYPE as a
+					# literal flag template parameter, so each branch calls it with
+					# the concrete flag rather than passing a runtime variable.
+					# All travel-completion types share the pilgrimage cooldown so
+					# any finished-travel letter suppresses the next one.
+					root = {
+						if = {
+							limit = { involved_activity ?= { has_activity_type = activity_pilgrimage } }
+							scope:actor = { votc_start_incoming_letter_effect = { TYPE = flag:pilgrimage_tales } }
+						}
+						else_if = {
+							limit = { involved_activity ?= { has_activity_type = activity_tour } }
+							scope:actor = { votc_start_incoming_letter_effect = { TYPE = flag:tour_tales } }
+						}
+						else_if = {
+							limit = { involved_activity ?= { has_activity_type = activity_wedding } }
+							scope:actor = { votc_start_incoming_letter_effect = { TYPE = flag:wedding_tales } }
+						}
+						else_if = {
+							limit = { involved_activity ?= { has_activity_type = activity_hunt } }
+							scope:actor = { votc_start_incoming_letter_effect = { TYPE = flag:hunt_tales } }
+						}
+						else_if = {
+							limit = { involved_activity ?= { has_activity_type = activity_tournament } }
+							scope:actor = { votc_start_incoming_letter_effect = { TYPE = flag:tournament_tales } }
+						}
+						else = {
+							scope:actor = { votc_start_incoming_letter_effect = { TYPE = flag:travel_tales } }
+						}
+					}
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/pilgrimage/;/skipped/;/invalid_traveller"
+				}
+			}
+			else = {
+				debug_log = "VOTC:INCOMING_LETTER/;/pilgrimage/;/skipped/;/not_ready"
+			}
+		}
+	}
+}
+
+##
+## 0009 scheme discovered event (scheme_exposed)
+## Fired by on_scheme_discovered. root = the scheme.
+
+votc_incoming_letter_event.0010 = {
+	hidden = yes
+
+	trigger = {
+		# Only flagged special buildings (wonders, holy buildings, universities).
+		root = {
+			OR = {
+				has_construction_with_flag = travel_point_of_interest_wonder
+				has_construction_with_flag = holy_building
+				has_construction_with_flag = special_university
+			}
+		}
+		exists = scope:character
+		scope:character = {
+			OR = {
+				is_ai = no
+				liege ?= { is_ai = no }
+			}
+		}
+	}
+
+	immediate = {
+		scope:character = {
+			if = {
+				limit = { is_ai = no }
+				save_scope_as = actor
+			}
+			else = {
+				liege ?= { save_scope_as = actor }
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:actor
+				scope:actor = {
+					votc_incoming_letters_enabled_trigger = yes
+					votc_incoming_letters_ready_trigger = yes
+					NOT = { has_variable = votc_incoming_letter_great_work_cooldown }
+				}
+			}
+
+			root = {
+				save_scope_as = work_province
+			}
+			scope:character = {
+				save_scope_as = recipient
+			}
+
+			set_global_variable = {
+				name = votc_incoming_letter_fact_work_province
+				value = scope:work_province
+			}
+
+			scope:actor = {
+				if = {
+					limit = { scope:work_province = { has_construction_with_flag = travel_point_of_interest_wonder } }
+					set_variable = { name = votc_great_work_type value = flag:wonder }
+				}
+				else_if = {
+					limit = { scope:work_province = { has_construction_with_flag = holy_building } }
+					set_variable = { name = votc_great_work_type value = flag:holy_building }
+				}
+				else = {
+					set_variable = { name = votc_great_work_type value = flag:university }
+				}
+				set_variable = { name = votc_great_work_stage value = flag:started }
+			}
+
+			if = {
+				limit = { scope:recipient = { votc_incoming_letter_building_author_valid_trigger = yes } }
+				votc_start_incoming_letter_effect = { TYPE = flag:great_work_notice }
+			}
+			else = {
+				debug_log = "VOTC:INCOMING_LETTER/;/great_work/;/skipped/;/invalid_builder"
+			}
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/great_work/;/skipped/;/not_ready"
+		}
+	}
+}
+
+##
+## 0011 building completed event (great_work_notice)
+## Fired by on_building_completed. root = province; scope:character = builder.
+
+votc_incoming_letter_event.0011 = {
+	hidden = yes
+
+	trigger = {
+		root = {
+			OR = {
+				has_building_with_flag = travel_point_of_interest_wonder
+				has_building_with_flag = holy_building
+				has_building_with_flag = special_university
+			}
+		}
+		exists = scope:character
+		scope:character = {
+			OR = {
+				is_ai = no
+				AND = {
+					exists = liege
+					liege = { is_ai = no }
+				}
+			}
+		}
+	}
+
+	immediate = {
+		scope:character = {
+			if = {
+				limit = { is_ai = no }
+				save_scope_as = actor
+			}
+			else_if = {
+				limit = { exists = liege }
+				liege = { save_scope_as = actor }
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:actor
+				scope:actor = {
+					votc_incoming_letters_enabled_trigger = yes
+					votc_incoming_letters_ready_trigger = yes
+					NOT = { has_variable = votc_incoming_letter_great_work_cooldown }
+				}
+			}
+
+			root = { save_scope_as = work_province }
+			scope:character = { save_scope_as = recipient }
+
+			set_global_variable = {
+				name = votc_incoming_letter_fact_work_province
+				value = scope:work_province
+			}
+
+			scope:actor = {
+				if = {
+					limit = { scope:work_province = { has_building_with_flag = travel_point_of_interest_wonder } }
+					set_variable = { name = votc_great_work_type value = flag:wonder }
+				}
+				else_if = {
+					limit = { scope:work_province = { has_building_with_flag = holy_building } }
+					set_variable = { name = votc_great_work_type value = flag:holy_building }
+				}
+				else = {
+					set_variable = { name = votc_great_work_type value = flag:university }
+				}
+				set_variable = { name = votc_great_work_stage value = flag:completed }
+			}
+
+			if = {
+				limit = { scope:recipient = { votc_incoming_letter_building_author_valid_trigger = yes } }
+				votc_start_incoming_letter_effect = { TYPE = flag:great_work_notice }
+			}
+			else = {
+				debug_log = "VOTC:INCOMING_LETTER/;/great_work/;/skipped/;/invalid_builder"
+			}
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/great_work/;/skipped/;/not_ready"
+		}
+	}
+}
+
+##
+## 0019 native Great Project milestone scan (great_project_report)
+## Fired by quarterly_playable_pulse. Reports at most one relevant project and
+## prioritizes completed -> halfway -> started -> planned.
+
+votc_incoming_letter_event.0019 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_ai = no
+	}
+
+	immediate = {
+		save_scope_as = actor
+
+		if = {
+			limit = {
+				votc_incoming_letters_enabled_trigger = yes
+				votc_incoming_letters_ready_trigger = yes
+				NOT = { has_variable = votc_incoming_letter_great_project_cooldown }
+				OR = {
+					any_great_project = {
+						votc_incoming_letter_great_project_completed_ready_trigger = yes
+					}
+					any_great_project = {
+						votc_incoming_letter_great_project_halfway_ready_trigger = yes
+					}
+					any_great_project = {
+						votc_incoming_letter_great_project_started_ready_trigger = yes
+					}
+					any_great_project = {
+						votc_incoming_letter_great_project_planned_ready_trigger = yes
+					}
+				}
+			}
+
+			# Pick the highest unreported milestone. A project first seen at a
+			# later phase will have its earlier milestones marked at delivery.
+			if = {
+				limit = {
+					any_great_project = {
+						votc_incoming_letter_great_project_completed_ready_trigger = yes
+					}
+				}
+				random_great_project = {
+					limit = {
+						votc_incoming_letter_great_project_completed_ready_trigger = yes
+					}
+					save_scope_as = great_project
+				}
+				set_variable = {
+					name = votc_great_project_report_stage
+					value = flag:completed
+				}
+			}
+			else_if = {
+				limit = {
+					any_great_project = {
+						votc_incoming_letter_great_project_halfway_ready_trigger = yes
+					}
+				}
+				random_great_project = {
+					limit = {
+						votc_incoming_letter_great_project_halfway_ready_trigger = yes
+					}
+					save_scope_as = great_project
+				}
+				set_variable = {
+					name = votc_great_project_report_stage
+					value = flag:halfway
+				}
+			}
+			else_if = {
+				limit = {
+					any_great_project = {
+						votc_incoming_letter_great_project_started_ready_trigger = yes
+					}
+				}
+				random_great_project = {
+					limit = {
+						votc_incoming_letter_great_project_started_ready_trigger = yes
+					}
+					save_scope_as = great_project
+				}
+				set_variable = {
+					name = votc_great_project_report_stage
+					value = flag:started
+				}
+			}
+			else = {
+				random_great_project = {
+					limit = {
+						votc_incoming_letter_great_project_planned_ready_trigger = yes
+					}
+					save_scope_as = great_project
+				}
+				set_variable = {
+					name = votc_great_project_report_stage
+					value = flag:planned
+				}
+			}
+
+			if = {
+				limit = { exists = scope:great_project }
+
+				# Record why this project is relevant to the player.
+				scope:great_project = {
+					if = {
+						limit = { great_project_owner = scope:actor }
+						scope:actor = {
+							set_variable = {
+								name = votc_great_project_player_role
+								value = flag:owner
+							}
+						}
+					}
+					else_if = {
+						limit = { great_project_founder = scope:actor }
+						scope:actor = {
+							set_variable = {
+								name = votc_great_project_player_role
+								value = flag:founder
+							}
+						}
+					}
+					else = {
+						scope:actor = {
+							set_variable = {
+								name = votc_great_project_player_role
+								value = flag:contributor
+							}
+						}
+					}
+				}
+
+				# Prefer a project principal, then the Chinese minister of works,
+				# then a court official or vassal from the player's own realm.
+				scope:great_project = {
+					if = {
+						limit = {
+							great_project_founder = {
+								votc_incoming_letter_author_valid_trigger = yes
+							}
+						}
+						great_project_founder = {
+							save_scope_as = recipient
+						}
+						scope:actor = {
+							set_variable = {
+								name = votc_great_project_reporter_role
+								value = flag:founder
+							}
+						}
+					}
+					else_if = {
+						limit = {
+							great_project_owner = {
+								votc_incoming_letter_author_valid_trigger = yes
+							}
+						}
+						great_project_owner = {
+							save_scope_as = recipient
+						}
+						scope:actor = {
+							set_variable = {
+								name = votc_great_project_reporter_role
+								value = flag:owner
+							}
+						}
+					}
+				}
+
+				if = {
+					limit = {
+						NOT = { exists = scope:recipient }
+						title:e_minister_of_works.holder ?= {
+							votc_incoming_letter_author_valid_trigger = yes
+						}
+					}
+					title:e_minister_of_works.holder = {
+						save_scope_as = recipient
+					}
+					set_variable = {
+						name = votc_great_project_reporter_role
+						value = flag:minister_of_works
+					}
+				}
+
+				if = {
+					limit = { NOT = { exists = scope:recipient } }
+					random_courtier = {
+						limit = {
+							votc_incoming_letter_author_valid_trigger = yes
+						}
+						save_scope_as = recipient
+					}
+					if = {
+						limit = { exists = scope:recipient }
+						set_variable = {
+							name = votc_great_project_reporter_role
+							value = flag:courtier
+						}
+					}
+				}
+
+				if = {
+					limit = { NOT = { exists = scope:recipient } }
+					random_vassal = {
+						limit = {
+							votc_incoming_letter_author_valid_trigger = yes
+						}
+						save_scope_as = recipient
+					}
+					if = {
+						limit = { exists = scope:recipient }
+						set_variable = {
+							name = votc_great_project_reporter_role
+							value = flag:vassal
+						}
+					}
+				}
+
+				if = {
+					limit = { exists = scope:recipient }
+					set_global_variable = {
+						name = votc_incoming_letter_fact_great_project
+						value = scope:great_project
+					}
+
+					votc_start_incoming_letter_effect = {
+						TYPE = flag:great_project_report
+					}
+
+					# The shared effect sets this only after a successful slot
+					# allocation. Do not consume a milestone on failed delivery.
+					if = {
+						limit = {
+							scope:recipient = {
+								has_variable = votc_incoming_letter_sent_recently
+							}
+						}
+						scope:great_project = {
+							if = {
+								limit = {
+									NOT = {
+										any_in_list = {
+											variable = votc_great_project_planned_reported_players
+											this = scope:actor
+										}
+									}
+								}
+								add_to_variable_list = {
+									name = votc_great_project_planned_reported_players
+									target = scope:actor
+								}
+							}
+							if = {
+								limit = {
+									scope:actor = {
+										NOT = { var:votc_great_project_report_stage = flag:planned }
+									}
+									NOT = {
+										any_in_list = {
+											variable = votc_great_project_started_reported_players
+											this = scope:actor
+										}
+									}
+								}
+								add_to_variable_list = {
+									name = votc_great_project_started_reported_players
+									target = scope:actor
+								}
+							}
+							if = {
+								limit = {
+									scope:actor = {
+										OR = {
+											var:votc_great_project_report_stage = flag:halfway
+											var:votc_great_project_report_stage = flag:completed
+										}
+									}
+									NOT = {
+										any_in_list = {
+											variable = votc_great_project_halfway_reported_players
+											this = scope:actor
+										}
+									}
+								}
+								add_to_variable_list = {
+									name = votc_great_project_halfway_reported_players
+									target = scope:actor
+								}
+							}
+							if = {
+								limit = {
+									scope:actor = {
+										var:votc_great_project_report_stage = flag:completed
+									}
+									NOT = {
+										any_in_list = {
+											variable = votc_great_project_completed_reported_players
+											this = scope:actor
+										}
+									}
+								}
+								add_to_variable_list = {
+									name = votc_great_project_completed_reported_players
+									target = scope:actor
+								}
+							}
+						}
+					}
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/great_project/;/skipped/;/no_great_project_reporter"
+				}
+			}
+		}
+
+		remove_variable ?= votc_great_project_report_stage
+		remove_variable ?= votc_great_project_reporter_role
+		remove_variable ?= votc_great_project_player_role
+		remove_global_variable ?= votc_incoming_letter_fact_great_project
+	}
+}

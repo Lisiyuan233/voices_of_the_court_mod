@@ -1,0 +1,16 @@
+﻿namespace = votc_letters_settings_bridge_event
+
+## Opens the NPC incoming letters settings window from a decision without
+## touching hud.gui: the widget button below issues the same console commands
+## the mod1 HUD button used. Close with the window's native close button.
+votc_letters_settings_bridge_event.9001 = {
+	type = character_event
+	title = votc_letters_settings_bridge_title
+	theme = realm
+	desc = votc_letters_settings_bridge_desc
+
+	widget = {
+		gui = "event_window_widget_letters_settings_opener"
+		container = "custom_widgets_container"
+	}
+}
