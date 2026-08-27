@@ -1,0 +1,106 @@
+﻿# VOTC test cleanup.
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_cleanup.txt
+# Clears conversation, military and incoming-letter test state. Safe to run
+# repeatedly. This permits immediately re-running incoming-letter test scripts.
+
+votc_clear_conversation_portrait_slots = {}
+votc_clear_military_army_slots = {}
+
+remove_global_variable = talk_scene
+remove_global_variable = talk_first_scope
+remove_global_variable = talk_second_scope
+remove_global_variable = talk_third_scope
+remove_global_variable = votc_military_current_war
+remove_global_variable = votc_military_war_attacker
+remove_global_variable = votc_military_war_defender
+remove_global_variable = votc_incoming_letter_1
+remove_global_variable = votc_incoming_letter_2
+remove_global_variable = votc_incoming_letter_3
+remove_global_variable = votc_incoming_letter_4
+remove_global_variable = votc_incoming_letter_5
+remove_global_variable = votc_incoming_letter_6
+remove_global_variable = votc_incoming_letter_7
+remove_global_variable = votc_incoming_letter_sender_1
+remove_global_variable = votc_incoming_letter_sender_2
+remove_global_variable = votc_incoming_letter_sender_3
+remove_global_variable = votc_incoming_letter_sender_4
+remove_global_variable = votc_incoming_letter_sender_5
+remove_global_variable = votc_incoming_letter_sender_6
+remove_global_variable = votc_incoming_letter_sender_7
+remove_global_variable = votc_incoming_letter_type_1
+remove_global_variable = votc_incoming_letter_type_2
+remove_global_variable = votc_incoming_letter_type_3
+remove_global_variable = votc_incoming_letter_type_4
+remove_global_variable = votc_incoming_letter_type_5
+remove_global_variable = votc_incoming_letter_type_6
+remove_global_variable = votc_incoming_letter_type_7
+remove_global_variable = votc_incoming_letter_snapshot_sender
+remove_global_variable = votc_incoming_letter_fact_army
+remove_global_variable = votc_incoming_letter_fact_holding
+remove_global_variable = votc_incoming_letter_fact_attacker
+remove_global_variable = votc_incoming_letter_fact_great_project
+
+# Numeric counters are reset to 0 by votc_clear_military_army_slots above;
+# only remove flags/IDs and temporary test variables here.
+remove_variable = votc_military_current_war_id
+remove_variable = votc_military_player_side
+remove_variable = votc_military_snapshot_id
+remove_variable = votc_military_participant_side
+remove_variable = votc_test_army_count
+remove_variable = votc_test_player_army_count
+remove_variable = votc_test_roster_size
+remove_variable = votc_incoming_letter_current_slot
+remove_variable = votc_sender_role
+remove_variable = votc_death_category
+remove_variable = votc_death_relation
+remove_global_variable = votc_incoming_letter_fact_deceased
+remove_variable = votc_incoming_letter_1_timer
+remove_variable = votc_incoming_letter_2_timer
+remove_variable = votc_incoming_letter_3_timer
+remove_variable = votc_incoming_letter_4_timer
+remove_variable = votc_incoming_letter_5_timer
+remove_variable = votc_incoming_letter_6_timer
+remove_variable = votc_incoming_letter_7_timer
+remove_variable = votc_incoming_letter_1_sent_day
+remove_variable = votc_incoming_letter_2_sent_day
+remove_variable = votc_incoming_letter_3_sent_day
+remove_variable = votc_incoming_letter_4_sent_day
+remove_variable = votc_incoming_letter_5_sent_day
+remove_variable = votc_incoming_letter_6_sent_day
+remove_variable = votc_incoming_letter_7_sent_day
+remove_variable = votc_incoming_letter_1_delivery_id
+remove_variable = votc_incoming_letter_2_delivery_id
+remove_variable = votc_incoming_letter_3_delivery_id
+remove_variable = votc_incoming_letter_4_delivery_id
+remove_variable = votc_incoming_letter_5_delivery_id
+remove_variable = votc_incoming_letter_6_delivery_id
+remove_variable = votc_incoming_letter_7_delivery_id
+remove_variable = votc_incoming_letters_global_cooldown
+remove_variable = votc_incoming_letter_vassal_cooldown
+remove_variable = votc_incoming_letter_family_cooldown
+remove_variable = votc_incoming_letter_siege_cooldown
+remove_variable = votc_incoming_letter_lost_holding_cooldown
+remove_variable = votc_incoming_letter_great_project_cooldown
+remove_variable = votc_great_project_report_stage
+remove_variable = votc_great_project_reporter_role
+remove_variable = votc_great_project_player_role
+every_great_project = {
+	clear_variable_list = votc_great_project_planned_reported_players
+	clear_variable_list = votc_great_project_started_reported_players
+	clear_variable_list = votc_great_project_halfway_reported_players
+	clear_variable_list = votc_great_project_completed_reported_players
+}
+every_spouse = {
+	remove_variable ?= votc_incoming_letter_family_sent_recently
+}
+every_close_family_member = {
+	remove_variable ?= votc_incoming_letter_family_sent_recently
+}
+
+# Chronicle test state
+remove_global_variable = votc_chronicle_memory_request_id
+remove_global_variable = votc_chronicle_signal_kind
+remove_global_variable = votc_chronicle_pulse_quarter
+remove_global_variable = votc_spike_ordinal
+remove_global_variable = votc_chronicle_memory_count
