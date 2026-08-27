@@ -4,8 +4,6 @@
 # Clears conversation, military and incoming-letter test state. Safe to run
 # repeatedly. This permits immediately re-running incoming-letter test scripts.
 
-votc_clear_conversation_portrait_slots = {}
-votc_clear_military_army_slots = {}
 
 remove_global_variable = talk_scene
 remove_global_variable = talk_first_scope
@@ -41,7 +39,6 @@ remove_global_variable = votc_incoming_letter_fact_holding
 remove_global_variable = votc_incoming_letter_fact_attacker
 remove_global_variable = votc_incoming_letter_fact_great_project
 
-# Numeric counters are reset to 0 by votc_clear_military_army_slots above;
 # only remove flags/IDs and temporary test variables here.
 remove_variable = votc_military_current_war_id
 remove_variable = votc_military_player_side
