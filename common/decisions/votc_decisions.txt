@@ -101,7 +101,9 @@ votc_conversation_history_decision = {
 		save_scope_as = actor
 		votc_init_checkpoint_effect = yes
 		debug_log = "VOTC:conversation_history/;/[GetPlayer.GetID]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_epoch').GetValue|0]"
-		trigger_event = votc_checkpoint_event.9001
+		# Payload-carrying template (hmd_event.9005.desc) so the desktop
+		# app can derive the campaign identity from the clipboard payloads.
+		trigger_event = hmd_event.9005
 	}
 
 	ai_check_interval = 0
