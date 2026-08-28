@@ -518,6 +518,18 @@ mcc_event_v2.8999 = {
 	desc = talk_event.9001.desc
 
 	immediate = {
+		set_global_variable = {
+			name = talk_first_scope
+			value = scope:actor
+		}
+		set_global_variable = {
+			name = talk_second_scope
+			value = scope:recipient
+		}
+		set_global_variable = {
+			name = talk_third_scope
+			value = root
+		}
 		votc_init_checkpoint_effect = yes
 		votc_prepare_save_snapshot_effect = yes
 		scope:recipient = {
@@ -539,6 +551,18 @@ mcc_event_v2.9000 = {
 	desc = talk_event.9001.desc
 
 	immediate = {
+		set_global_variable = {
+			name = talk_first_scope
+			value = scope:actor
+		}
+		set_global_variable = {
+			name = talk_second_scope
+			value = scope:recipient
+		}
+		set_global_variable = {
+			name = talk_third_scope
+			value = root
+		}
 		votc_init_checkpoint_effect = yes
 		votc_prepare_save_snapshot_effect = yes
 		scope:recipient = {
@@ -565,6 +589,18 @@ mcc_event_v2.9001 = {
 	desc = talk_event.9001.desc
 
 	immediate = {
+		set_global_variable = {
+			name = talk_first_scope
+			value = scope:actor
+		}
+		set_global_variable = {
+			name = talk_second_scope
+			value = scope:recipient
+		}
+		set_global_variable = {
+			name = talk_third_scope
+			value = root
+		}
 		votc_init_checkpoint_effect = yes
 		votc_prepare_save_snapshot_effect = yes
 		scope:recipient = {
@@ -705,21 +741,12 @@ mcc_event_v2.9100 = {
 			votc_build_military_council_roster_effect = yes
 		}
 
-		# Conversation counterpart: the marshal, else the first attendee, else
-		# the player themself (degenerate empty-court case, keeps the init line
-		# well-formed).
+		# Conversation counterpart: the first roster member - the marshal when
+		# eligible (the roster builder inserts it first), else the top attendee -
+		# so the init-line counterpart is always a signed-in attendee. Falls back
+		# to the player themself in the degenerate empty-court case so the init
+		# line stays well-formed (1.x used talk_second_scope = list position 0).
 		if = {
-			limit = {
-				exists = scope:votc_military_marshal
-				scope:votc_military_marshal = {
-					NOT = { this = scope:actor }
-				}
-			}
-			scope:votc_military_marshal = {
-				save_scope_as = recipient
-			}
-		}
-		else_if = {
 			limit = {
 				scope:actor = {
 					variable_list_size = {
@@ -740,6 +767,22 @@ mcc_event_v2.9100 = {
 			scope:actor = {
 				save_scope_as = recipient
 			}
+		}
+
+		# H1 fix: conversation-close checkpoint writeback (buildCheckpointSetEffect)
+		# and the portraits/opinion interactions read these talk scopes; without
+		# them the close script silently no-ops in game.
+		set_global_variable = {
+			name = talk_first_scope
+			value = scope:actor
+		}
+		set_global_variable = {
+			name = talk_second_scope
+			value = scope:recipient
+		}
+		set_global_variable = {
+			name = talk_third_scope
+			value = root
 		}
 
 		scope:recipient = {
