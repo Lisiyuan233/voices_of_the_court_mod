@@ -1,0 +1,13 @@
+﻿# VOTC save snapshot cleanup probe (Task 0 diagnostic, not production).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_save_snapshot_cleanup.txt
+# ROOT is the player character. It calls votc_clear_save_snapshot_effect,
+# which resets votc_save_snapshot_protocol/sequence/slot/active to 0 and
+# writes a VOTC:SAVE_SNAPSHOT_PROBE CLEARED confirmation marker with the
+# read-back values to debug.log. Safe to run repeatedly and between other
+# save snapshot probe runs. After cleanup the scripted GUI
+# votc_save_snapshot_gui must report IsValid = false. Run
+# votc_test_save_snapshot_widget_inactive.txt afterwards to verify that no
+# should-not-exist save file is created.
+
+votc_clear_save_snapshot_effect = yes

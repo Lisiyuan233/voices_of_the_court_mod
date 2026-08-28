@@ -1,0 +1,18 @@
+﻿# VOTC save snapshot widget probe (Task 0 diagnostic, not production).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_save_snapshot_widget.txt
+# ROOT is the player character. It triggers the hidden probe event
+# votc_save_snapshot_probe.0001, which first calls
+# votc_prepare_save_snapshot_effect (debug.log gets a VOTC:SAVE_SNAPSHOT_PROBE
+# marker) and then opens the probe event window widget. The widget copies the
+# event window data to the clipboard and, while the scripted GUI
+# votc_save_snapshot_gui is valid (active = 1), executes
+#   ExecuteConsoleCommand('save votc_context_probe')
+# Verify on a real machine: whether the save file appears in the save games
+# folder, its name/suffix/overwrite behavior, and the on_start ordering of the
+# CopyToClipboard state versus the save state. Because the event always
+# prepares active = 1 before opening the widget, this script only exercises
+# the valid path. Use votc_test_save_snapshot_widget_inactive.txt for the
+# negative path.
+
+trigger_event = votc_save_snapshot_probe.0001

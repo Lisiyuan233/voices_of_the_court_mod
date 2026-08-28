@@ -1,0 +1,6 @@
+﻿l_simp_chinese:
+ votc_save_snapshot_probe.title:0 "VOTC 存档快照探针"
+ votc_save_snapshot_probe.0001.desc:0 "Task 0 诊断：启用状态应写入快照。"
+ votc_save_snapshot_probe.0002.desc:0 "Task 0 诊断：停用状态不得写入快照。"
+ votc_save_snapshot_probe.0003.desc:0 "Task 0 回归探针：零售版 CK3 当前会以仅限开发者为由拒绝显式文本保存。"
+ votc_save_snapshot_probe.close:0 "关闭"

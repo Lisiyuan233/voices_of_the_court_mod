@@ -519,6 +519,7 @@ mcc_event_v2.8999 = {
 
 	immediate = {
 		votc_init_checkpoint_effect = yes
+		votc_prepare_save_snapshot_effect = yes
 		scope:recipient = {
 			log_gamedata_v3s = yes
 		}
@@ -539,6 +540,7 @@ mcc_event_v2.9000 = {
 
 	immediate = {
 		votc_init_checkpoint_effect = yes
+		votc_prepare_save_snapshot_effect = yes
 		scope:recipient = {
 			log_gamedata_v3l = yes
 		}
@@ -564,6 +566,7 @@ mcc_event_v2.9001 = {
 
 	immediate = {
 		votc_init_checkpoint_effect = yes
+		votc_prepare_save_snapshot_effect = yes
 		scope:recipient = {
 			log_gamedata_v3 = yes
 		}
@@ -698,6 +701,7 @@ mcc_event_v2.9100 = {
 
 		root = {
 			votc_init_checkpoint_effect = yes
+			votc_prepare_save_snapshot_effect = yes
 			votc_build_military_council_roster_effect = yes
 		}
 

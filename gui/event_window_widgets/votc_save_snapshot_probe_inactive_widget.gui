@@ -1,0 +1,28 @@
+﻿# =============================================================================
+# VOTC inactive save snapshot gate probe (Task 0 diagnostic).
+#
+# Opened only by votc_save_snapshot_probe.0002 after the cleanup run script.
+# The save state is gated by the same scripted GUI as the active probe but uses
+# a unique filename. PASS means that file is not created at all.
+# =============================================================================
+
+hbox = {
+	name = "votc_save_snapshot_probe_inactive_widget"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+	datacontext = "[GetScriptedGui( 'votc_save_snapshot_gui' )]"
+
+	state = {
+		name = probe_copy
+		trigger_on_create = yes
+		on_start = "[EventWindowData.CopyToClipboard]"
+	}
+
+	state = {
+		name = probe_save_must_not_start
+		trigger_when = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+		on_start = "[ExecuteConsoleCommand('save votc_context_probe_inactive_should_not_exist')]"
+	}
+
+	expand = {}
+}

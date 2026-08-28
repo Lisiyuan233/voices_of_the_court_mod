@@ -1,0 +1,91 @@
+﻿namespace = votc_save_snapshot_probe
+
+# =============================================================================
+# VOTC save snapshot probe events (Task 0 diagnostic).
+#
+# This is a Task 0 diagnostic probe only. It is NOT part of the production
+# conversation chain: no production event, widget or interaction triggers it.
+# Trigger it manually from the CK3 console run script
+# votc_test_save_snapshot_widget.txt to walk the full
+#   prepare variables -> open probe widget -> CopyToClipboard -> save command
+# chain on a real machine. Structure mirrors the hidden clipboard-transfer
+# event talk_event.9001 in events/talk_events/talk_events.txt.
+# =============================================================================
+
+# Hidden probe event. ROOT must be the player character (the console run
+# script provides that scope). It first prepares the save snapshot variables
+# on the player scope, then opens the probe event window widget, which copies
+# the event window data to the clipboard and (only while the scripted GUI is
+# valid) executes the fixed-name save command.
+votc_save_snapshot_probe.0001 = {
+	type = character_event
+	title = votc_save_snapshot_probe.title
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = votc_save_snapshot_probe.0001.desc
+
+	immediate = {
+		votc_prepare_save_snapshot_effect = yes
+	}
+
+	# This widget copies the probe data to the clipboard and requests the
+	# fixed-name save; see gui/event_window_widgets/votc_save_snapshot_probe_widget.gui
+	widget = {
+		gui = "votc_save_snapshot_probe_widget"
+		container = "custom_widgets_container"
+	}
+
+	option = {
+		name = votc_save_snapshot_probe.close
+	}
+}
+
+# Inactive-gate probe. Unlike .0001, this event deliberately does NOT prepare
+# the snapshot variables. The dedicated widget targets a unique filename, so
+# any created file is an unambiguous scripted-GUI gate failure.
+votc_save_snapshot_probe.0002 = {
+	type = character_event
+	title = votc_save_snapshot_probe.title
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = votc_save_snapshot_probe.0002.desc
+
+	immediate = {
+		debug_log = "VOTC:SAVE_SNAPSHOT_PROBE/;/INACTIVE_WIDGET_OPEN/;/[GetPlayer.GetID]/;/[GetCurrentDate.GetDateAsTotalDays]"
+	}
+
+	widget = {
+		gui = "votc_save_snapshot_probe_inactive_widget"
+		container = "custom_widgets_container"
+	}
+
+	option = {
+		name = votc_save_snapshot_probe.close
+	}
+}
+
+# Explicit text serializer regression probe. CK3 1.19 registers `save_text`,
+# but the retail executable rejects execution as developer-only and creates no
+# file. This diagnostic event is retained only to detect a future behavior
+# change; it is not a production fallback for binary saves.
+votc_save_snapshot_probe.0003 = {
+	type = character_event
+	title = votc_save_snapshot_probe.title
+	window = fullscreen_event
+	theme = clipboard_transfer_event_theme
+	desc = votc_save_snapshot_probe.0003.desc
+
+	immediate = {
+		votc_prepare_save_snapshot_effect = yes
+		debug_log = "VOTC:SAVE_SNAPSHOT_PROBE/;/SAVE_TEXT_WIDGET_OPEN/;/[GetPlayer.GetID]/;/[GetCurrentDate.GetDateAsTotalDays]"
+	}
+
+	widget = {
+		gui = "votc_save_snapshot_probe_text_widget"
+		container = "custom_widgets_container"
+	}
+
+	option = {
+		name = votc_save_snapshot_probe.close
+	}
+}

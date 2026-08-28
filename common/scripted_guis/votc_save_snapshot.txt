@@ -1,0 +1,26 @@
+﻿# =============================================================================
+# VOTC save snapshot scripted GUI.
+#
+# Production conversation widgets and Task 0 probes use this gate to run the
+# fixed-name save command via
+#   [ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]
+# (same call shape as window_faith.gui in the vanilla files). The widget reads
+# it through datacontext = "[GetScriptedGui( 'votc_save_snapshot_gui' )]".
+#
+# is_valid is true only while the player scope carries
+# votc_save_snapshot_active = 1, i.e. after votc_prepare_save_snapshot_effect
+# and before votc_clear_save_snapshot_effect. Structure mirrors the vanilla
+# examples in common/scripted_guis/00_religion.txt (scope + is_valid blocks).
+#
+# active stays 1 for both debug and non-debug conversations: both modes retain
+# votc_context.ck3, while the init protocol decides whether the App may parse it.
+# =============================================================================
+
+votc_save_snapshot_gui = {
+	scope = character
+
+	is_valid = {
+		has_variable = votc_save_snapshot_active
+		var:votc_save_snapshot_active = 1
+	}
+}

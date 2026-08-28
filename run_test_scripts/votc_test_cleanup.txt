@@ -125,3 +125,9 @@ remove_variable = votc_military_siege_count
 remove_variable = votc_military_roster_count
 remove_variable = votc_military_council_role
 remove_variable = votc_military_council_can_command
+
+# P5 save snapshot protocol variables.
+remove_variable = votc_save_snapshot_protocol
+remove_variable = votc_save_snapshot_sequence
+remove_variable = votc_save_snapshot_slot
+remove_variable = votc_save_snapshot_active

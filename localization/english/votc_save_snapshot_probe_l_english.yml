@@ -1,0 +1,6 @@
+﻿l_english:
+ votc_save_snapshot_probe.title:0 "VOTC Save Snapshot Probe"
+ votc_save_snapshot_probe.0001.desc:0 "Task 0 diagnostic: an active snapshot should be written."
+ votc_save_snapshot_probe.0002.desc:0 "Task 0 diagnostic: the inactive save gate must not write a snapshot."
+ votc_save_snapshot_probe.0003.desc:0 "Task 0 regression probe: retail CK3 currently rejects explicit text saves as developer-only."
+ votc_save_snapshot_probe.close:0 "Close"

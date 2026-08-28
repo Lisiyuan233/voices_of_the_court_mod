@@ -1,0 +1,16 @@
+﻿# VOTC debug-mode save snapshot protocol probe.
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_save_snapshot_prepare.txt
+# ROOT is the player character. It calls votc_prepare_save_snapshot_effect,
+# which initializes/increments votc_save_snapshot_sequence, sets
+# In a debug launch this sets protocol = 1, slot = 0, active = 1, and writes one
+# VOTC:SAVE_SNAPSHOT_PROBE marker line to debug.log (player ID, numeric date,
+# campaign identity four segments, sequence). Run it repeatedly to confirm the
+# sequence starts at 1 after cleanup and increments exactly once per run. The
+# companion non-debug scheduler verifies the 0/0/0 fallback branch.
+# Afterwards the console command
+#   save votc_context_probe
+# can be run manually to capture the variable raw encoding for Task 0 step 6.
+# Does not touch checkpoint, timeline node or campaign identity variables.
+
+votc_prepare_save_snapshot_effect = yes

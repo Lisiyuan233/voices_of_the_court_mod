@@ -15,7 +15,11 @@
 		
 		on_start = "[EventWindowData.CopyToClipboard]"
 		
-		on_finish = "[ExecuteConsoleCommand('gui.createwidget gui/custom_gui/talk_window_v2.gui talk_window_v2')]"
+				# P5: retain the fixed-name save snapshot for the desktop app before the
+		# overlay widget is created. One ordered console batch keeps the save and
+		# the gui.createwidget call out of the same-frame race (mod1 talk widget
+		# parity). The init tail decides whether the app may parse the save.
+		on_finish = "[ExecuteConsoleCommandsForced('save votc_context; gui.createwidget gui/custom_gui/talk_window_v2.gui talk_window_v2')]"
 	}
 	
 	expand = {}

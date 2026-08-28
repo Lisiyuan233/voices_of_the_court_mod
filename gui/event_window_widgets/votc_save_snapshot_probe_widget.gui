@@ -1,0 +1,51 @@
+﻿# =============================================================================
+# VOTC save snapshot probe event window widget (Task 0 diagnostic).
+#
+# Probe only, not production. Opened by the hidden event
+# votc_save_snapshot_probe.0001. Structure mirrors
+# gui/event_window_widgets/event_window_widget_talk.gui.
+#
+# Execution order ASSUMPTIONS (to be confirmed on a real machine, Task 0
+# step 2):
+#   1. The probe_copy state starts on widget creation (trigger_on_create) and
+#      its on_start runs EventWindowData.CopyToClipboard first.
+#   2. The probe_save state starts as soon as its trigger_when evaluates true;
+#      since the scripted GUI becomes valid in the event immediate block
+#      (before the widget is created), it should start on creation as well.
+#   3. States are assumed to be evaluated in declaration order within a frame,
+#      so CopyToClipboard is expected to run before the save console command.
+#      Even if both run in the same frame, the assumption is that Copy first
+#      does not block the save from starting. Real-machine observation decides.
+#
+# The save state only runs while GetScriptedGui('votc_save_snapshot_gui')
+# reports IsValid for the player scope, i.e. while votc_save_snapshot_active
+# = 1. The negative path uses votc_save_snapshot_probe_inactive_widget, which
+# targets a unique should-not-exist filename after cleanup.
+# =============================================================================
+
+hbox = {
+	name = "votc_save_snapshot_probe_widget"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+	datacontext = "[GetScriptedGui( 'votc_save_snapshot_gui' )]"
+
+	# (a) Copy the probe marker text to the clipboard, same mechanism the
+	# production talk widget uses to hand data to the app.
+	state = {
+		name = probe_copy
+		trigger_on_create = yes
+
+		on_start = "[EventWindowData.CopyToClipboard]"
+	}
+
+	# (b) Request the fixed-name save, gated by the scripted GUI is_valid.
+	state = {
+		name = probe_save
+		trigger_when = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+		on_start = "[ExecuteConsoleCommand('save votc_context_probe')]"
+	}
+
+	expand = {}
+
+}
