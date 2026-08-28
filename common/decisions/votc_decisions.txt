@@ -135,3 +135,32 @@ votc_open_chronicle_manager_decision = {
 		base = 0
 	}
 }
+# Convenes the military council conversation: builds the marshal/knight/
+# commander roster and streams the war/siege/army snapshot to the desktop app.
+# Ported from mod1's votc_military_council_decision (P3); the entry point
+# stays a decision, not a hud.gui button (mod2 ce does not ship hud.gui).
+votc_military_council_decision = {
+	decision_group_type = decisions
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	is_shown = {
+		is_ai = no
+	}
+
+	trigger = {
+		is_at_war = yes
+	}
+
+	effect = {
+		custom_tooltip = votc_military_council_decision_effect_desc
+		trigger_event = mcc_event_v2.9100
+	}
+
+	ai_check_interval = 0
+	ai_will_do = {
+		base = 0
+	}
+}

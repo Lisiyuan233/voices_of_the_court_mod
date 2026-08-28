@@ -1,0 +1,479 @@
+﻿# =============================================================================
+# VOTC military council + war/siege/army snapshot effects.
+# Ported from voices_of_the_court_mod1 (P3 merge, 2026-08-28).
+# The VOTC:IN field order produced here is pinned by the 2CE desktop app:
+# see "Voices_of_the_Court2 ce/docs/superpowers/plans/2026-08-28-p3-military-snapshot.md"
+# and tests/unit/militaryProtocolStatic.test.ts. Do not reorder fields on one
+# side without the other.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Military event history ring buffer (5 slots on the player character).
+# Call only in a character scope that is known to be the local player.
+# -----------------------------------------------------------------------------
+votc_record_military_event_effect = {
+	if = {
+		limit = { has_variable = votc_military_event_4_date }
+		set_variable = { name = votc_military_event_5_date value = var:votc_military_event_4_date }
+		set_variable = { name = votc_military_event_5_type value = var:votc_military_event_4_type }
+		set_variable = { name = votc_military_event_5_payload value = var:votc_military_event_4_payload }
+	}
+	if = {
+		limit = { has_variable = votc_military_event_3_date }
+		set_variable = { name = votc_military_event_4_date value = var:votc_military_event_3_date }
+		set_variable = { name = votc_military_event_4_type value = var:votc_military_event_3_type }
+		set_variable = { name = votc_military_event_4_payload value = var:votc_military_event_3_payload }
+	}
+	if = {
+		limit = { has_variable = votc_military_event_2_date }
+		set_variable = { name = votc_military_event_3_date value = var:votc_military_event_2_date }
+		set_variable = { name = votc_military_event_3_type value = var:votc_military_event_2_type }
+		set_variable = { name = votc_military_event_3_payload value = var:votc_military_event_2_payload }
+	}
+	if = {
+		limit = { has_variable = votc_military_event_1_date }
+		set_variable = { name = votc_military_event_2_date value = var:votc_military_event_1_date }
+		set_variable = { name = votc_military_event_2_type value = var:votc_military_event_1_type }
+		set_variable = { name = votc_military_event_2_payload value = var:votc_military_event_1_payload }
+	}
+	set_variable = { name = votc_military_event_1_date value = current_date }
+	set_variable = { name = votc_military_event_1_type value = $TYPE$ }
+	set_variable = { name = votc_military_event_1_payload value = $PAYLOAD$ }
+}
+
+# -----------------------------------------------------------------------------
+# Called with THIS = an Army scope. The slot counter is held on the player scope.
+# This definition must stay before votc_log_player_armies_effect usage-wise.
+# -----------------------------------------------------------------------------
+votc_log_saved_player_army_effect = {
+	debug_log = "VOTC:IN/;/army/;/0/;/0/;/[THIS.Army.GetArmyId]/;/[THIS.Army.GetOwner.GetID]/;/[THIS.Army.GetOwner.GetTitledFirstNameNoTooltip]/;/[THIS.Army.GetCommander.GetID]/;/[THIS.Army.GetCommander.GetTitledFirstNameNoTooltip]/;/[GetPlayer.MakeScope.Var('votc_military_player_side').GetFlagName]/;/1/;/[THIS.Army.GetSoldierCount|0]/;/[THIS.Army.GetComposition.GetMaxNumberOfSoldiers|0]/;/[THIS.Army.GetComposition.GetCurrentNumberOfLevies|0]/;/0/;/[THIS.Army.GetComposition.CalcQualityLevel]/;/[THIS.Army.GetLocation.GetID]/;/[THIS.Army.GetLocation.GetNameNoTooltip]/;/[THIS.Army.GetTruncatedArmySupplies|0]/;/[THIS.Army.GetTruncatedSupplyChange|0]/;/[THIS.Army.GetArmyAttrition|0]/;/[THIS.Army.IsGathering]/;/[THIS.Army.IsMoving]/;/[THIS.Army.IsEmbarked]/;/[THIS.Army.IsRetreating]/;/no/;/[THIS.Army.IsSieging]/;/[GetPlayer.MakeScope.Var('votc_military_army_slot').GetValue|0]/;/[THIS.Army.GetNameNoTooltip]/;/[THIS.Army.GetComposition.GetMaxNumberOfLevies|0]/;/[THIS.Army.GetComposition.GetMaxNumberOfMAA|0]/;/[THIS.Army.GetNumAcclaimedKnights|0]/;/[THIS.Army.GetGatheringDaysLeft|0]/;/[THIS.Army.GetDisembarkPenaltyDays|0]/;/[THIS.Army.GetArmyAttritionPercentage|0]"
+
+	# The app associates regiment records with the most recent army record.
+	every_army_maa_regiment = {
+		debug_log = "VOTC:IN/;/army_regiment/;/0/;/[THIS.Regiment.GetMAAType.GetNameNoTooltip]/;/[THIS.Regiment.CalcMenCount|0]/;/[THIS.Regiment.GetMaxCount|0]/;/no/;/yes/;/no/;/[THIS.Regiment.GetNameNoTooltip]"
+	}
+}
+
+# -----------------------------------------------------------------------------
+# Log every player-owned army (up to 8).
+# -----------------------------------------------------------------------------
+votc_log_player_armies_effect = {
+	ROOT = { save_scope_as = votc_military_player }
+
+	scope:votc_military_player = {
+		set_variable = {
+			name = votc_military_army_slot
+			value = 1
+		}
+	}
+
+	every_army = {
+		limit = {
+			army_owner = scope:votc_military_player
+			scope:votc_military_player = { var:votc_military_army_slot <= 8 }
+		}
+		votc_log_saved_player_army_effect = yes
+		scope:votc_military_player = {
+			change_variable = {
+				name = votc_military_army_slot
+				add = 1
+			}
+		}
+	}
+}
+
+# -----------------------------------------------------------------------------
+# Snapshot scratch-state cleanup.
+# -----------------------------------------------------------------------------
+votc_clear_military_army_slots = {
+	ROOT = { save_scope_as = votc_military_player }
+
+	remove_global_variable = votc_military_current_war
+	remove_global_variable = votc_military_war_attacker
+	remove_global_variable = votc_military_war_defender
+	scope:votc_military_player = {
+		# Reset numeric counters to 0 instead of removing them, so they remain
+		# reachable when the game builds tooltips/descriptions before execution.
+		set_variable = { name = votc_military_army_slot value = 0 }
+		set_variable = { name = votc_military_war_count value = 0 }
+		set_variable = { name = votc_military_participant_count value = 0 }
+		set_variable = { name = votc_military_siege_count value = 0 }
+		set_variable = { name = votc_military_roster_count value = 0 }
+
+		# Flags and IDs that should be absent until recomputed are removed.
+		remove_variable = votc_military_participant_side
+		remove_variable = votc_military_snapshot_id
+		remove_variable = votc_military_current_war_id
+	}
+}
+
+# -----------------------------------------------------------------------------
+# Recent military events replay (ring buffer slots 1..5).
+# -----------------------------------------------------------------------------
+votc_log_military_events_effect = {
+	ROOT = { save_scope_as = votc_military_player }
+
+	if = {
+		limit = { scope:votc_military_player = { has_variable = votc_military_event_1_date } }
+		debug_log = "VOTC:IN/;/war_event/;/0/;/[GetPlayer.MakeScope.Var('votc_military_event_1_date').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_military_event_1_type').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_military_event_1_payload').GetFlagName]"
+	}
+	if = {
+		limit = { scope:votc_military_player = { has_variable = votc_military_event_2_date } }
+		debug_log = "VOTC:IN/;/war_event/;/0/;/[GetPlayer.MakeScope.Var('votc_military_event_2_date').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_military_event_2_type').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_military_event_2_payload').GetFlagName]"
+	}
+	if = {
+		limit = { scope:votc_military_player = { has_variable = votc_military_event_3_date } }
+		debug_log = "VOTC:IN/;/war_event/;/0/;/[GetPlayer.MakeScope.Var('votc_military_event_3_date').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_military_event_3_type').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_military_event_3_payload').GetFlagName]"
+	}
+	if = {
+		limit = { scope:votc_military_player = { has_variable = votc_military_event_4_date } }
+		debug_log = "VOTC:IN/;/war_event/;/0/;/[GetPlayer.MakeScope.Var('votc_military_event_4_date').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_military_event_4_type').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_military_event_4_payload').GetFlagName]"
+	}
+	if = {
+		limit = { scope:votc_military_player = { has_variable = votc_military_event_5_date } }
+		debug_log = "VOTC:IN/;/war_event/;/0/;/[GetPlayer.MakeScope.Var('votc_military_event_5_date').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_military_event_5_type').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_military_event_5_payload').GetFlagName]"
+	}
+}
+
+# -----------------------------------------------------------------------------
+# Military snapshot main emitter. ROOT = player character.
+# Must be called AFTER the init line of the enclosing conversation block
+# (the 2CE app parses only the block following the last VOTC:IN/;/init).
+# -----------------------------------------------------------------------------
+votc_log_military_snapshot_effect = {
+	ROOT = { save_scope_as = votc_military_player }
+
+	# Write snapshot header. A date is sufficient as a per-save snapshot ID.
+	debug_log = "VOTC:IN/;/military_snapshot/;/0/;/[GetCurrentDate.GetStringShort]/;/[GetCurrentDate.GetStringShort]/;/1"
+
+	scope:votc_military_player = { set_variable = { name = votc_military_war_count value = 0 } }
+
+	# Iterate player's wars. Inside every_character_war, THIS is a War scope.
+	scope:votc_military_player = {
+		every_character_war = {
+			limit = {
+				scope:votc_military_player = { var:votc_military_war_count < 5 }
+			}
+
+			# Saved scopes cannot be referenced inside debug_log strings,
+			# so the current war and its primary sides are also stored as
+			# global variables for the data-access layer.
+			save_scope_as = votc_military_current_war
+			set_global_variable = {
+				name = votc_military_current_war
+				value = THIS
+			}
+
+			primary_attacker = {
+				save_scope_as = votc_military_war_attacker
+				set_global_variable = {
+					name = votc_military_war_attacker
+					value = THIS
+				}
+			}
+			primary_defender = {
+				save_scope_as = votc_military_war_defender
+				set_global_variable = {
+					name = votc_military_war_defender
+					value = THIS
+				}
+			}
+
+			if = {
+				limit = { primary_attacker = scope:votc_military_player }
+				scope:votc_military_player = { set_variable = { name = votc_military_player_side value = flag:attacker } }
+			}
+			else = {
+				scope:votc_military_player = { set_variable = { name = votc_military_player_side value = flag:defender } }
+			}
+
+			# THIS is a generic Scope in data-access strings and needs the War
+			# promotion; named saved scopes already retain their concrete type.
+			debug_log = "VOTC:IN/;/war/;/[THIS.War.GetID]/;/[THIS.War.GetID]/;/[THIS.War.GetName]/;/[THIS.War.GetStartDate.GetStringShort]/;/[GetPlayer.MakeScope.Var('votc_military_player_side').GetFlagName]/;/[GetGlobalVariable('votc_military_war_attacker').Char.GetID]/;/[GetGlobalVariable('votc_military_war_attacker').Char.GetTitledFirstName]/;/[GetGlobalVariable('votc_military_war_defender').Char.GetID]/;/[GetGlobalVariable('votc_military_war_defender').Char.GetTitledFirstName]/;/[THIS.War.GetActiveCasusBelli.GetType.GetName]/;/[THIS.War.GetActiveCasusBelli.GetFirstTitleTarget.GetID]/;/[THIS.War.GetActiveCasusBelli.GetFirstTitleTarget.GetName]/;/[THIS.War.GetWarScore|+=0]/;/[THIS.War.GetBattlesWarScore|+=0]/;/[THIS.War.GetOccupationWarScore|+=0]/;/[THIS.War.GetImprisonmentWarScore|+=0]/;/[THIS.War.GetTickingWarScore|+=0]"
+
+			# Log participants (up to 20)
+			scope:votc_military_player = {
+				set_variable = {
+					name = votc_military_participant_count
+					value = 0
+				}
+			}
+			scope:votc_military_current_war = {
+				every_war_participant = {
+					limit = {
+						scope:votc_military_player = { var:votc_military_participant_count < 20 }
+					}
+					if = {
+						limit = { THIS = { is_attacker_in_war = scope:votc_military_current_war } }
+						scope:votc_military_player = { set_variable = { name = votc_military_participant_side value = flag:attacker } }
+					}
+					else_if = {
+						limit = { THIS = { is_defender_in_war = scope:votc_military_current_war } }
+						scope:votc_military_player = { set_variable = { name = votc_military_participant_side value = flag:defender } }
+					}
+					else = {
+						scope:votc_military_player = { set_variable = { name = votc_military_participant_side value = flag:attacker } }
+					}
+					debug_log = "VOTC:IN/;/war_participant/;/[GetGlobalVariable('votc_military_current_war').War.GetID]/;/[GetGlobalVariable('votc_military_current_war').War.GetID]/;/[THIS.Char.GetID]/;/[THIS.Char.GetTitledFirstName]/;/[GetPlayer.MakeScope.Var('votc_military_participant_side').GetFlagName]/;/[THIS.Char.GetCurrentMilitaryStrength|0]"
+					scope:votc_military_player = { change_variable = { name = votc_military_participant_count add = 1 } }
+				}
+			}
+
+			# Log sieges on the player's held titles (up to 4). A province under
+			# siege always has a besieging army in its location (GetSiege is not
+			# a script event target).
+			scope:votc_military_player = {
+				set_variable = {
+					name = votc_military_siege_count
+					value = 0
+				}
+			}
+			scope:votc_military_player = {
+				every_held_title = {
+					limit = {
+						is_landless_type_title = no
+						exists = title_province
+						title_province = {
+							any_army_in_location = { is_army_in_siege = yes }
+						}
+						scope:votc_military_player = { var:votc_military_siege_count < 4 }
+					}
+					title_province = {
+						if = {
+							limit = {
+								any_army_in_location = { is_army_in_siege = yes }
+							}
+							scope:votc_military_player = { change_variable = { name = votc_military_siege_count add = 1 } }
+							debug_log = "VOTC:IN/;/siege/;/[GetGlobalVariable('votc_military_current_war').War.GetID]/;/[GetGlobalVariable('votc_military_current_war').War.GetID]/;/[THIS.Province.GetSiege.GetID]/;/[THIS.Province.GetID]/;/[THIS.Province.GetNameNoTooltip]/;/[THIS.Province.GetSiege.GetCommander.GetID]/;/[THIS.Province.GetSiege.GetCommander.GetTitledFirstName]/;/[THIS.Province.GetSiege.GetAttackerMen|0]/;/[THIS.Province.GetSiege.GetDefenderMen|0]/;/[THIS.Province.GetSiege.GetProgress|0]"
+						}
+					}
+				}
+			}
+
+			# Write truncation metadata
+			if = {
+				limit = { scope:votc_military_player = { var:votc_military_participant_count >= 20 } }
+				debug_log = "VOTC:IN/;/war_truncation/;/[GetGlobalVariable('votc_military_current_war').War.GetID]/;/[GetGlobalVariable('votc_military_current_war').War.GetID]/;/[GetPlayer.MakeScope.Var('votc_military_participant_count').GetValue|0]/;/1"
+			}
+			else = {
+				debug_log = "VOTC:IN/;/war_truncation/;/[GetGlobalVariable('votc_military_current_war').War.GetID]/;/[GetGlobalVariable('votc_military_current_war').War.GetID]/;/[GetPlayer.MakeScope.Var('votc_military_participant_count').GetValue|0]/;/0"
+			}
+
+			scope:votc_military_player = { change_variable = { name = votc_military_war_count add = 1 } }
+		}
+	}
+
+	# Log player armies (up to 8), then recent war events (up to 5).
+	votc_log_player_armies_effect = yes
+	votc_log_military_events_effect = yes
+
+	# Write snapshot complete marker
+	debug_log = "VOTC:IN/;/military_snapshot_complete/;/0/;/1"
+
+	# These values are only needed while the snapshot is being produced. Clear
+	# them afterwards so a normal conversation cannot reuse a stale roster.
+	votc_clear_military_army_slots = yes
+}
+
+# -----------------------------------------------------------------------------
+# Military council roster builder (adapted to the 2CE conversation model).
+# Fills the ROOT variable list mcc_characters_selected consumed by
+# log_gamedata_v3s and stamps each attendee with votc_military_council_role /
+# votc_military_council_can_command so the entry event can log
+# military_attendee lines after the init line. mod1's portrait-slot effects
+# are intentionally not ported: 2CE derives portraits from the
+# mcc_character_0..15 globals built inside log_gamedata_v3s.
+# ROOT = player character.
+# -----------------------------------------------------------------------------
+votc_build_military_council_roster_effect = {
+	# Hot-reload marker: if this line does not appear, CK3 is using a cached
+	# version of the mod and must be restarted.
+	debug_log = "VOTC:TEST/;/roster_effect_loaded/;/BUILD_2026_0828_001"
+
+	ROOT = { save_scope_as = votc_military_player }
+
+	# Step 1: clear the previous selection list and snapshot scratch state.
+	root = { clear_variable_list = mcc_characters_selected }
+	votc_clear_military_army_slots = yes
+
+	# Step 2: default player side. No single "focus war" is picked here because
+	# CK3's tooltip pre-parse breaks variable gates inside every_character_war
+	# when the effect is run from the console.
+	scope:votc_military_player = {
+		set_variable = {
+			name = votc_military_player_side
+			value = flag:attacker
+		}
+	}
+
+	# Step 3: save the Marshal scope.
+	scope:votc_military_player = {
+		if = {
+			limit = { exists = cp:councillor_marshal }
+			cp:councillor_marshal = {
+				save_scope_as = votc_military_marshal
+			}
+		}
+	}
+
+	# Step 4: build the roster (hard cap 16 = mcc_character_0..15 slots).
+	scope:votc_military_player = {
+		set_variable = {
+			name = votc_military_roster_count
+			value = 0
+		}
+	}
+
+	# Priority 1: Marshal (council position: military).
+	if = {
+		limit = {
+			exists = scope:votc_military_marshal
+			scope:votc_military_marshal = {
+				is_in_the_same_court_as_or_guest = scope:votc_military_player
+				is_imprisoned = no
+				NOT = { this = scope:votc_military_player }
+			}
+		}
+		scope:votc_military_marshal = {
+			scope:votc_military_player = {
+				add_to_variable_list = { name = mcc_characters_selected target = prev }
+			}
+			set_variable = { name = votc_military_council_role value = flag:marshal }
+			set_variable = { name = votc_military_council_can_command value = 1 }
+			scope:votc_military_player = { change_variable = { name = votc_military_roster_count add = 1 } }
+		}
+	}
+
+	# Priority 2: Knights (personal knights of the player, up to 10). Placed
+	# immediately after the Marshal for the same reason as in mod1: the long
+	# field-commander army blocks can abort following every_knight iterators
+	# when placed after them.
+	scope:votc_military_player = {
+		every_knight = {
+			limit = {
+				is_imprisoned = no
+				NOT = { this = scope:votc_military_player }
+				NOT = { this = scope:votc_military_marshal }
+				scope:votc_military_player = { var:votc_military_roster_count < 10 }
+				scope:votc_military_player = { var:votc_military_roster_count < 16 }
+				NOT = { scope:votc_military_player = { is_target_in_variable_list = { name = mcc_characters_selected target = prev } } }
+			}
+			scope:votc_military_player = {
+				add_to_variable_list = { name = mcc_characters_selected target = prev }
+			}
+			set_variable = { name = votc_military_council_role value = flag:knight }
+			set_variable = { name = votc_military_council_can_command value = 1 }
+			scope:votc_military_player = { change_variable = { name = votc_military_roster_count add = 1 } }
+		}
+	}
+
+	# Priority 3: Field commanders (current commanders of player-owned armies).
+	scope:votc_military_player = {
+		every_army = {
+			limit = {
+				army_owner = scope:votc_military_player
+				exists = army_commander
+				army_commander = {
+					is_in_the_same_court_as_or_guest = scope:votc_military_player
+					is_imprisoned = no
+					NOT = { this = scope:votc_military_player }
+					NOT = { this = scope:votc_military_marshal }
+				}
+				scope:votc_military_player = { var:votc_military_roster_count < 10 }
+				scope:votc_military_player = { var:votc_military_roster_count < 16 }
+				NOT = {
+					army_commander = {
+						scope:votc_military_player = { is_target_in_variable_list = { name = mcc_characters_selected target = prev } }
+					}
+				}
+			}
+			army_commander = {
+				scope:votc_military_player = {
+					add_to_variable_list = { name = mcc_characters_selected target = prev }
+				}
+				set_variable = { name = votc_military_council_role value = flag:field_commander }
+				set_variable = { name = votc_military_council_can_command value = 1 }
+				scope:votc_military_player = { change_variable = { name = votc_military_roster_count add = 1 } }
+			}
+		}
+	}
+
+	# Priority 4: Commander candidates (courtiers/guests that can command now).
+	if = {
+		limit = { scope:votc_military_player = { var:votc_military_roster_count < 10 } }
+		scope:votc_military_player = {
+			every_courtier_or_guest = {
+				limit = {
+					is_in_the_same_court_as_or_guest = scope:votc_military_player
+					is_imprisoned = no
+					NOT = { this = scope:votc_military_player }
+					NOT = { this = scope:votc_military_marshal }
+					NOT = { scope:votc_military_player = { is_target_in_variable_list = { name = mcc_characters_selected target = prev } } }
+					can_be_commander_now_trigger = { ARMY_OWNER = scope:votc_military_player }
+					scope:votc_military_player = { var:votc_military_roster_count < 10 }
+					scope:votc_military_player = { var:votc_military_roster_count < 16 }
+				}
+				scope:votc_military_player = {
+					add_to_variable_list = { name = mcc_characters_selected target = prev }
+				}
+				set_variable = { name = votc_military_council_role value = flag:commander_candidate }
+				set_variable = { name = votc_military_council_can_command value = 1 }
+				scope:votc_military_player = { change_variable = { name = votc_military_roster_count add = 1 } }
+			}
+		}
+	}
+
+	# A ruler can have no eligible commander at their exact map position. In
+	# that case, still convene the council with an available courtier/guest; if
+	# the court is empty, use a direct vassal. mod1 logged these as
+	# court_adviser/vassal_adviser; 2CE unifies them under the app-side
+	# MilitaryAttendeeRole union name war_leader_adviser.
+	if = {
+		limit = {
+			root = {
+				variable_list_size = {
+					name = mcc_characters_selected
+					value < 1
+				}
+			}
+		}
+		scope:votc_military_player = {
+			random_courtier_or_guest = {
+				limit = {
+					is_imprisoned = no
+					NOT = { this = scope:votc_military_player }
+				}
+				scope:votc_military_player = {
+					add_to_variable_list = { name = mcc_characters_selected target = prev }
+				}
+				set_variable = { name = votc_military_council_role value = flag:war_leader_adviser }
+				set_variable = { name = votc_military_council_can_command value = 0 }
+				scope:votc_military_player = { change_variable = { name = votc_military_roster_count add = 1 } }
+			}
+		}
+	}
+	if = {
+		limit = {
+			root = {
+				variable_list_size = {
+					name = mcc_characters_selected
+					value < 1
+				}
+			}
+		}
+		scope:votc_military_player = {
+			random_vassal = {
+				limit = {
+					is_imprisoned = no
+					NOT = { this = scope:votc_military_player }
+				}
+				scope:votc_military_player = {
+					add_to_variable_list = { name = mcc_characters_selected target = prev }
+				}
+				set_variable = { name = votc_military_council_role value = flag:war_leader_adviser }
+				set_variable = { name = votc_military_council_can_command value = 0 }
+				scope:votc_military_player = { change_variable = { name = votc_military_roster_count add = 1 } }
+			}
+		}
+	}
+}

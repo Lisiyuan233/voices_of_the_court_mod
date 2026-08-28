@@ -1,0 +1,39 @@
+﻿# VOTC military council roster test (2CE variable-list version).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_military_roster.txt
+# ROOT is the player character. Rebuilds the military council roster into the
+# mcc_characters_selected list and logs every selected attendee. The entry
+# event (mcc_event_v2.9100) is what logs VOTC:IN/;/military_attendee lines,
+# so this script logs VOTC:TEST diagnostics only.
+
+remove_global_variable = talk_scene
+set_global_variable = {
+	name = talk_scene
+	value = flag:talk_scene_military_council
+}
+
+# Direct war enumeration sanity check: confirm ROOT has wars before entering
+# the roster builder.
+set_variable = { name = votc_test_war_count value = 0 }
+every_character_war = {
+	ROOT = { change_variable = { name = votc_test_war_count add = 1 } }
+	debug_log = "VOTC:TEST/;/direct_war/;/[THIS.War.GetID]/;/[THIS.War.GetName]"
+}
+debug_log = "VOTC:TEST/;/direct_war_count/;/[THIS.Var('votc_test_war_count').GetValue|0]"
+remove_variable = votc_test_war_count
+
+votc_build_military_council_roster_effect = yes
+
+debug_log = "VOTC:TEST/;/roster_diagnostics/;/roster_count/[THIS.Var('votc_military_roster_count').GetValue|0]"
+
+set_variable = { name = votc_test_roster_size value = 0 }
+
+every_in_list = {
+	variable = mcc_characters_selected
+	ROOT = { change_variable = { name = votc_test_roster_size add = 1 } }
+	debug_log = "VOTC:TEST/;/roster_member/;/[THIS.Char.GetID]/;/[THIS.Char.GetTitledFirstName]/;/[THIS.Var('votc_military_council_role').GetFlagName]"
+}
+
+debug_log = "VOTC:TEST/;/roster_complete/;/[THIS.Var('votc_test_roster_size').GetValue|0]"
+
+remove_variable = votc_test_roster_size

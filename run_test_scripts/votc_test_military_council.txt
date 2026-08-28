@@ -1,0 +1,9 @@
+﻿# VOTC military council full-stream test.
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_military_council.txt
+# ROOT is the player character. Fires the military council conversation entry
+# event: roster build, init line, military_attendee lines and the full
+# war/siege/army snapshot stream. Requires being at war for meaningful output.
+# Check logs/debug.log for VOTC:IN/;/military_snapshot etc.
+
+trigger_event = mcc_event_v2.9100
