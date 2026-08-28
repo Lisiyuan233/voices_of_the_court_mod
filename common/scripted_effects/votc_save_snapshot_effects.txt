@@ -1,0 +1,83 @@
+﻿# =============================================================================
+# VOTC save snapshot protocol effects.
+#
+# Production conversation entry points call votc_prepare_save_snapshot_effect
+# immediately before writing their VOTC:IN init line. The protocol deliberately
+# advertises parsing only in CK3 debug mode:
+#   debug mode     -> protocol = 1, sequence > 0, slot = 0, active = 1
+#   non-debug mode -> protocol = 0, sequence = 0, slot = 0, active = 1
+# The shared widget saves votc_context in both modes. In non-debug mode the App
+# sees the disabled 0/0/0 tail and starts the conversation without waiting for
+# or parsing that retained save.
+#
+# Task 0 diagnostic helpers are retained below for regression probes. See
+# Voices_of_the_Court1/docs/superpowers/plans/2026-07-30-ck3-save-game-fact-source.md
+# (Task 0 and section 5.2) for the full context.
+#
+# Player-scope variables used by production and the probes:
+#   votc_save_snapshot_protocol  - parser protocol version; 1 only in debug mode
+#   votc_save_snapshot_sequence  - incremented in debug mode; 0 in non-debug mode
+#   votc_save_snapshot_slot      - save slot selector; fixed-name path keeps it 0
+#   votc_save_snapshot_active    - gates the scripted GUI is_valid that controls
+#                                  whether the widget save state runs
+#
+# These effects must not touch checkpoint, timeline node or campaign identity
+# variables. The debug_log marker uses the VOTC:SAVE_SNAPSHOT_PROBE prefix on
+# purpose so the production VOTC:IN parser ignores it.
+# =============================================================================
+
+# Emit one sanitized state marker. Kept as a separate effect so the fixed-value
+# run scripts can produce the same log shape as the incrementing prepare path.
+votc_log_save_snapshot_probe_state_effect = {
+	debug_log = "VOTC:SAVE_SNAPSHOT_PROBE/;/STATE/;/[GetPlayer.GetID]/;/[GetCurrentDate.GetDateAsTotalDays]/;/[GetCurrentDate.GetStringShort]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_protocol').GetValue]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_sequence').GetValue]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_slot').GetValue]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_active').GetValue]/;/[GetGlobalVariable('votc_campaign_id_a').GetValue]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue]"
+}
+
+# Set an exact sequence value for Task 0 raw-encoding fixtures. SEQUENCE may be
+# an integer, negative number or decimal in diagnostic run scripts.
+votc_set_save_snapshot_probe_sequence_effect = {
+	set_variable = { name = votc_save_snapshot_protocol value = 1 }
+	set_variable = { name = votc_save_snapshot_sequence value = $SEQUENCE$ }
+	set_variable = { name = votc_save_snapshot_slot value = 0 }
+	set_variable = { name = votc_save_snapshot_active value = 1 }
+
+	votc_log_save_snapshot_probe_state_effect = yes
+}
+
+# Prepare one conversation snapshot on the player scope. active = 1 in both
+# modes so the fixed-name save is always retained. Only debug mode exposes a
+# parseable sequence to the App; non-debug mode emits the existing disabled
+# protocol tail and therefore never enters the wait/parser path.
+votc_prepare_save_snapshot_effect = {
+	set_variable = { name = votc_save_snapshot_slot value = 0 }
+	set_variable = { name = votc_save_snapshot_active value = 1 }
+
+	if = {
+		limit = { debug_only = yes }
+
+		# Initialize a missing sequence to 0, then increment exactly once.
+		if = {
+			limit = { NOT = { has_variable = votc_save_snapshot_sequence } }
+			set_variable = { name = votc_save_snapshot_sequence value = 0 }
+		}
+		change_variable = { name = votc_save_snapshot_sequence add = 1 }
+		set_variable = { name = votc_save_snapshot_protocol value = 1 }
+	}
+	else = {
+		set_variable = { name = votc_save_snapshot_protocol value = 0 }
+		set_variable = { name = votc_save_snapshot_sequence value = 0 }
+	}
+
+	votc_log_save_snapshot_probe_state_effect = yes
+}
+
+# Clear the four probe variables back to 0 (0 = disabled/unprepared, matching
+# the section 5.2 semantics) and emit a confirmation marker with the read-back
+# values so cleanup is verifiable in debug.log.
+votc_clear_save_snapshot_effect = {
+	set_variable = { name = votc_save_snapshot_protocol value = 0 }
+	set_variable = { name = votc_save_snapshot_sequence value = 0 }
+	set_variable = { name = votc_save_snapshot_slot value = 0 }
+	set_variable = { name = votc_save_snapshot_active value = 0 }
+
+	debug_log = "VOTC:SAVE_SNAPSHOT_PROBE/;/CLEARED/;/[GetCurrentDate.GetDateAsTotalDays]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_protocol').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_sequence').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_slot').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_active').GetValue|0]"
+}

@@ -1,0 +1,28 @@
+﻿# =============================================================================
+# VOTC explicit text-save probe widget (Task 0 diagnostic).
+#
+# Probe only, not production. CK3 1.19 documents this console command as
+# "Saves current gamestate to disk with save type: Text":
+#   save_text votc_context_probe_text.ck3
+#
+# CONFIRMED RETAIL RESULT (2026-08-07): direct console invocation returns
+# "Command available only for developers." GUI dispatch reaches console.cpp
+# but writes no file. Keep this widget only as a future-version regression
+# probe; it must never be used by the production snapshot chain.
+# =============================================================================
+
+hbox = {
+	name = "votc_save_snapshot_probe_text_widget"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+	datacontext = "[GetScriptedGui( 'votc_save_snapshot_gui' )]"
+
+	state = {
+		name = probe_save_text
+		trigger_when = "[ScriptedGui.IsValid( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]"
+
+		on_start = "[ExecuteConsoleCommand('save_text votc_context_probe_text.ck3')]"
+	}
+
+	expand = {}
+}

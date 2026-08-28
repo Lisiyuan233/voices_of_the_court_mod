@@ -1,0 +1,12 @@
+﻿# VOTC save snapshot inactive-gate probe (Task 0 diagnostic, not production).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_save_snapshot_widget_inactive.txt
+# ROOT is the player character. This first clears active/protocol/sequence/slot,
+# then opens a probe widget without preparing them again.
+# PASS criteria:
+#   - debug.log contains VOTC:SAVE_SNAPSHOT_PROBE/;/INACTIVE_WIDGET_OPEN
+#   - save games/votc_context_probe_inactive_should_not_exist.ck3 does NOT exist
+# Delete an older file with that name before testing so the result is clear.
+
+votc_clear_save_snapshot_effect = yes
+trigger_event = votc_save_snapshot_probe.0002
