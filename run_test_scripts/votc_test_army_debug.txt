@@ -1,0 +1,30 @@
+﻿# VOTC army debug output test (global search).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_army_debug.txt
+# ROOT is the player character. This version searches all armies in the world
+# and logs every player-owned army using the same army dataType format as the
+# military snapshot.
+
+set_variable = { name = votc_military_army_slot value = 1 }
+set_variable = { name = votc_military_player_side value = flag:attacker }
+set_variable = { name = votc_test_army_count value = 0 }
+
+debug_log = "VOTC:TEST/;/army_test_start/;/player/[GetPlayer.GetID]/;/[GetPlayer.GetTitledFirstNameNoTooltip]"
+debug_log = "VOTC:TEST/;/player_location/;/[GetPlayer.GetCurrentLocation.GetID]/;/[GetPlayer.GetCurrentLocation.GetNameNoTooltip]"
+
+every_army = {
+	limit = { army_owner = root }
+	ROOT = {
+		change_variable = { name = votc_test_army_count add = 1 }
+	}
+	debug_log = "VOTC:TEST/;/army_found/;/[THIS.Army.GetArmyId]/;/[THIS.Army.GetLocation.GetNameNoTooltip]"
+	votc_log_saved_player_army_effect = yes
+	ROOT = {
+		change_variable = { name = votc_military_army_slot add = 1 }
+	}
+}
+
+debug_log = "VOTC:TEST/;/army_total/;/[THIS.Var('votc_test_army_count').GetValue|0]"
+debug_log = "VOTC:TEST/;/army_test_end"
+
+remove_variable = votc_test_army_count

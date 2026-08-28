@@ -101,3 +101,27 @@ remove_global_variable = votc_chronicle_signal_kind
 remove_global_variable = votc_chronicle_pulse_quarter
 remove_global_variable = votc_spike_ordinal
 remove_global_variable = votc_chronicle_memory_count
+
+# P3 military: ring buffer, snapshot counters and council role stamps.
+remove_variable = votc_military_event_1_date
+remove_variable = votc_military_event_1_type
+remove_variable = votc_military_event_1_payload
+remove_variable = votc_military_event_2_date
+remove_variable = votc_military_event_2_type
+remove_variable = votc_military_event_2_payload
+remove_variable = votc_military_event_3_date
+remove_variable = votc_military_event_3_type
+remove_variable = votc_military_event_3_payload
+remove_variable = votc_military_event_4_date
+remove_variable = votc_military_event_4_type
+remove_variable = votc_military_event_4_payload
+remove_variable = votc_military_event_5_date
+remove_variable = votc_military_event_5_type
+remove_variable = votc_military_event_5_payload
+remove_variable = votc_military_army_slot
+remove_variable = votc_military_war_count
+remove_variable = votc_military_participant_count
+remove_variable = votc_military_siege_count
+remove_variable = votc_military_roster_count
+remove_variable = votc_military_council_role
+remove_variable = votc_military_council_can_command

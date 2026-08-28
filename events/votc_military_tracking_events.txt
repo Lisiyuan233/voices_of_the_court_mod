@@ -1,0 +1,52 @@
+﻿namespace = votc_military_tracking
+
+# on_war_started has no root scope. Record only the local player side.
+votc_military_tracking.0001 = {
+	hidden = yes
+	immediate = {
+		if = {
+			limit = {
+				exists = scope:attacker
+				scope:attacker = { is_ai = no }
+			}
+			scope:attacker = {
+				votc_record_military_event_effect = { TYPE = flag:war_started PAYLOAD = flag:war }
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:defender
+				scope:defender = { is_ai = no }
+			}
+			scope:defender = {
+				votc_record_military_event_effect = { TYPE = flag:war_started PAYLOAD = flag:war }
+			}
+		}
+	}
+}
+
+# on_siege_completion has a character root (the successful occupant).
+votc_military_tracking.0002 = {
+	hidden = yes
+	immediate = {
+		root = {
+			if = {
+				limit = { is_ai = no }
+				votc_record_military_event_effect = { TYPE = flag:siege_completed PAYLOAD = flag:siege }
+			}
+		}
+	}
+}
+
+# on_join_war_as_secondary has a character root.
+votc_military_tracking.0003 = {
+	hidden = yes
+	immediate = {
+		root = {
+			if = {
+				limit = { is_ai = no }
+				votc_record_military_event_effect = { TYPE = flag:war_join PAYLOAD = flag:join }
+			}
+		}
+	}
+}

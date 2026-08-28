@@ -673,3 +673,93 @@ mcc_event_v2.9999 = {
 	#	name = "debug"
 	#}
 }
+
+# Military council conversation entry (P3). Mirrors mcc_event_v2.8999 but
+# builds the council roster first, picks the conversation counterpart from it,
+# and logs military_attendee lines plus the war/siege/army snapshot AFTER the
+# init line (the 2CE app parses only the block following the last
+# VOTC:IN/;/init).
+mcc_event_v2.9100 = {
+	type = character_event
+	title = votc_placeholder
+	theme = clipboard_transfer_event_theme
+	desc = talk_event.9001.desc
+	override_background = { reference = battlefield }
+
+	immediate = {
+		root = {
+			save_scope_as = actor
+		}
+
+		set_global_variable = {
+			name = talk_scene
+			value = flag:talk_scene_military_council
+		}
+
+		root = {
+			votc_init_checkpoint_effect = yes
+			votc_build_military_council_roster_effect = yes
+		}
+
+		# Conversation counterpart: the marshal, else the first attendee, else
+		# the player themself (degenerate empty-court case, keeps the init line
+		# well-formed).
+		if = {
+			limit = {
+				exists = scope:votc_military_marshal
+				scope:votc_military_marshal = {
+					NOT = { this = scope:actor }
+				}
+			}
+			scope:votc_military_marshal = {
+				save_scope_as = recipient
+			}
+		}
+		else_if = {
+			limit = {
+				scope:actor = {
+					variable_list_size = {
+						name = mcc_characters_selected
+						value > 0
+					}
+				}
+			}
+			scope:actor = {
+				ordered_in_list = {
+					variable = mcc_characters_selected
+					position = 0
+					save_scope_as = recipient
+				}
+			}
+		}
+		else = {
+			scope:actor = {
+				save_scope_as = recipient
+			}
+		}
+
+		scope:recipient = {
+			log_gamedata_v3s = yes
+		}
+
+		# Attendee manifest, after the init line so the app sees it in this
+		# block. Roles come from the roster builder's stamps.
+		scope:actor = {
+			every_in_list = {
+				variable = mcc_characters_selected
+				debug_log = "VOTC:IN/;/military_attendee/;/[THIS.Char.GetID]/;/[THIS.Char.GetTitledFirstName]/;/[THIS.Var('votc_military_council_role').GetFlagName]/;//;/[THIS.Var('votc_military_council_can_command').GetValue|0]"
+			}
+		}
+
+		# Full war/siege/army snapshot stream, then cleanup of scratch state.
+		root = {
+			votc_log_military_snapshot_effect = yes
+		}
+	}
+
+	#this widget is what calls the EventWindowData.CopyToClipboard guifunction,
+	widget = {
+        gui = "event_window_widget_talk_v2"
+        container = "custom_widgets_container"
+    }
+}

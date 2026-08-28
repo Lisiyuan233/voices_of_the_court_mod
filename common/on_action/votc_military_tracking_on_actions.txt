@@ -1,0 +1,28 @@
+﻿# =============================================================================
+# Military On-Actions
+# =============================================================================
+# Existing vanilla on_actions already own their effect blocks. Register hidden
+# events instead so VOTC does not replace or duplicate vanilla behavior.
+# These entries coexist with the votc_incoming_letter_on_actions.txt entries
+# on the same hooks (CK3 merges events lists across files).
+
+on_war_started = {
+	events = {
+		votc_military_tracking.0001
+	}
+}
+
+on_siege_completion = {
+	events = {
+		votc_military_tracking.0002
+	}
+}
+
+# on_county_occupied has no stable character scope in the current script API,
+# so it is deliberately not used for player-persistent military state.
+
+on_join_war_as_secondary = {
+	events = {
+		votc_military_tracking.0003
+	}
+}
