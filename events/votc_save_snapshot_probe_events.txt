@@ -9,7 +9,7 @@
 # votc_test_save_snapshot_widget.txt to walk the full
 #   prepare variables -> open probe widget -> CopyToClipboard -> save command
 # chain on a real machine. Structure mirrors the hidden clipboard-transfer
-# event talk_event.9001 in events/talk_events/talk_events.txt.
+# event mcc_event_v2.7001 in events/mcc_events_v2.txt (talk_clear widget).
 # =============================================================================
 
 # Hidden probe event. ROOT must be the player character (the console run
