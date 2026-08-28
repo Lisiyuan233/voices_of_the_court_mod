@@ -1,10 +1,6 @@
-namespace = votc_checkpoint_event
+﻿namespace = votc_checkpoint_event
 
-votc_checkpoint_event.9001 = {
-	type = character_event
-	scope = actor
-	theme = clipboard_transfer_event_theme
-	window = event_window_widget_talk_clear
-	desc = votc_checkpoint_event.9001.desc
-	on_finish = "[EventWindowData.CopyToClipboard]"
-}
+# P5 review cleanup: the dead votc_checkpoint_event.9001 clipboard stub was
+# removed (nothing triggered it; the live conversation-history bridge is
+# hmd_event.9005 fired by votc_conversation_history_decision).
+
