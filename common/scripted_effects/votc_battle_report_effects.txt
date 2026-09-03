@@ -1,4 +1,10 @@
 ﻿votc_battle_report_write_common_logs_effect = {
+	# These are the same completed-battle values displayed by the vanilla summary.
+	# Fields: main participant, initial soldiers, lost soldiers, surviving soldiers.
+	combat = {
+		debug_log = "VOTC:BATTLE_REPORT/;/side_result/;/[THIS.Combat.GetLeftSideResult.GetMainParticipant.GetID]/;/[THIS.Combat.GetLeftSideResult.GetInitialNumberOfSoldiers|0]/;/[THIS.Combat.GetLeftSideResult.GetNumberOfLostSoldiers|0]/;/[THIS.Combat.GetLeftSideResult.GetNumberOfSurvivingSoldiers|0]"
+		debug_log = "VOTC:BATTLE_REPORT/;/side_result/;/[THIS.Combat.GetRightSideResult.GetMainParticipant.GetID]/;/[THIS.Combat.GetRightSideResult.GetInitialNumberOfSoldiers|0]/;/[THIS.Combat.GetRightSideResult.GetNumberOfLostSoldiers|0]/;/[THIS.Combat.GetRightSideResult.GetNumberOfSurvivingSoldiers|0]"
+	}
 	set_variable = {
 		name = votc_br_total_troops
 		value = combat.num_total_troops
@@ -17,8 +23,13 @@
 	remove_variable ?= votc_br_enemies_killed
 	scope:votc_battle_report_player = {
 		votc_init_checkpoint_effect = yes
+		debug_log = "VOTC:BATTLE_REPORT/;/checkpoint/;/[THIS.Var('votc_checkpoint_epoch').GetValue|0]/;/[THIS.Var('votc_timeline_node_a').GetValue|0]/;/[THIS.Var('votc_timeline_node_b').GetValue|0]/;/[THIS.Var('votc_timeline_parent_a').GetValue|0]/;/[THIS.Var('votc_timeline_parent_b').GetValue|0]/;/[THIS.Var('votc_checkpoint_token').GetValue|0]/;/[THIS.Var('votc_checkpoint_pending_token').GetValue|0]"
+		debug_log = "VOTC:BATTLE_REPORT/;/snapshot_begin/;/[GetGlobalVariable('votc_battle_report_num').GetFlagName]/;/[THIS.Var('votc_battle_report_active_delivery_id').GetValue|0]"
 		debug_log = "VOTC:TIMELINE/;/snapshot/;/2/;/1/;/[THIS.Char.GetID]/;/battle/;/[THIS.Var('votc_checkpoint_epoch').GetValue|0]/;/[THIS.Var('votc_timeline_node_a').GetValue|0]/;/[THIS.Var('votc_timeline_node_b').GetValue|0]/;/[THIS.Var('votc_timeline_parent_a').GetValue|0]/;/[THIS.Var('votc_timeline_parent_b').GetValue|0]/;/[THIS.Var('votc_checkpoint_token').GetValue|0]/;/[THIS.Var('votc_checkpoint_pending_token').GetValue|0]"
+		debug_log = "VOTC:BATTLE_REPORT/;/campaign/;/[THIS.Char.GetID]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[THIS.Var('votc_battle_report_active_delivery_id').GetValue|0]"
 		debug_log = "VOTC:BATTLE_REPORT/;/stats/;/[THIS.Var('votc_battle_report_percent_enemies_killed').GetValue|0]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]"
+		debug_log = "VOTC:BATTLE_REPORT/;/delivery_id/;/[GetGlobalVariable('votc_battle_report_num').GetFlagName]/;/[THIS.Var('votc_battle_report_active_delivery_id').GetValue|0]"
+		debug_log = "VOTC:BATTLE_REPORT/;/snapshot_end/;/[GetGlobalVariable('votc_battle_report_num').GetFlagName]/;/[THIS.Var('votc_battle_report_active_delivery_id').GetValue|0]"
 	}
 	scope:votc_battle_report_location = {
 		debug_log = "VOTC:BATTLE_REPORT/;/init_location/;/[THIS.Province.GetNameNoTooltip]/;/[THIS.Province.GetTerrain.GetName]/;/[THIS.Province.GetWinterSeverityName]"

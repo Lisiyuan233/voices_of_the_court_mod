@@ -1,0 +1,13 @@
+﻿# VOTC non-debug explicit text-save scheduler (Task 0 diagnostic, not production).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run in a DEBUG launch with:
+#   run votc_test_save_snapshot_schedule_save_text_non_debug.txt
+# Then immediately make a normal/manual campaign save, exit CK3, relaunch
+# WITHOUT -debug_mode, load that campaign save, unpause, and advance one day.
+# CK3 1.19 retail already rejects the command as developer-only even when the
+# development console is open, so this scheduler is NOT required for the
+# current Task 0 and is retained only as a future-version regression probe.
+# Expected current result: event opens, no text snapshot is created.
+
+debug_log = "VOTC:SAVE_SNAPSHOT_PROBE/;/SAVE_TEXT_NON_DEBUG_SCHEDULED/;/[GetPlayer.GetID]/;/[GetCurrentDate.GetDateAsTotalDays]"
+trigger_event = { id = votc_save_snapshot_probe.0003 days = 1 }

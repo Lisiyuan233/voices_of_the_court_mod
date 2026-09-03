@@ -1,0 +1,16 @@
+﻿# VOTC non-debug save-retention/fallback probe scheduler.
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run in a DEBUG launch with: run votc_test_save_snapshot_schedule_non_debug.txt
+# This queues the active GUI save probe for one game day later. Immediately make
+# a normal/manual campaign save, exit CK3, relaunch WITHOUT -debug_mode, load
+# that campaign save, unpause, and advance at least one day.
+# PASS criteria in the non-debug launch:
+#   - the probe event opens
+#   - save games/votc_context_probe.ck3 is created or overwritten
+#   - debug.log STATE marker ends with protocol=1, sequence>0, slot=0, active=1
+# This proves that non-debug mode retains the save while advertising a
+# parseable protocol tail: non-debug saves are binary and the App parses them
+# through the sidecar melt path (token-table version gate applies).
+
+debug_log = "VOTC:SAVE_SNAPSHOT_PROBE/;/NON_DEBUG_SCHEDULED/;/[GetPlayer.GetID]/;/[GetCurrentDate.GetDateAsTotalDays]"
+trigger_event = { id = votc_save_snapshot_probe.0001 days = 1 }

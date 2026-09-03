@@ -1,0 +1,13 @@
+﻿# VOTC save snapshot missing-variable probe (Task 0 diagnostic, not production).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run: run votc_test_save_snapshot_sequence_missing.txt
+# Then run: save votc_context_probe_seq_missing
+# Inspect the player variable block and confirm all four probe variables are
+# absent. Run cleanup or prepare afterwards before continuing other tests.
+
+remove_variable = votc_save_snapshot_protocol
+remove_variable = votc_save_snapshot_sequence
+remove_variable = votc_save_snapshot_slot
+remove_variable = votc_save_snapshot_active
+
+debug_log = "VOTC:SAVE_SNAPSHOT_PROBE/;/MISSING/;/[GetPlayer.GetID]/;/[GetCurrentDate.GetDateAsTotalDays]"

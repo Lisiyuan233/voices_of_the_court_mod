@@ -1,0 +1,8 @@
+﻿# VOTC save snapshot negative sequence probe (Task 0 diagnostic, not production).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run: run votc_test_save_snapshot_sequence_negative.txt
+# Then run: save votc_context_probe_seq_negative
+# Inspect how CK3 stores sequence=-17. This is encoding evidence only; the
+# production protocol must reject negative sequence values.
+
+votc_set_save_snapshot_probe_sequence_effect = { SEQUENCE = -17 }

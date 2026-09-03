@@ -1,4 +1,4 @@
-window = {
+﻿window = {
 	name = "votc_letter"
 	layer = middle
 	size = { 675 830 }

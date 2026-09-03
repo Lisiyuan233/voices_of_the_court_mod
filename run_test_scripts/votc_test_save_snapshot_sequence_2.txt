@@ -1,0 +1,7 @@
+﻿# VOTC save snapshot exact sequence=2 probe (Task 0 diagnostic, not production).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run: run votc_test_save_snapshot_sequence_2.txt
+# Then run: save votc_context_probe_seq_2
+# Inspect that save for protocol=1, sequence=2, slot=0 and record raw encoding.
+
+votc_set_save_snapshot_probe_sequence_effect = { SEQUENCE = 2 }
