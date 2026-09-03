@@ -1,4 +1,4 @@
-# Battle report delivery delay, based on the distance from the battlefield to the player.
+﻿# Battle report delivery delay, based on the distance from the battlefield to the player.
 # Model: one-way delivery, courier speed 30 km/day
 # Formula: delay = round( km / 30 ), where km = sqrt(squared_distance)
 # Unit: 1 map-pixel ≈ 1 km (matches vanilla squared_distance_* constants)

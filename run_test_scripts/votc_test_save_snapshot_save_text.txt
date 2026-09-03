@@ -1,0 +1,13 @@
+﻿# VOTC explicit text-save probe (Task 0 diagnostic, not production).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run in a DEBUG launch with: run votc_test_save_snapshot_save_text.txt
+# ROOT is the player character. The event prepares the snapshot variables and
+# its gated widget executes:
+#   ExecuteConsoleCommand('save_text votc_context_probe_text.ck3')
+# CONFIRMED CK3 1.19 retail result (2026-08-07): debug.log records dispatch,
+# but no file is created. Direct console invocation prints:
+#   Command available only for developers.
+# Keep this script only as a future-version regression probe. It is not a
+# production fallback and does not need to be rerun for the current Task 0.
+
+trigger_event = votc_save_snapshot_probe.0003

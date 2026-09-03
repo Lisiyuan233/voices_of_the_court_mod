@@ -127,7 +127,7 @@ votc_open_chronicle_manager_decision = {
 
 	effect = {
 		custom_tooltip = votc_open_chronicle_manager_decision_effect_desc
-		votc_open_chronicle_manager_manual_effect = yes
+		votc_chronicle_manual_tick_effect = yes
 	}
 
 	ai_check_interval = 0
@@ -150,7 +150,7 @@ votc_military_council_decision = {
 		is_ai = no
 	}
 
-	trigger = {
+	is_valid = {
 		is_at_war = yes
 	}
 
@@ -160,6 +160,7 @@ votc_military_council_decision = {
 	}
 
 	ai_check_interval = 0
+	sort_order = 98
 	ai_will_do = {
 		base = 0
 	}

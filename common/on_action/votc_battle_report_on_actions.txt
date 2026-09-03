@@ -1,4 +1,4 @@
-on_combat_end_winner = {
+﻿on_combat_end_winner = {
 	events = {
 		battle_report_event.9000
 	}

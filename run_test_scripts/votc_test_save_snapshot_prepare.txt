@@ -7,7 +7,7 @@
 # VOTC:SAVE_SNAPSHOT_PROBE marker line to debug.log (player ID, numeric date,
 # campaign identity four segments, sequence). Run it repeatedly to confirm the
 # sequence starts at 1 after cleanup and increments exactly once per run. The
-# companion non-debug scheduler verifies the 0/0/0 fallback branch.
+# companion non-debug scheduler verifies the same two-mode protocol tail.
 # Afterwards the console command
 #   save votc_context_probe
 # can be run manually to capture the variable raw encoding for Task 0 step 6.

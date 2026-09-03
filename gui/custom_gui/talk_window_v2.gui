@@ -1,4 +1,4 @@
-window = {
+﻿window = {
 	name = "talk_window_v2"
 	size = { 100% 100% }
 	parentanchor = center

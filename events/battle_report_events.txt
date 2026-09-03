@@ -1,4 +1,4 @@
-namespace = battle_report_event
+﻿namespace = battle_report_event
 
 battle_report_event.9000 = {
 	hidden = yes
@@ -132,6 +132,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_1_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_1_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_1"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -140,6 +149,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9021 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -160,6 +171,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_2_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_2_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_2"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -168,6 +188,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9022 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -188,6 +210,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_3_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_3_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_3"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -196,6 +227,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9023 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -216,6 +249,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_4_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_4_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_4"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -224,6 +266,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9024 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -244,6 +288,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_5_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_5_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_5"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -252,6 +305,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9025 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -272,6 +327,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_6_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_6_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_6"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -280,6 +344,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9026 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -300,6 +366,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_7_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_7_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_7"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -308,6 +383,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9027 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -328,6 +405,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_8_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_8_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_8"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -336,6 +422,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9028 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -356,6 +444,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_9_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_9_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_9"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -364,6 +461,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9029 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -384,6 +483,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_10_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_10_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_10"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -392,6 +500,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9030 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -412,6 +522,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_11_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_11_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_11"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -420,6 +539,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9031 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -440,6 +561,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_12_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_12_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_12"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -448,6 +578,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9032 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -468,6 +600,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_13_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_13_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_13"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -476,6 +617,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9033 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -496,6 +639,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_14_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_14_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_14"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -504,6 +656,8 @@ battle_report_event.9000 = {
 								trigger_event = { id = battle_report_event.9034 days = votc_battle_report_delay }
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 						else_if = {
@@ -524,6 +678,15 @@ battle_report_event.9000 = {
 									name = votc_battle_report_15_sent_day
 									value = current_date
 								}
+								votc_generate_battle_delivery_id_effect = yes
+								set_global_variable = {
+									name = votc_battle_report_15_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
+								set_variable = {
+									name = votc_battle_report_active_delivery_id
+									value = var:votc_battle_report_delivery_id
+								}
 								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_15"
 							}
 							votc_battle_report_write_common_logs_effect = {}
@@ -539,6 +702,8 @@ battle_report_event.9000 = {
 							scope:votc_battle_report_player = {
 								remove_variable ?= votc_battle_report_delay_days
 								remove_variable ?= votc_battle_report_percent_enemies_killed
+								remove_variable ?= votc_battle_report_active_delivery_id
+								remove_variable ?= votc_battle_report_delivery_id
 							}
 						}
 					}
@@ -595,6 +760,7 @@ battle_report_event.9021 = {
 		remove_global_variable ?= votc_battle_report_1
 		remove_variable ?= votc_battle_report_1_timer
 		remove_variable ?= votc_battle_report_1_sent_day
+		remove_global_variable ?= votc_battle_report_1_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_1"
@@ -611,6 +777,7 @@ battle_report_event.9022 = {
 		remove_global_variable ?= votc_battle_report_2
 		remove_variable ?= votc_battle_report_2_timer
 		remove_variable ?= votc_battle_report_2_sent_day
+		remove_global_variable ?= votc_battle_report_2_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_2"
@@ -627,6 +794,7 @@ battle_report_event.9023 = {
 		remove_global_variable ?= votc_battle_report_3
 		remove_variable ?= votc_battle_report_3_timer
 		remove_variable ?= votc_battle_report_3_sent_day
+		remove_global_variable ?= votc_battle_report_3_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_3"
@@ -643,6 +811,7 @@ battle_report_event.9024 = {
 		remove_global_variable ?= votc_battle_report_4
 		remove_variable ?= votc_battle_report_4_timer
 		remove_variable ?= votc_battle_report_4_sent_day
+		remove_global_variable ?= votc_battle_report_4_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_4"
@@ -659,6 +828,7 @@ battle_report_event.9025 = {
 		remove_global_variable ?= votc_battle_report_5
 		remove_variable ?= votc_battle_report_5_timer
 		remove_variable ?= votc_battle_report_5_sent_day
+		remove_global_variable ?= votc_battle_report_5_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_5"
@@ -675,6 +845,7 @@ battle_report_event.9026 = {
 		remove_global_variable ?= votc_battle_report_6
 		remove_variable ?= votc_battle_report_6_timer
 		remove_variable ?= votc_battle_report_6_sent_day
+		remove_global_variable ?= votc_battle_report_6_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_6"
@@ -691,6 +862,7 @@ battle_report_event.9027 = {
 		remove_global_variable ?= votc_battle_report_7
 		remove_variable ?= votc_battle_report_7_timer
 		remove_variable ?= votc_battle_report_7_sent_day
+		remove_global_variable ?= votc_battle_report_7_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_7"
@@ -707,6 +879,7 @@ battle_report_event.9028 = {
 		remove_global_variable ?= votc_battle_report_8
 		remove_variable ?= votc_battle_report_8_timer
 		remove_variable ?= votc_battle_report_8_sent_day
+		remove_global_variable ?= votc_battle_report_8_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_8"
@@ -723,6 +896,7 @@ battle_report_event.9029 = {
 		remove_global_variable ?= votc_battle_report_9
 		remove_variable ?= votc_battle_report_9_timer
 		remove_variable ?= votc_battle_report_9_sent_day
+		remove_global_variable ?= votc_battle_report_9_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_9"
@@ -739,6 +913,7 @@ battle_report_event.9030 = {
 		remove_global_variable ?= votc_battle_report_10
 		remove_variable ?= votc_battle_report_10_timer
 		remove_variable ?= votc_battle_report_10_sent_day
+		remove_global_variable ?= votc_battle_report_10_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_10"
@@ -755,6 +930,7 @@ battle_report_event.9031 = {
 		remove_global_variable ?= votc_battle_report_11
 		remove_variable ?= votc_battle_report_11_timer
 		remove_variable ?= votc_battle_report_11_sent_day
+		remove_global_variable ?= votc_battle_report_11_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_11"
@@ -771,6 +947,7 @@ battle_report_event.9032 = {
 		remove_global_variable ?= votc_battle_report_12
 		remove_variable ?= votc_battle_report_12_timer
 		remove_variable ?= votc_battle_report_12_sent_day
+		remove_global_variable ?= votc_battle_report_12_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_12"
@@ -787,6 +964,7 @@ battle_report_event.9033 = {
 		remove_global_variable ?= votc_battle_report_13
 		remove_variable ?= votc_battle_report_13_timer
 		remove_variable ?= votc_battle_report_13_sent_day
+		remove_global_variable ?= votc_battle_report_13_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_13"
@@ -803,6 +981,7 @@ battle_report_event.9034 = {
 		remove_global_variable ?= votc_battle_report_14
 		remove_variable ?= votc_battle_report_14_timer
 		remove_variable ?= votc_battle_report_14_sent_day
+		remove_global_variable ?= votc_battle_report_14_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_14"
@@ -819,6 +998,7 @@ battle_report_event.9035 = {
 		remove_global_variable ?= votc_battle_report_15
 		remove_variable ?= votc_battle_report_15_timer
 		remove_variable ?= votc_battle_report_15_sent_day
+		remove_global_variable ?= votc_battle_report_15_delivery_id
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_15"

@@ -50,18 +50,18 @@ votc_clear_incoming_letters_decision = {
 		is_ai = no
 	}
 
-		effect = {
-			custom_tooltip = votc_clear_incoming_letters_decision_effect_desc
-			save_scope_as = actor
-			votc_clear_incoming_letter_1_effect = yes
-			votc_clear_incoming_letter_2_effect = yes
-			votc_clear_incoming_letter_3_effect = yes
-			votc_clear_incoming_letter_4_effect = yes
-			votc_clear_incoming_letter_5_effect = yes
-			votc_clear_incoming_letter_6_effect = yes
-			votc_clear_incoming_letter_7_effect = yes
-			votc_clear_incoming_letter_8_effect = yes
-		}
+	effect = {
+		custom_tooltip = votc_clear_incoming_letters_decision_effect_desc
+		save_scope_as = actor
+		votc_clear_incoming_letter_1_effect = yes
+		votc_clear_incoming_letter_2_effect = yes
+		votc_clear_incoming_letter_3_effect = yes
+		votc_clear_incoming_letter_4_effect = yes
+		votc_clear_incoming_letter_5_effect = yes
+		votc_clear_incoming_letter_6_effect = yes
+		votc_clear_incoming_letter_7_effect = yes
+		votc_clear_incoming_letter_8_effect = yes
+	}
 
 	ai_check_interval = 0
 }
