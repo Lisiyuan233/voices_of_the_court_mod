@@ -13,4 +13,11 @@ votc_letters_settings_bridge_event.9001 = {
 		gui = "event_window_widget_letters_settings_opener"
 		container = "custom_widgets_container"
 	}
+
+	# A real option is required here (unlike the fire-and-forget clipboard
+	# bridge events): without any valid option the engine refuses to present
+	# the window, and the user never reaches the opener button above.
+	option = {
+		name = votc_incoming_letters_close_option
+	}
 }

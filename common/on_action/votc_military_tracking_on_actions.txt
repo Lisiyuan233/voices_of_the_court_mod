@@ -6,9 +6,22 @@
 # These entries coexist with the votc_incoming_letter_on_actions.txt entries
 # on the same hooks (CK3 merges events lists across files).
 
+# on_war_started's root scope is casus_belli, so character events cannot be
+# hooked via events = {} (the engine rejects them with "expected scope
+# 'character', but got 'casus_belli'"). Forward to a mod-owned relay on_action
+# and fire the event on the attacker character scope; scope:attacker /
+# scope:defender / scope:war propagate into the event.
 on_war_started = {
-	events = {
-		votc_military_tracking.0001
+	on_actions = {
+		votc_war_started_military_tracking_relay
+	}
+}
+
+votc_war_started_military_tracking_relay = {
+	effect = {
+		scope:attacker = {
+			trigger_event = votc_military_tracking.0001
+		}
 	}
 }
 

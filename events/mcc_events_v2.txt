@@ -785,16 +785,40 @@ mcc_event_v2.9100 = {
 			value = root
 		}
 
-		scope:recipient = {
-			log_gamedata_v3s = yes
-		}
+		# Military-council variant of log_gamedata_v3s: this event has no
+		# `recipient` event target, so v3s printed ERROR:[recipient.GetID]
+		# into the init line. v3m sources the counterpart from the
+		# talk_second_scope global variable instead.
+		log_gamedata_v3m = yes
 
 		# Attendee manifest, after the init line so the app sees it in this
-		# block. Roles come from the roster builder's stamps.
+		# block. Roles are emitted as literal English tokens (the app parser
+		# accepts only these); Var().GetFlagName would localize flag:knight
+		# through the vanilla 'knight' loc key and break parsing on
+		# non-English clients.
 		scope:actor = {
 			every_in_list = {
 				variable = mcc_characters_selected
-				debug_log = "VOTC:IN/;/military_attendee/;/[THIS.Char.GetID]/;/[THIS.Char.GetTitledFirstName]/;/[THIS.Var('votc_military_council_role').GetFlagName]/;//;/[THIS.Var('votc_military_council_can_command').GetValue|0]"
+				if = {
+					limit = { var:votc_military_council_role = flag:marshal }
+					debug_log = "VOTC:IN/;/military_attendee/;/[THIS.Char.GetID]/;/[THIS.Char.GetTitledFirstName]/;/marshal/;//;/[THIS.Var('votc_military_council_can_command').GetValue|0]"
+				}
+				else_if = {
+					limit = { var:votc_military_council_role = flag:knight }
+					debug_log = "VOTC:IN/;/military_attendee/;/[THIS.Char.GetID]/;/[THIS.Char.GetTitledFirstName]/;/knight/;//;/[THIS.Var('votc_military_council_can_command').GetValue|0]"
+				}
+				else_if = {
+					limit = { var:votc_military_council_role = flag:field_commander }
+					debug_log = "VOTC:IN/;/military_attendee/;/[THIS.Char.GetID]/;/[THIS.Char.GetTitledFirstName]/;/field_commander/;//;/[THIS.Var('votc_military_council_can_command').GetValue|0]"
+				}
+				else_if = {
+					limit = { var:votc_military_council_role = flag:commander_candidate }
+					debug_log = "VOTC:IN/;/military_attendee/;/[THIS.Char.GetID]/;/[THIS.Char.GetTitledFirstName]/;/commander_candidate/;//;/[THIS.Var('votc_military_council_can_command').GetValue|0]"
+				}
+				else_if = {
+					limit = { var:votc_military_council_role = flag:war_leader_adviser }
+					debug_log = "VOTC:IN/;/military_attendee/;/[THIS.Char.GetID]/;/[THIS.Char.GetTitledFirstName]/;/war_leader_adviser/;//;/[THIS.Var('votc_military_council_can_command').GetValue|0]"
+				}
 			}
 		}
 

@@ -22,6 +22,7 @@ votc_save_snapshot_probe.0001 = {
 	title = votc_save_snapshot_probe.title
 	window = fullscreen_event
 	theme = clipboard_transfer_event_theme
+	override_background = { reference = council_chamber }
 	desc = votc_save_snapshot_probe.0001.desc
 
 	immediate = {
@@ -48,6 +49,7 @@ votc_save_snapshot_probe.0002 = {
 	title = votc_save_snapshot_probe.title
 	window = fullscreen_event
 	theme = clipboard_transfer_event_theme
+	override_background = { reference = council_chamber }
 	desc = votc_save_snapshot_probe.0002.desc
 
 	immediate = {
@@ -73,6 +75,7 @@ votc_save_snapshot_probe.0003 = {
 	title = votc_save_snapshot_probe.title
 	window = fullscreen_event
 	theme = clipboard_transfer_event_theme
+	override_background = { reference = council_chamber }
 	desc = votc_save_snapshot_probe.0003.desc
 
 	immediate = {
