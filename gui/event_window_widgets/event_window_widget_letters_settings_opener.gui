@@ -9,7 +9,6 @@ hbox = {
 
 	flowcontainer = {
 		direction = vertical
-		center = yes
 
 		button_standard = {
 			parentanchor = hcenter

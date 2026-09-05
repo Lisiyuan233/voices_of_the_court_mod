@@ -757,10 +757,7 @@ battle_report_event.9021 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_1
-		remove_variable ?= votc_battle_report_1_timer
-		remove_variable ?= votc_battle_report_1_sent_day
-		remove_global_variable ?= votc_battle_report_1_delivery_id
+		trigger_event = { id = battle_report_event.9041 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_1"
@@ -774,10 +771,7 @@ battle_report_event.9022 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_2
-		remove_variable ?= votc_battle_report_2_timer
-		remove_variable ?= votc_battle_report_2_sent_day
-		remove_global_variable ?= votc_battle_report_2_delivery_id
+		trigger_event = { id = battle_report_event.9042 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_2"
@@ -791,10 +785,7 @@ battle_report_event.9023 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_3
-		remove_variable ?= votc_battle_report_3_timer
-		remove_variable ?= votc_battle_report_3_sent_day
-		remove_global_variable ?= votc_battle_report_3_delivery_id
+		trigger_event = { id = battle_report_event.9043 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_3"
@@ -808,10 +799,7 @@ battle_report_event.9024 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_4
-		remove_variable ?= votc_battle_report_4_timer
-		remove_variable ?= votc_battle_report_4_sent_day
-		remove_global_variable ?= votc_battle_report_4_delivery_id
+		trigger_event = { id = battle_report_event.9044 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_4"
@@ -825,10 +813,7 @@ battle_report_event.9025 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_5
-		remove_variable ?= votc_battle_report_5_timer
-		remove_variable ?= votc_battle_report_5_sent_day
-		remove_global_variable ?= votc_battle_report_5_delivery_id
+		trigger_event = { id = battle_report_event.9045 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_5"
@@ -842,10 +827,7 @@ battle_report_event.9026 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_6
-		remove_variable ?= votc_battle_report_6_timer
-		remove_variable ?= votc_battle_report_6_sent_day
-		remove_global_variable ?= votc_battle_report_6_delivery_id
+		trigger_event = { id = battle_report_event.9046 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_6"
@@ -859,10 +841,7 @@ battle_report_event.9027 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_7
-		remove_variable ?= votc_battle_report_7_timer
-		remove_variable ?= votc_battle_report_7_sent_day
-		remove_global_variable ?= votc_battle_report_7_delivery_id
+		trigger_event = { id = battle_report_event.9047 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_7"
@@ -876,10 +855,7 @@ battle_report_event.9028 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_8
-		remove_variable ?= votc_battle_report_8_timer
-		remove_variable ?= votc_battle_report_8_sent_day
-		remove_global_variable ?= votc_battle_report_8_delivery_id
+		trigger_event = { id = battle_report_event.9048 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_8"
@@ -893,10 +869,7 @@ battle_report_event.9029 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_9
-		remove_variable ?= votc_battle_report_9_timer
-		remove_variable ?= votc_battle_report_9_sent_day
-		remove_global_variable ?= votc_battle_report_9_delivery_id
+		trigger_event = { id = battle_report_event.9049 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_9"
@@ -910,10 +883,7 @@ battle_report_event.9030 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_10
-		remove_variable ?= votc_battle_report_10_timer
-		remove_variable ?= votc_battle_report_10_sent_day
-		remove_global_variable ?= votc_battle_report_10_delivery_id
+		trigger_event = { id = battle_report_event.9050 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_10"
@@ -927,10 +897,7 @@ battle_report_event.9031 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_11
-		remove_variable ?= votc_battle_report_11_timer
-		remove_variable ?= votc_battle_report_11_sent_day
-		remove_global_variable ?= votc_battle_report_11_delivery_id
+		trigger_event = { id = battle_report_event.9051 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_11"
@@ -944,10 +911,7 @@ battle_report_event.9032 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_12
-		remove_variable ?= votc_battle_report_12_timer
-		remove_variable ?= votc_battle_report_12_sent_day
-		remove_global_variable ?= votc_battle_report_12_delivery_id
+		trigger_event = { id = battle_report_event.9052 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_12"
@@ -961,10 +925,7 @@ battle_report_event.9033 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_13
-		remove_variable ?= votc_battle_report_13_timer
-		remove_variable ?= votc_battle_report_13_sent_day
-		remove_global_variable ?= votc_battle_report_13_delivery_id
+		trigger_event = { id = battle_report_event.9053 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_13"
@@ -978,10 +939,7 @@ battle_report_event.9034 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_14
-		remove_variable ?= votc_battle_report_14_timer
-		remove_variable ?= votc_battle_report_14_sent_day
-		remove_global_variable ?= votc_battle_report_14_delivery_id
+		trigger_event = { id = battle_report_event.9054 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_14"
@@ -995,13 +953,265 @@ battle_report_event.9035 = {
 	theme = battle
 	desc = battle_report_event.9002.desc
 	immediate = {
-		remove_global_variable ?= votc_battle_report_15
-		remove_variable ?= votc_battle_report_15_timer
-		remove_variable ?= votc_battle_report_15_sent_day
-		remove_global_variable ?= votc_battle_report_15_delivery_id
+		trigger_event = { id = battle_report_event.9055 days = 30 }
 	}
 	widget = {
 		gui = "event_window_widget_battle_report_15"
 		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9041 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_1_timer } }
+			remove_global_variable ?= votc_battle_report_1
+			remove_global_variable ?= votc_battle_report_1_delivery_id
+			remove_variable ?= votc_battle_report_1_sent_day
+		}
+	}
+}
+
+battle_report_event.9042 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_2_timer } }
+			remove_global_variable ?= votc_battle_report_2
+			remove_global_variable ?= votc_battle_report_2_delivery_id
+			remove_variable ?= votc_battle_report_2_sent_day
+		}
+	}
+}
+
+battle_report_event.9043 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_3_timer } }
+			remove_global_variable ?= votc_battle_report_3
+			remove_global_variable ?= votc_battle_report_3_delivery_id
+			remove_variable ?= votc_battle_report_3_sent_day
+		}
+	}
+}
+
+battle_report_event.9044 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_4_timer } }
+			remove_global_variable ?= votc_battle_report_4
+			remove_global_variable ?= votc_battle_report_4_delivery_id
+			remove_variable ?= votc_battle_report_4_sent_day
+		}
+	}
+}
+
+battle_report_event.9045 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_5_timer } }
+			remove_global_variable ?= votc_battle_report_5
+			remove_global_variable ?= votc_battle_report_5_delivery_id
+			remove_variable ?= votc_battle_report_5_sent_day
+		}
+	}
+}
+
+battle_report_event.9046 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_6_timer } }
+			remove_global_variable ?= votc_battle_report_6
+			remove_global_variable ?= votc_battle_report_6_delivery_id
+			remove_variable ?= votc_battle_report_6_sent_day
+		}
+	}
+}
+
+battle_report_event.9047 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_7_timer } }
+			remove_global_variable ?= votc_battle_report_7
+			remove_global_variable ?= votc_battle_report_7_delivery_id
+			remove_variable ?= votc_battle_report_7_sent_day
+		}
+	}
+}
+
+battle_report_event.9048 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_8_timer } }
+			remove_global_variable ?= votc_battle_report_8
+			remove_global_variable ?= votc_battle_report_8_delivery_id
+			remove_variable ?= votc_battle_report_8_sent_day
+		}
+	}
+}
+
+battle_report_event.9049 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_9_timer } }
+			remove_global_variable ?= votc_battle_report_9
+			remove_global_variable ?= votc_battle_report_9_delivery_id
+			remove_variable ?= votc_battle_report_9_sent_day
+		}
+	}
+}
+
+battle_report_event.9050 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_10_timer } }
+			remove_global_variable ?= votc_battle_report_10
+			remove_global_variable ?= votc_battle_report_10_delivery_id
+			remove_variable ?= votc_battle_report_10_sent_day
+		}
+	}
+}
+
+battle_report_event.9051 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_11_timer } }
+			remove_global_variable ?= votc_battle_report_11
+			remove_global_variable ?= votc_battle_report_11_delivery_id
+			remove_variable ?= votc_battle_report_11_sent_day
+		}
+	}
+}
+
+battle_report_event.9052 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_12_timer } }
+			remove_global_variable ?= votc_battle_report_12
+			remove_global_variable ?= votc_battle_report_12_delivery_id
+			remove_variable ?= votc_battle_report_12_sent_day
+		}
+	}
+}
+
+battle_report_event.9053 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_13_timer } }
+			remove_global_variable ?= votc_battle_report_13
+			remove_global_variable ?= votc_battle_report_13_delivery_id
+			remove_variable ?= votc_battle_report_13_sent_day
+		}
+	}
+}
+
+battle_report_event.9054 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_14_timer } }
+			remove_global_variable ?= votc_battle_report_14
+			remove_global_variable ?= votc_battle_report_14_delivery_id
+			remove_variable ?= votc_battle_report_14_sent_day
+		}
+	}
+}
+
+battle_report_event.9055 = {
+	hidden = yes
+
+	# Failsafe slot cleanup for when the app never processed this report. The
+	# guarded run script cleans the slot at arrival; this only fires 30 days
+	# later. The slot timer expires exactly at arrival, so a live timer means
+	# the slot was reused by a newer battle whose own failsafe will cover it.
+	immediate = {
+		if = {
+			limit = { NOT = { has_variable = votc_battle_report_15_timer } }
+			remove_global_variable ?= votc_battle_report_15
+			remove_global_variable ?= votc_battle_report_15_delivery_id
+			remove_variable ?= votc_battle_report_15_sent_day
+		}
 	}
 }

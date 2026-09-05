@@ -15,6 +15,37 @@
 			name = votc_incoming_letters_enabled
 			value = 1
 		}
+		# Same defaults as votc_incoming_letters_enable_sgui: enabling via the
+		# decision must not leave the frequency variables unset (triggers read
+		# them and the settings window shows the current selection).
+		if = {
+			limit = { NOT = { has_variable = votc_incoming_letters_frequency } }
+			set_variable = {
+				name = votc_incoming_letters_frequency
+				value = 2
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = votc_incoming_letters_event_frequency } }
+			set_variable = {
+				name = votc_incoming_letters_event_frequency
+				value = 2
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = votc_incoming_letters_family_frequency } }
+			set_variable = {
+				name = votc_incoming_letters_family_frequency
+				value = 2
+			}
+		}
+		if = {
+			limit = { NOT = { has_variable = votc_incoming_letters_poetry_frequency } }
+			set_variable = {
+				name = votc_incoming_letters_poetry_frequency
+				value = 2
+			}
+		}
 	}
 
 	ai_check_interval = 0

@@ -76,40 +76,11 @@
                                         framesize = { 4 4 }
                                         size = { 324 184 }
                                         alpha = 0.6
-                                            
-                                        state = {
-                                            name = load_animation
-                                            trigger_on_create = yes
-                                            duration = 0.5
-                                            on_finish = "[SetWidgetAlpha('votc_scene_card_border', 0.6)]"
-                                            property = alpha
-                                            start = 0.0
-                                            end = 0.6
-                                        }
                                     }
                                         button_standard_clean = {
                                             size = { 320 180 }
                                             onclick = "[GetScriptedGui('votc_select_talk_scene').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).AddScope('selected_scene', MakeScopeFlag(Scope.GetFlagName)).End)]"
                                             onclick = "[GetVariableSystem.Clear('votc_scene_selector_opened')]"
-                                            state = {
-                                                name = hover
-                                                trigger_on_hover_start = yes
-                                                on_finish = "[SetWidgetColor('votc_scene_card_border', 1.0, 0.9, 0.7, 0.8)]"
-                                            }
-                                            state = {
-                                                name = unhover
-                                                trigger_on_hover_end = yes
-                                                on_finish = "[SetWidgetColor('votc_scene_card_border', 0.8, 0.7, 0.5, 0.6)]"
-                                            }
-                                            state = {
-                                                name = select_animation
-                                                trigger_on_click = yes
-                                                duration = 0.3
-                                                on_finish = "[SetWidgetColor('votc_scene_card_border', 1.0, 0.8, 0.4, 0.9)]"
-                                                property = color
-                                                start = { 0.8 0.7 0.5 0.6 }
-                                                end = { 1.0 0.8 0.4 0.9 }
-                                            }
                                             vbox = {
                                                 layoutpolicy_horizontal = expanding
                                                 layoutpolicy_vertical = expanding
@@ -142,12 +113,10 @@
                                                         visible = yes
                                                         max_width = 576
                                                         margin = { 0 5 }
-                                                            
+
                                                         text = "[Localize(Concatenate(Scope.GetFlagName, '_title'))]"
                                                         default_format = "#high"
                                                         align = center
-                                                        fontsize_min = 16
-                                                        fontsize_max = 18
                                                     }
 
                                                     background = {

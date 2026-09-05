@@ -355,7 +355,6 @@ votc_build_military_council_roster_effect = {
 				NOT = { this = scope:votc_military_player }
 				NOT = { this = scope:votc_military_marshal }
 				scope:votc_military_player = { var:votc_military_roster_count < 10 }
-				scope:votc_military_player = { var:votc_military_roster_count < 16 }
 				NOT = { scope:votc_military_player = { is_target_in_variable_list = { name = mcc_characters_selected target = prev } } }
 			}
 			scope:votc_military_player = {
@@ -380,7 +379,6 @@ votc_build_military_council_roster_effect = {
 					NOT = { this = scope:votc_military_marshal }
 				}
 				scope:votc_military_player = { var:votc_military_roster_count < 10 }
-				scope:votc_military_player = { var:votc_military_roster_count < 16 }
 				NOT = {
 					army_commander = {
 						scope:votc_military_player = { is_target_in_variable_list = { name = mcc_characters_selected target = prev } }
@@ -411,7 +409,6 @@ votc_build_military_council_roster_effect = {
 					NOT = { scope:votc_military_player = { is_target_in_variable_list = { name = mcc_characters_selected target = prev } } }
 					can_be_commander_now_trigger = { ARMY_OWNER = scope:votc_military_player }
 					scope:votc_military_player = { var:votc_military_roster_count < 10 }
-					scope:votc_military_player = { var:votc_military_roster_count < 16 }
 				}
 				scope:votc_military_player = {
 					add_to_variable_list = { name = mcc_characters_selected target = prev }

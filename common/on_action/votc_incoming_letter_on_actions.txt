@@ -38,10 +38,21 @@ on_siege_completion = {
 
 # on_war_started: vanilla fires this for every declared war.
 # scope:attacker = the attacker, scope:defender = the defender, scope:war = the war.
-# We register one shared event that internally splits into ally_call_for_aid and revolt_urgent.
+# The hook's root scope is casus_belli, so character events cannot be hooked via
+# events = {} (the engine rejects them with "expected scope 'character', but got
+# 'casus_belli'"). Forward to a mod-owned relay on_action instead and fire the
+# event on the attacker character scope; the saved scopes propagate.
 on_war_started = {
-	events = {
-		votc_incoming_letter_event.0006
+	on_actions = {
+		votc_war_started_incoming_letter_relay
+	}
+}
+
+votc_war_started_incoming_letter_relay = {
+	effect = {
+		scope:attacker = {
+			trigger_event = votc_incoming_letter_event.0006
+		}
 	}
 }
 

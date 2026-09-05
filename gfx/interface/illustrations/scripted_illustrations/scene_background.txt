@@ -12153,6 +12153,24 @@ talk_background = {
 		}
 	}
 
+	##########################################
+	#military_council (mod1 scene_background.txt parity; both references are
+	#vanilla, so no dds needs to be shipped with the mod)
+
+	texture = {
+		reference = "event_scenes/genericcamp.dds"
+		trigger = {
+			global_var:talk_scene = flag:talk_scene_military_council
+		}
+	}
+
+	environment = {
+		reference = "environment_event_genericcamp"
+		trigger = {
+			global_var:talk_scene = flag:talk_scene_military_council
+		}
+	}
+
 	texture = {
 		reference = "event_scenes/ep2_feast_steppe.dds"
 		trigger = {

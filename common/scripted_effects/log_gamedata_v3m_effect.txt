@@ -1,0 +1,319 @@
+﻿# Military-council variant of log_gamedata_v3s.
+#
+# mcc_event_v2.9100 has no `recipient` event target: the conversation
+# counterpart is picked from the roster list mid-immediate, and that saved
+# scope does not resolve inside a scripted effect's debug_log localization
+# (v3s printed ERROR:[recipient.GetID] and its global-list reads reported
+# "Could not find list from read name mcc_characters_list_v2"). All
+# counterpart fields here go through the talk_second_scope global variable
+# and the root variable list, which resolve in any context.
+#
+# Field layout of the init line is identical to log_gamedata_v3s; the app
+# parses both with the same positional reader.
+log_gamedata_v3m = {
+	#log_backgrounds = yes
+	# init 行尾部布局不变式：自 epoch 字段起第 8 个字段起依次为 protocol/campaignSchema/campaign_id×4/kind/timeline_schema/save_snapshot_protocol/sequence/slot（P5 起为实际值，非 debug 模式恒 0/0/0）。
+	# 未来补 date 五连时必须插在 timeline_schema 之后、save_snapshot_protocol 占位之前，不得追加在占位之后（否则 date/save_snapshot 解析整体错位）。
+	debug_log = "VOTC:IN/;/init/;/[GetPlayer.GetID]/;/[GetPlayer.GetTitledFirstNameNicknamedNoTooltipRegnal]/;/[GetGlobalVariable('talk_second_scope').Char.GetID]/;/[GetGlobalVariable('talk_second_scope').Char.GetTitledFirstNameNicknamedNoTooltipRegnal]/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('talk_scene').GetFlagName]/;/[GetGlobalVariable('talk_second_scope').Char.GetCurrentLocation.GetName]/;/[GetGlobalVariable('talk_second_scope').Char.GetCurrentLocation.GetController.GetFullNameNicknamedNoTooltipRegnal]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_epoch').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_node_a').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_node_b').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_parent_a').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_parent_b').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_token').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_pending_token').GetValue|0]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]/;/[GetCurrentDate.GetDateAsTotalDays]/;/[GetCurrentDate.GetYear]/;/[GetCurrentDate.GetMonthOfYear]/;/[GetCurrentDate.GetDayOfMonth]/;/[GetCurrentDate.GetStringShort]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_protocol').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_sequence').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_slot').GetValue|0]"
+
+	debug_log = log_character_header
+
+	# Slot 0 is the conversation counterpart (talk_second_scope), then every
+	# roster member, matching the ordering v3s produces for conversations.
+	global_var:talk_second_scope = {
+		add_to_global_variable_list = {
+			name = mcc_characters_list_v2
+			target = this
+		}
+	}
+	root = {
+		every_in_list = {
+			variable = mcc_characters_selected
+			limit = {
+				NOT = { this = root }
+				NOT = { this = global_var:talk_second_scope }
+			}
+			debug_log_scopes = yes
+			add_to_global_variable_list = {
+				name = mcc_characters_list_v2
+				target = this
+			}
+		}
+	}
+
+	every_in_global_list = {
+		variable = mcc_characters_list_v2
+		limit = {
+			NOT = { this = root }
+		}
+		log_character_v2 = yes
+	}
+	root = {
+		log_character_v2 = yes
+	}
+
+	root = {
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 0
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 0
+				set_global_variable = {
+					name = mcc_character_0
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 1
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 1
+				set_global_variable = {
+					name = mcc_character_1
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 2
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 2
+				set_global_variable = {
+					name = mcc_character_2
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 3
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 3
+				set_global_variable = {
+					name = mcc_character_3
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 4
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 4
+				set_global_variable = {
+					name = mcc_character_4
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 5
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 5
+				set_global_variable = {
+					name = mcc_character_5
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 6
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 6
+				set_global_variable = {
+					name = mcc_character_6
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 7
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 7
+				set_global_variable = {
+					name = mcc_character_7
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 8
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 8
+				set_global_variable = {
+					name = mcc_character_8
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 9
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 9
+				set_global_variable = {
+					name = mcc_character_9
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 10
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 10
+				set_global_variable = {
+					name = mcc_character_10
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 11
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 11
+				set_global_variable = {
+					name = mcc_character_11
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 12
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 12
+				set_global_variable = {
+					name = mcc_character_12
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 13
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 13
+				set_global_variable = {
+					name = mcc_character_13
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 14
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 14
+				set_global_variable = {
+					name = mcc_character_14
+					value = this
+				}
+			}
+		}
+		if = {
+			limit = {
+				global_variable_list_size = {
+					name = mcc_characters_list_v2
+					value > 15
+				}
+			}
+			ordered_in_global_list = {
+				variable = mcc_characters_list_v2
+				position = 15
+				set_global_variable = {
+					name = mcc_character_15
+					value = this
+				}
+			}
+		}
+		# The player goes in last and is deliberately not assigned a portrait
+		# slot, mirroring v3s (slots 0..15 are the other participants).
+		add_to_global_variable_list = {
+			name = mcc_characters_list_v2
+			target = this
+		}
+	}
+}
