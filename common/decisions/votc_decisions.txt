@@ -1,5 +1,5 @@
 ﻿votc_relaese_letter_decision = {
-	decision_group_type = decisions
+	decision_group_type = votc
 
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
@@ -26,7 +26,7 @@
 }
 
 votc_relaese_battle_report_decision = {
-	decision_group_type = decisions
+	decision_group_type = votc
 
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
@@ -91,7 +91,7 @@ votc_relaese_battle_report_decision = {
 }
 
 votc_conversation_history_decision = {
-	decision_group_type = decisions
+	decision_group_type = votc
 
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
@@ -115,7 +115,7 @@ votc_conversation_history_decision = {
 # which exports the memory snapshot and fires the CHRONICLE_MANAGER bridge.
 # Replaces mod1's HUD button (mod2 ce does not ship hud.gui).
 votc_open_chronicle_manager_decision = {
-	decision_group_type = decisions
+	decision_group_type = votc
 
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
@@ -140,7 +140,7 @@ votc_open_chronicle_manager_decision = {
 # Ported from mod1's votc_military_council_decision (P3); the entry point
 # stays a decision, not a hud.gui button (mod2 ce does not ship hud.gui).
 votc_military_council_decision = {
-	decision_group_type = decisions
+	decision_group_type = votc
 
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"

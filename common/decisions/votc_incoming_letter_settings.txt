@@ -1,5 +1,5 @@
 ﻿votc_enable_incoming_letters_decision = {
-	decision_group_type = decisions
+	decision_group_type = votc
 
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
@@ -52,7 +52,7 @@
 }
 
 votc_disable_incoming_letters_decision = {
-	decision_group_type = decisions
+	decision_group_type = votc
 
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
@@ -99,7 +99,7 @@ votc_clear_incoming_letters_decision = {
 
 # Opens the settings window via the bridge event, replacing mod1's HUD button.
 votc_open_incoming_letters_settings_decision = {
-	decision_group_type = decisions
+	decision_group_type = votc
 
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"

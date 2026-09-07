@@ -1,0 +1,5 @@
+﻿# VOTC decisions live in their own group, sorted below vanilla's generic
+# `decisions` group (10) and above `courtier` (1).
+votc = {
+	sort_order = 5
+}
