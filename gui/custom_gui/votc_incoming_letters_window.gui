@@ -102,41 +102,39 @@
 			align = center
 		}
 
-		button_standard = {
-			visible = "[Not( GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_enabled').GetValue, '(CFixedPoint)0' ) )]"
+		# The enable/disable button pair is laid out by an hbox (invisible
+		# variants collapse) instead of hand-computed hcenter offsets, which
+		# pushed the battle-report button past the window's right edge.
+		hbox = {
 			parentanchor = top|hcenter
 			widgetanchor = top|hcenter
-			position = { -115 150 }
-			size = { 210 34 }
-			text = votc_incoming_letters_enable_option
-			onclick = "[GetScriptedGui('votc_incoming_letters_enable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
-		}
-		button_standard = {
-			visible = "[GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_enabled').GetValue, '(CFixedPoint)0' )]"
-			parentanchor = top|hcenter
-			widgetanchor = top|hcenter
-			position = { -115 150 }
-			size = { 210 34 }
-			text = votc_incoming_letters_disable_option
-			onclick = "[GetScriptedGui('votc_incoming_letters_disable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
-		}
-		button_standard = {
-			visible = "[GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_battle_reports_disabled').GetValue, '(CFixedPoint)0' )]"
-			parentanchor = top|hcenter
-			widgetanchor = top|hcenter
-			position = { 115 150 }
-			size = { 210 34 }
-			text = votc_battle_reports_enable_option
-			onclick = "[GetScriptedGui('votc_battle_reports_enable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
-		}
-		button_standard = {
-			visible = "[Not( GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_battle_reports_disabled').GetValue, '(CFixedPoint)0' ) )]"
-			parentanchor = top|hcenter
-			widgetanchor = top|hcenter
-			position = { 115 150 }
-			size = { 210 34 }
-			text = votc_battle_reports_disable_option
-			onclick = "[GetScriptedGui('votc_battle_reports_disable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+			position = { 0 150 }
+			spacing = 20
+
+			button_standard = {
+				visible = "[Not( GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_enabled').GetValue, '(CFixedPoint)0' ) )]"
+				size = { 210 34 }
+				text = votc_incoming_letters_enable_option
+				onclick = "[GetScriptedGui('votc_incoming_letters_enable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+			}
+			button_standard = {
+				visible = "[GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_incoming_letters_enabled').GetValue, '(CFixedPoint)0' )]"
+				size = { 210 34 }
+				text = votc_incoming_letters_disable_option
+				onclick = "[GetScriptedGui('votc_incoming_letters_disable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+			}
+			button_standard = {
+				visible = "[GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_battle_reports_disabled').GetValue, '(CFixedPoint)0' )]"
+				size = { 210 34 }
+				text = votc_battle_reports_enable_option
+				onclick = "[GetScriptedGui('votc_battle_reports_enable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+			}
+			button_standard = {
+				visible = "[Not( GreaterThan_CFixedPoint( GetPlayer.MakeScope.Var('votc_battle_reports_disabled').GetValue, '(CFixedPoint)0' ) )]"
+				size = { 210 34 }
+				text = votc_battle_reports_disable_option
+				onclick = "[GetScriptedGui('votc_battle_reports_disable_sgui').Execute(GuiScope.SetRoot(GetPlayer.MakeScope).End)]"
+			}
 		}
 
 		text_single = {
