@@ -674,6 +674,12 @@ votc_incoming_letter_event.9001 = {
 			save_scope_as = recipient
 		}
 
+		# Bootstrap before logging: log_gamedata publishes the VOTC:IN init line
+		# including the campaign segments, so a probe running before the campaign
+		# was ever bootstrapped would log an all-zero identity that the app then
+		# fails closed on. Idempotent on a save that already has one.
+		votc_init_checkpoint_effect = yes
+
 		log_gamedata = yes
 
 		debug_log = "VOTC:INCOMING_LETTER/;/probe/;/[actor.GetID]/;/[recipient.GetID]"
@@ -1815,6 +1821,10 @@ votc_incoming_letter_event.0008 = {
 ## Fired by on_scheme_discovered. root = the scheme.
 
 votc_incoming_letter_event.0010 = {
+	# on_building_started fires with root = the province; without this
+	# declaration the event would default to a character root and every
+	# root-based construction check would be invalid (R6).
+	scope = province
 	hidden = yes
 
 	trigger = {
@@ -1902,6 +1912,10 @@ votc_incoming_letter_event.0010 = {
 ## Fired by on_building_completed. root = province; scope:character = builder.
 
 votc_incoming_letter_event.0011 = {
+	# on_building_completed fires with root = the province; without this
+	# declaration the event would default to a character root and every
+	# root-based building check would be invalid (R6).
+	scope = province
 	hidden = yes
 
 	trigger = {

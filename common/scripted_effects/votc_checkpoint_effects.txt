@@ -175,7 +175,8 @@ votc_validate_campaign_id_effect = {
 #  2. If schema exists but any segment is missing/zero, log corrupt and return
 #     (never silently overwrite a committed identity).
 #  3. If schema is absent, clear any half-committed segments, set bootstrap kind
-#     from whether the current player has old checkpoint evidence, generate all
+#     from the evidence found in the save (1 fresh, 2 old checkpoint state,
+#     3 traces of an older VOTC install without a v2 campaign id), generate all
 #     four segments, write schema=1 as the commit marker, and log created.
 # Global variables persist with the save, so a saved campaign keeps its id
 # across reloads and save branches.
@@ -221,6 +222,23 @@ votc_init_campaign_id_effect = {
 				}
 			}
 			set_global_variable = { name = votc_campaign_bootstrap_kind value = 2 }
+		}
+		else_if = {
+			# Adopting a save that an older VOTC mod played: it left its own
+			# global traces behind but never committed a v2 campaign id. The
+			# check is deliberately narrow - only markers a working install
+			# always leaves - so a miss degrades to bootstrapKind 1 (reported
+			# as a fresh campaign), never to a wrong "this was an upgrade"
+			# claim, and no adopted data is at stake either way.
+			limit = {
+				OR = {
+					has_global_variable = talk_first_scope
+					has_global_variable = talk_second_scope
+					has_global_variable = talk_scene
+					has_global_variable = votc_incoming_letter_player_scope
+				}
+			}
+			set_global_variable = { name = votc_campaign_bootstrap_kind value = 3 }
 		}
 		remove_global_variable = votc_campaign_id_a
 		remove_global_variable = votc_campaign_id_b
