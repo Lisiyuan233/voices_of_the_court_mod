@@ -518,6 +518,18 @@ mcc_event_v2.8999 = {
 	desc = talk_event.9001.desc
 
 	immediate = {
+		set_global_variable = {
+			name = talk_first_scope
+			value = scope:actor
+		}
+		set_global_variable = {
+			name = talk_second_scope
+			value = scope:recipient
+		}
+		set_global_variable = {
+			name = talk_third_scope
+			value = root
+		}
 		votc_init_checkpoint_effect = yes
 		scope:recipient = {
 			log_gamedata_v3s = yes
@@ -538,6 +550,18 @@ mcc_event_v2.9000 = {
 	desc = talk_event.9001.desc
 
 	immediate = {
+		set_global_variable = {
+			name = talk_first_scope
+			value = scope:actor
+		}
+		set_global_variable = {
+			name = talk_second_scope
+			value = scope:recipient
+		}
+		set_global_variable = {
+			name = talk_third_scope
+			value = root
+		}
 		votc_init_checkpoint_effect = yes
 		scope:recipient = {
 			log_gamedata_v3l = yes
@@ -563,6 +587,18 @@ mcc_event_v2.9001 = {
 	desc = talk_event.9001.desc
 
 	immediate = {
+		set_global_variable = {
+			name = talk_first_scope
+			value = scope:actor
+		}
+		set_global_variable = {
+			name = talk_second_scope
+			value = scope:recipient
+		}
+		set_global_variable = {
+			name = talk_third_scope
+			value = root
+		}
 		votc_init_checkpoint_effect = yes
 		scope:recipient = {
 			log_gamedata_v3 = yes
