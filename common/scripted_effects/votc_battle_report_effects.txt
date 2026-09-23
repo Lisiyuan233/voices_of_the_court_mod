@@ -1,0 +1,168 @@
+votc_battle_report_write_common_logs_effect = {
+	set_variable = {
+		name = votc_br_total_troops
+		value = combat.num_total_troops
+	}
+	set_variable = {
+		name = votc_br_troops_ratio
+		value = troops_ratio
+	}
+	set_variable = {
+		name = votc_br_enemies_killed
+		value = num_enemies_killed
+	}
+	debug_log = "VOTC:BATTLE_REPORT/;/troops/;/[THIS.Var('votc_br_total_troops').GetValue|0]/;/[THIS.Var('votc_br_troops_ratio').GetValue|2]/;/[THIS.Var('votc_br_enemies_killed').GetValue|0]"
+	remove_variable ?= votc_br_total_troops
+	remove_variable ?= votc_br_troops_ratio
+	remove_variable ?= votc_br_enemies_killed
+	scope:votc_battle_report_player = {
+		debug_log = "VOTC:BATTLE_REPORT/;/stats/;/[THIS.Var('votc_battle_report_percent_enemies_killed').GetValue|0]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]"
+	}
+	scope:votc_battle_report_location = {
+		debug_log = "VOTC:BATTLE_REPORT/;/init_location/;/[THIS.Province.GetNameNoTooltip]/;/[THIS.Province.GetTerrain.GetName]/;/[THIS.Province.GetWinterSeverityName]"
+	}
+	scope:votc_battle_report_winner = {
+		debug_log = "VOTC:BATTLE_REPORT/;/init_winner/;/[THIS.Char.GetID]/;/[THIS.Char.GetFullNameNicknamedNoTooltipRegnal]"
+	}
+	scope:votc_battle_report_loser = {
+		debug_log = "VOTC:BATTLE_REPORT/;/init_loser/;/[THIS.Char.GetID]/;/[THIS.Char.GetFullNameNicknamedNoTooltipRegnal]"
+	}
+
+	if = {
+		limit = {
+			votc_battle_report_winning_side_player_trigger = yes
+		}
+		debug_log = "VOTC:BATTLE_REPORT/;/result/;/victory"
+	}
+	else = {
+		debug_log = "VOTC:BATTLE_REPORT/;/result/;/defeat"
+	}
+
+	if = {
+		limit = { is_combat_side_attacker = yes }
+		debug_log = "VOTC:BATTLE_REPORT/;/winning_side/;/attacker"
+	}
+	else = {
+		debug_log = "VOTC:BATTLE_REPORT/;/winning_side/;/defender"
+	}
+
+	if = {
+		limit = { exists = scope:votc_battle_report_winner_commander }
+		scope:votc_battle_report_winner_commander = {
+			debug_log = "VOTC:BATTLE_REPORT/;/commander/;/winner/;/[THIS.Char.GetID]/;/[THIS.Char.GetFullNameNicknamedNoTooltipRegnal]"
+		}
+	}
+	if = {
+		limit = { exists = scope:votc_battle_report_loser_commander }
+		scope:votc_battle_report_loser_commander = {
+			debug_log = "VOTC:BATTLE_REPORT/;/commander/;/loser/;/[THIS.Char.GetID]/;/[THIS.Char.GetFullNameNicknamedNoTooltipRegnal]"
+		}
+	}
+
+	if = {
+		limit = { exists = scope:wipe }
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/wipe"
+	}
+	if = {
+		limit = { troops_ratio <= 0.5 }
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/outnumbered_victory"
+	}
+	if = {
+		limit = { percent_enemies_killed >= 75 }
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/devastating_losses"
+	}
+	if = {
+		limit = { num_enemies_killed >= 3000 }
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/heavy_enemy_losses"
+	}
+	if = {
+		limit = { combat = { num_total_troops >= 30000 } }
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/massive_battle"
+	}
+	else_if = {
+		limit = { combat = { num_total_troops >= 10000 } }
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/major_battle"
+	}
+	if = {
+		limit = { combat = { warscore_value >= 15 } }
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/decisive_warscore"
+	}
+	if = {
+		limit = {
+			any_in_list = {
+				list = slain_combatants
+				OR = {
+					this = root.side_primary_participant
+					this = root.enemy_side.side_primary_participant
+					is_heir_of = root.side_primary_participant
+					is_heir_of = root.enemy_side.side_primary_participant
+				}
+			}
+		}
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/important_death"
+	}
+	if = {
+		limit = {
+			any_in_list = {
+				list = victorious_slain_combatants
+				OR = {
+					this = root.side_primary_participant
+					this = root.enemy_side.side_primary_participant
+					is_heir_of = root.side_primary_participant
+					is_heir_of = root.enemy_side.side_primary_participant
+				}
+			}
+		}
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/important_death"
+	}
+	every_in_list = {
+		list = slain_combatants
+		limit = {
+			OR = {
+				this = root.side_primary_participant
+				this = root.enemy_side.side_primary_participant
+				is_heir_of = root.side_primary_participant
+				is_heir_of = root.enemy_side.side_primary_participant
+			}
+		}
+		debug_log = "VOTC:BATTLE_REPORT/;/notable/;/slain_loser_side/;/[THIS.Char.GetID]/;/[THIS.Char.GetFullNameNicknamedNoTooltipRegnal]"
+	}
+	every_in_list = {
+		list = victorious_slain_combatants
+		limit = {
+			OR = {
+				this = root.side_primary_participant
+				this = root.enemy_side.side_primary_participant
+				is_heir_of = root.side_primary_participant
+				is_heir_of = root.enemy_side.side_primary_participant
+			}
+		}
+		debug_log = "VOTC:BATTLE_REPORT/;/notable/;/slain_winner_side/;/[THIS.Char.GetID]/;/[THIS.Char.GetFullNameNicknamedNoTooltipRegnal]"
+	}
+	if = {
+		limit = {
+			any_in_list = {
+				list = prisoners_of_war
+				OR = {
+					this = root.side_primary_participant
+					this = root.enemy_side.side_primary_participant
+					is_heir_of = root.side_primary_participant
+					is_heir_of = root.enemy_side.side_primary_participant
+				}
+			}
+		}
+		debug_log = "VOTC:BATTLE_REPORT/;/tag/;/important_capture"
+	}
+	every_in_list = {
+		list = prisoners_of_war
+		limit = {
+			OR = {
+				this = root.side_primary_participant
+				this = root.enemy_side.side_primary_participant
+				is_heir_of = root.side_primary_participant
+				is_heir_of = root.enemy_side.side_primary_participant
+			}
+		}
+		debug_log = "VOTC:BATTLE_REPORT/;/notable/;/captured_loser_side/;/[THIS.Char.GetID]/;/[THIS.Char.GetFullNameNicknamedNoTooltipRegnal]"
+	}
+}

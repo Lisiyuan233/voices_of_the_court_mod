@@ -1,0 +1,10 @@
+namespace = votc_checkpoint_event
+
+votc_checkpoint_event.9001 = {
+	type = character_event
+	scope = actor
+	theme = clipboard_transfer_event_theme
+	window = event_window_widget_talk_clear
+	desc = votc_checkpoint_event.9001.desc
+	on_finish = "[EventWindowData.CopyToClipboard]"
+}

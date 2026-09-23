@@ -1,4 +1,2 @@
-debug/*
-debug*
-.idea/*
-.idea*
+# Local mod install helper — machine-specific, not for the repo.
+install_mod.py

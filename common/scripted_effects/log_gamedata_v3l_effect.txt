@@ -1,6 +1,6 @@
 ﻿log_gamedata_v3l = {
 	log_backgrounds = yes
-	debug_log = "VOTC:IN/;/init/;/[GetPlayer.GetID]/;/[GetPlayer.GetTitledFirstNameNicknamedNoTooltipRegnal]/;/[recipient.GetID]/;/[recipient.GetTitledFirstNameNicknamedNoTooltipRegnal]/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('talk_scene').GetFlagName]/;/[recipient.GetCurrentLocation.GetName]/;/[recipient.GetCurrentLocation.GetController.GetFullNameNicknamedNoTooltipRegnal]/;/[GetCurrentDate.GetDateAsTotalDays]"
+	debug_log = "VOTC:IN/;/init/;/[GetPlayer.GetID]/;/[GetPlayer.GetTitledFirstNameNicknamedNoTooltipRegnal]/;/[recipient.GetID]/;/[recipient.GetTitledFirstNameNicknamedNoTooltipRegnal]/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('talk_scene').GetFlagName]/;/[recipient.GetCurrentLocation.GetName]/;/[recipient.GetCurrentLocation.GetController.GetFullNameNicknamedNoTooltipRegnal]/;/[GetCurrentDate.GetDateAsTotalDays]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_epoch').GetValue|0]"
 
 	debug_log = log_character_header
 	

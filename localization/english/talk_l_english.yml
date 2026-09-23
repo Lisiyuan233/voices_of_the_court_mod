@@ -187,3 +187,11 @@ votc_relaese_letter_decision_confirm:0 "Release Letter Thread"
 votc_relaese_letter_decision_effect_desc:0 "You will release the current letter thread awaiting a reply. This action allows you to bypass the letter process counter and will most likely overwrite any previous replies not yet received. If you used the letter-writing function without the backend program running, it is recommended to manually perform this operation once!"
 
 votc_continue_button:0 "Continue"
+
+votc_battle_report_message_title:0 "Battle Report"
+votc_relaese_battle_report_decision_effect_desc:0 "You will release all stuck battle report threads and allow new battle reports to be generated."
+
+votc_conversation_history_decision:0 "View Conversation History"
+votc_conversation_history_decision_tooltip:0 "Open the conversation history viewer in the VOTC app."
+votc_conversation_history_decision_confirm:0 "View Conversation History"
+votc_conversation_history_decision_effect_desc:0 "Opens the conversation history viewer. This also synchronizes the checkpoint epoch so the viewer only shows conversations consistent with your current save."

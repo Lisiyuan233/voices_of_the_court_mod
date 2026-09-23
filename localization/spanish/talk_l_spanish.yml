@@ -185,3 +185,11 @@ votc_relaese_letter_decision_desc:0 "Liberar el hilo de cartas actual en espera 
 votc_relaese_letter_decision_tooltip:0 "Liberar hilo de cartas"
 votc_relaese_letter_decision_confirm:0 "Liberar hilo de cartas"
 votc_relaese_letter_decision_effect_desc:0 "Liberarás el hilo de cartas actual en espera de una respuesta. Esta acción te permite omitir el contador del proceso de cartas y probablemente sobrescribirá cualquier respuesta anterior que aún no se haya recibido. Si usaste la función de escritura de cartas sin que el programa backend esté en ejecución, ¡se recomienda realizar esta operación manualmente una vez!"
+
+votc_battle_report_message_title:0 "Informe de batalla"
+votc_relaese_battle_report_decision_effect_desc:0 "Liberarás todos los hilos de informes de batalla atascados y permitirás que se generen nuevos informes."
+
+votc_conversation_history_decision:0 "Ver historial de conversaciones"
+votc_conversation_history_decision_tooltip:0 "Abrir el visor de historial de conversaciones en la aplicación VOTC."
+votc_conversation_history_decision_confirm:0 "Ver historial de conversaciones"
+votc_conversation_history_decision_effect_desc:0 "Abre el visor de historial de conversaciones. Esto también sincroniza la época del punto de control para que el visor solo muestre conversaciones consistentes con tu guardado actual."

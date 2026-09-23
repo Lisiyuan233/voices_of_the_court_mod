@@ -185,3 +185,11 @@ votc_relaese_letter_decision_desc:0 "返信を待っている現在の手紙ス�
 votc_relaese_letter_decision_tooltip:0 "手紙スレッドを解放"
 votc_relaese_letter_decision_confirm:0 "手紙スレッドを解放"
 votc_relaese_letter_decision_effect_desc:0 "返信を待っている現在の手紙スレッドを解放します。このアクションにより、手紙プロセスカウンターをバイパスでき、まだ受信していない以前の返信を上書きする可能性が高くなります。バックエンドプログラムを実行せずに手紙作成機能を使用した場合は、この操作を一度手動で実行することをお勧めします！"
+
+votc_battle_report_message_title:0 "戦況報告"
+votc_relaese_battle_report_decision_effect_desc:0 "スタックしたすべての戦況報告スレッドを解放し、新しい戦況報告の生成を許可します。"
+
+votc_conversation_history_decision:0 "会話履歴を表示"
+votc_conversation_history_decision_tooltip:0 "VOTCアプリで会話履歴ビューアーを開く。"
+votc_conversation_history_decision_confirm:0 "会話履歴を表示"
+votc_conversation_history_decision_effect_desc:0 "会話履歴ビューアーを開きます。これによりチェックポイントエポックが同期され、現在のセーブと一致する会話のみが表示されます。"

@@ -1,0 +1,827 @@
+namespace = battle_report_event
+
+battle_report_event.9000 = {
+	hidden = yes
+	scope = combat_side
+
+	immediate = {
+		debug_log = "VOTC:BATTLE_REPORT/;/hook/;/[GetCurrentDate.GetStringShort]"
+
+		if = {
+			limit = {
+				votc_battle_report_has_required_scopes_trigger = yes
+			}
+
+			if = {
+				limit = {
+					votc_battle_report_player_involved_trigger = yes
+				}
+
+				debug_log = "VOTC:BATTLE_REPORT/;/seen/;/[GetCurrentDate.GetStringShort]"
+
+				if = {
+					limit = {
+						votc_battle_report_important_trigger = yes
+					}
+
+					debug_log = "VOTC:BATTLE_REPORT/;/candidate/;/[GetCurrentDate.GetStringShort]"
+
+					combat.location = { save_scope_as = votc_battle_report_location }
+					side_primary_participant = { save_scope_as = votc_battle_report_winner }
+					enemy_side.side_primary_participant = { save_scope_as = votc_battle_report_loser }
+
+					side_commander ?= { save_scope_as = votc_battle_report_winner_commander }
+					enemy_side.side_commander ?= { save_scope_as = votc_battle_report_loser_commander }
+
+					if = {
+						limit = { side_primary_participant = { is_ai = no } }
+						side_primary_participant = { save_scope_as = votc_battle_report_player }
+					}
+					else_if = {
+						limit = { enemy_side.side_primary_participant = { is_ai = no } }
+						enemy_side.side_primary_participant = { save_scope_as = votc_battle_report_player }
+					}
+					else_if = {
+						limit = { any_side_participant = { is_ai = no } }
+						every_side_participant = {
+							limit = { is_ai = no }
+							save_scope_as = votc_battle_report_player
+						}
+					}
+					else_if = {
+						limit = { enemy_side = { any_side_participant = { is_ai = no } } }
+						enemy_side = {
+							every_side_participant = {
+								limit = { is_ai = no }
+								save_scope_as = votc_battle_report_player
+							}
+						}
+					}
+					else_if = {
+						limit = { side_commander ?= { is_ai = no } }
+						side_commander = { save_scope_as = votc_battle_report_player }
+					}
+					else_if = {
+						limit = { enemy_side.side_commander ?= { is_ai = no } }
+						enemy_side.side_commander = { save_scope_as = votc_battle_report_player }
+					}
+					else_if = {
+						limit = { any_side_commander = { is_ai = no } }
+						every_side_commander = {
+							limit = { is_ai = no }
+							save_scope_as = votc_battle_report_player
+						}
+					}
+					else_if = {
+						limit = { enemy_side = { any_side_commander = { is_ai = no } } }
+						enemy_side = {
+							every_side_commander = {
+								limit = { is_ai = no }
+								save_scope_as = votc_battle_report_player
+							}
+						}
+					}
+					else_if = {
+						limit = { any_side_knight = { is_ai = no } }
+						every_side_knight = {
+							limit = { is_ai = no }
+							save_scope_as = votc_battle_report_player
+						}
+					}
+					else_if = {
+						limit = { enemy_side = { any_side_knight = { is_ai = no } } }
+						enemy_side = {
+							every_side_knight = {
+								limit = { is_ai = no }
+								save_scope_as = votc_battle_report_player
+							}
+						}
+					}
+
+					if = {
+						limit = {
+							exists = scope:votc_battle_report_player
+						}
+
+						scope:votc_battle_report_player = {
+							set_variable = {
+								name = votc_battle_report_delay_days
+								value = votc_battle_report_delay
+							}
+							set_variable = {
+								name = votc_battle_report_percent_enemies_killed
+								value = root.percent_enemies_killed
+							}
+						}
+
+						if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_1 }
+							}
+							set_global_variable = votc_battle_report_1
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_1
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_1_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_1_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_1"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9021 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_2 }
+							}
+							set_global_variable = votc_battle_report_2
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_2
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_2_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_2_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_2"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9022 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_3 }
+							}
+							set_global_variable = votc_battle_report_3
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_3
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_3_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_3_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_3"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9023 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_4 }
+							}
+							set_global_variable = votc_battle_report_4
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_4
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_4_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_4_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_4"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9024 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_5 }
+							}
+							set_global_variable = votc_battle_report_5
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_5
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_5_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_5_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_5"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9025 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_6 }
+							}
+							set_global_variable = votc_battle_report_6
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_6
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_6_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_6_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_6"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9026 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_7 }
+							}
+							set_global_variable = votc_battle_report_7
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_7
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_7_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_7_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_7"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9027 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_8 }
+							}
+							set_global_variable = votc_battle_report_8
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_8
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_8_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_8_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_8"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9028 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_9 }
+							}
+							set_global_variable = votc_battle_report_9
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_9
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_9_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_9_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_9"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9029 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_10 }
+							}
+							set_global_variable = votc_battle_report_10
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_10
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_10_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_10_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_10"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9030 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_11 }
+							}
+							set_global_variable = votc_battle_report_11
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_11
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_11_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_11_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_11"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9031 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_12 }
+							}
+							set_global_variable = votc_battle_report_12
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_12
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_12_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_12_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_12"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9032 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_13 }
+							}
+							set_global_variable = votc_battle_report_13
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_13
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_13_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_13_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_13"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9033 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_14 }
+							}
+							set_global_variable = votc_battle_report_14
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_14
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_14_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_14_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_14"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9034 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { exists = global_var:votc_battle_report_15 }
+							}
+							set_global_variable = votc_battle_report_15
+							set_global_variable = {
+								name = votc_battle_report_num
+								value = flag:battle_report_15
+							}
+							scope:votc_battle_report_player = {
+								set_variable = {
+									name = votc_battle_report_15_timer
+									days = votc_battle_report_delay
+								}
+								set_variable = {
+									name = votc_battle_report_15_sent_day
+									value = current_date
+								}
+								debug_log = "VOTC:BATTLE_REPORT/;/init/;/[THIS.Char.GetID]/;/[GetCurrentDate.GetStringShort]/;/[THIS.Var('votc_battle_report_delay_days').GetValue|0]/;/battle_report_15"
+							}
+							votc_battle_report_write_common_logs_effect = {}
+							scope:votc_battle_report_player = {
+								trigger_event = { id = battle_report_event.9001 days = 1 }
+								trigger_event = { id = battle_report_event.9035 days = votc_battle_report_delay }
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+						else = {
+							debug_log = "VOTC:BATTLE_REPORT/;/skipped/;/full/;/[GetCurrentDate.GetStringShort]"
+							scope:votc_battle_report_player = {
+								remove_variable ?= votc_battle_report_delay_days
+								remove_variable ?= votc_battle_report_percent_enemies_killed
+							}
+						}
+					}
+					else = {
+						debug_log = "VOTC:BATTLE_REPORT/;/skipped/;/player_scope/;/[GetCurrentDate.GetStringShort]"
+					}
+				}
+				else = {
+					debug_log = "VOTC:BATTLE_REPORT/;/skipped/;/not_important/;/[GetCurrentDate.GetStringShort]"
+				}
+			}
+			else = {
+				debug_log = "VOTC:BATTLE_REPORT/;/skipped/;/no_player/;/[GetCurrentDate.GetStringShort]"
+			}
+		}
+		else = {
+			debug_log = "VOTC:BATTLE_REPORT/;/skipped/;/scopes/;/[GetCurrentDate.GetStringShort]"
+		}
+	}
+}
+
+battle_report_event.9001 = {
+	type = character_event
+	title = "aha"
+	theme = clipboard_transfer_event_theme
+	desc = battle_report_event.9001.desc
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9002 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_pending
+		remove_global_variable ?= votc_battle_report_pending_valid
+	}
+	widget = {
+		gui = "event_window_widget_battle_report"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9021 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_1
+		remove_variable ?= votc_battle_report_1_timer
+		remove_variable ?= votc_battle_report_1_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_1"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9022 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_2
+		remove_variable ?= votc_battle_report_2_timer
+		remove_variable ?= votc_battle_report_2_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_2"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9023 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_3
+		remove_variable ?= votc_battle_report_3_timer
+		remove_variable ?= votc_battle_report_3_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_3"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9024 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_4
+		remove_variable ?= votc_battle_report_4_timer
+		remove_variable ?= votc_battle_report_4_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_4"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9025 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_5
+		remove_variable ?= votc_battle_report_5_timer
+		remove_variable ?= votc_battle_report_5_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_5"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9026 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_6
+		remove_variable ?= votc_battle_report_6_timer
+		remove_variable ?= votc_battle_report_6_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_6"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9027 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_7
+		remove_variable ?= votc_battle_report_7_timer
+		remove_variable ?= votc_battle_report_7_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_7"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9028 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_8
+		remove_variable ?= votc_battle_report_8_timer
+		remove_variable ?= votc_battle_report_8_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_8"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9029 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_9
+		remove_variable ?= votc_battle_report_9_timer
+		remove_variable ?= votc_battle_report_9_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_9"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9030 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_10
+		remove_variable ?= votc_battle_report_10_timer
+		remove_variable ?= votc_battle_report_10_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_10"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9031 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_11
+		remove_variable ?= votc_battle_report_11_timer
+		remove_variable ?= votc_battle_report_11_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_11"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9032 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_12
+		remove_variable ?= votc_battle_report_12_timer
+		remove_variable ?= votc_battle_report_12_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_12"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9033 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_13
+		remove_variable ?= votc_battle_report_13_timer
+		remove_variable ?= votc_battle_report_13_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_13"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9034 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_14
+		remove_variable ?= votc_battle_report_14_timer
+		remove_variable ?= votc_battle_report_14_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_14"
+		container = "custom_widgets_container"
+	}
+}
+
+battle_report_event.9035 = {
+	type = character_event
+	title = "aha"
+	theme = battle
+	desc = battle_report_event.9002.desc
+	immediate = {
+		remove_global_variable ?= votc_battle_report_15
+		remove_variable ?= votc_battle_report_15_timer
+		remove_variable ?= votc_battle_report_15_sent_day
+	}
+	widget = {
+		gui = "event_window_widget_battle_report_15"
+		container = "custom_widgets_container"
+	}
+}

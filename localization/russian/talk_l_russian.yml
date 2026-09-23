@@ -200,3 +200,11 @@ votc_relaese_letter_decision_desc:0 "Освободить текущую цеп�
 votc_relaese_letter_decision_tooltip:0 "Освободить цепочку писем"
 votc_relaese_letter_decision_confirm:0 "Освободить цепочку писем"
 votc_relaese_letter_decision_effect_desc:0 "Вы освободите текущую цепочку писем, ожидающую ответа. Это действие позволит вам обойти счётчик процесса писем и, скорее всего, перезапишет любые предыдущие ответы, которые ещё не были получены. Если вы использовали функцию написания писем без запущенной бэкенд-программы, рекомендуется выполнить эту операцию вручную один раз!"
+
+votc_battle_report_message_title:0 "Боевой отчет"
+votc_relaese_battle_report_decision_effect_desc:0 "Вы освободите все застрявшие потоки боевых отчетов и позволите создавать новые."
+
+votc_conversation_history_decision:0 "Просмотр истории диалогов"
+votc_conversation_history_decision_tooltip:0 "Открыть просмотрщик истории диалогов в приложении VOTC."
+votc_conversation_history_decision_confirm:0 "Просмотр истории диалогов"
+votc_conversation_history_decision_effect_desc:0 "Открывает просмотрщик истории диалогов. Это также синхронизирует эпоху контрольной точки, чтобы просмотрщик показывал только диалоги, соответствующие текущему сохранению."

@@ -111,8 +111,6 @@
 	# OPTIONS
 	###################
 
-	special_option_category = special_type
-
 	options = {
 		#########
 		# Amenities
@@ -615,7 +613,7 @@
 
 	background = { #fallback
 		texture = "gfx/interface/illustrations/event_scenes/councilchamber.dds"
-		environment = "environment_event_councilchamber"
+		environment = "environment_council"
 		ambience = "event:/DLC/EP4/SFX/Events/Event_Backgrounds/tgp_study_asia"
 	}
 

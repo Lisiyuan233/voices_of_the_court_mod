@@ -185,3 +185,11 @@ votc_relaese_letter_decision_desc:0 "Libérer le fil de lettres actuel en attent
 votc_relaese_letter_decision_tooltip:0 "Libérer le fil de lettres"
 votc_relaese_letter_decision_confirm:0 "Libérer le fil de lettres"
 votc_relaese_letter_decision_effect_desc:0 "Vous allez libérer le fil de lettres actuel en attente de réponse. Cette action vous permet de contourner le compteur de processus de lettre et écrasera probablement toutes les réponses précédentes pas encore reçues. Si vous avez utilisé la fonction d'écriture de lettres sans que le programme backend ne soit en cours d'exécution, il est recommandé d'effectuer cette opération manuellement une fois !"
+
+votc_battle_report_message_title:0 "Rapport de bataille"
+votc_relaese_battle_report_decision_effect_desc:0 "Vous libérerez tous les threads de rapports de bataille bloqués et permettrez la génération de nouveaux rapports."
+
+votc_conversation_history_decision:0 "Voir l'historique des conversations"
+votc_conversation_history_decision_tooltip:0 "Ouvrir la visionneuse d'historique des conversations dans l'application VOTC."
+votc_conversation_history_decision_confirm:0 "Voir l'historique des conversations"
+votc_conversation_history_decision_effect_desc:0 "Ouvre la visionneuse d'historique des conversations. Cela synchronise également l'époque du point de contrôle afin que la visionneuse ne montre que les conversations cohérentes avec votre sauvegarde actuelle."

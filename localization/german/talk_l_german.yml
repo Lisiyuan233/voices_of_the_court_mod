@@ -185,3 +185,11 @@ votc_relaese_letter_decision_desc:0 "Die aktuelle Briefkette freigeben, die auf 
 votc_relaese_letter_decision_tooltip:0 "Briefkette freigeben"
 votc_relaese_letter_decision_confirm:0 "Briefkette freigeben"
 votc_relaese_letter_decision_effect_desc:0 "Ihr werdet die aktuelle Briefkette freigeben, die auf eine Antwort wartet. Diese Aktion ermöglicht es Euch, den Briefprozesszähler zu umgehen und wird höchstwahrscheinlich alle vorherigen Antworten überschreiben, die noch nicht eingegangen sind. Wenn Ihr die Briefschreibfunktion ohne laufendes Backend-Programm verwendet habt, wird empfohlen, diese Operation einmal manuell durchzuführen!"
+
+votc_battle_report_message_title:0 "Schlachtbericht"
+votc_relaese_battle_report_decision_effect_desc:0 "Sie werden alle feststeckenden Schlachtbericht-Threads freigeben und neue Schlachtberichte ermöglichen."
+
+votc_conversation_history_decision:0 "Konversationsverlauf anzeigen"
+votc_conversation_history_decision_tooltip:0 "Öffnet die Konversationsverlauf-Anzeige in der VOTC-App."
+votc_conversation_history_decision_confirm:0 "Konversationsverlauf anzeigen"
+votc_conversation_history_decision_effect_desc:0 "Öffnet die Konversationsverlauf-Anzeige. Dies synchronisiert auch die Checkpoint-Epoche, sodass die Anzeige nur Konversationen zeigt, die mit dem aktuellen Spielstand übereinstimmen."

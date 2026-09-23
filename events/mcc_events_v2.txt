@@ -518,6 +518,7 @@ mcc_event_v2.8999 = {
 	desc = talk_event.9001.desc
 
 	immediate = {
+		votc_init_checkpoint_effect = yes
 		scope:recipient = {
 			log_gamedata_v3s = yes
 		}
@@ -537,6 +538,7 @@ mcc_event_v2.9000 = {
 	desc = talk_event.9001.desc
 
 	immediate = {
+		votc_init_checkpoint_effect = yes
 		scope:recipient = {
 			log_gamedata_v3l = yes
 		}
@@ -561,6 +563,7 @@ mcc_event_v2.9001 = {
 	desc = talk_event.9001.desc
 
 	immediate = {
+		votc_init_checkpoint_effect = yes
 		scope:recipient = {
 			log_gamedata_v3 = yes
 		}

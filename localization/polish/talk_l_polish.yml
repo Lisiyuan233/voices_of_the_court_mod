@@ -185,3 +185,11 @@ votc_relaese_letter_decision_desc:0 "Zwolnij bieżący wątek listów oczekując
 votc_relaese_letter_decision_tooltip:0 "Zwolnij wątek listów"
 votc_relaese_letter_decision_confirm:0 "Zwolnij wątek listów"
 votc_relaese_letter_decision_effect_desc:0 "Zwolnisz bieżący wątek listów oczekujący na odpowiedź. Ta akcja pozwala pominąć licznik procesu listów i najprawdopodobniej nadpisze wszystkie poprzednie odpowiedzi, które jeszcze nie zostały otrzymane. Jeśli używałeś funkcji pisania listów bez uruchomionego programu zaplecza, zaleca się ręczne wykonanie tej operacji raz!"
+
+votc_battle_report_message_title:0 "Raport bitewny"
+votc_relaese_battle_report_decision_effect_desc:0 "Zwolnisz wszystkie zablokowane wątki raportów bitewnych i pozwolisz na generowanie nowych raportów."
+
+votc_conversation_history_decision:0 "Zobacz historię rozmów"
+votc_conversation_history_decision_tooltip:0 "Otwórz przeglądarkę historii rozmów w aplikacji VOTC."
+votc_conversation_history_decision_confirm:0 "Zobacz historię rozmów"
+votc_conversation_history_decision_effect_desc:0 "Otwiera przeglądarkę historii rozmów. Synchronizuje to również epokę punktu kontrolnego, aby przeglądarka pokazywała tylko rozmowy zgodne z obecnym zapisem."

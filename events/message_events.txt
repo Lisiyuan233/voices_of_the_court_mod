@@ -178,6 +178,7 @@ message_event.360 = {
 			}
 		}
 		
+		votc_init_checkpoint_effect = yes
 		scope:recipient = {
 			log_gamedata_v3l = yes
 		}
