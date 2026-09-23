@@ -1,4 +1,4 @@
-hbox = {
+﻿hbox = {
 	name = "event_window_widget_message"
 	layoutpolicy_horizontal = expanding
 	margin = { 10 0 }

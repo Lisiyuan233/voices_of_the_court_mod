@@ -1,4 +1,4 @@
-namespace = battle_report_event
+﻿namespace = battle_report_event
 
 battle_report_event.9000 = {
 	hidden = yes

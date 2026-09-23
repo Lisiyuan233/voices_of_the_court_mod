@@ -1,4 +1,4 @@
-votc_battle_report_has_required_scopes_trigger = {
+﻿votc_battle_report_has_required_scopes_trigger = {
 	exists = combat.location
 	exists = side_primary_participant
 	exists = enemy_side.side_primary_participant
