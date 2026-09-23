@@ -146,9 +146,9 @@ activity_votc_council_gathering_guest_desc:0 "You have been invited to a council
 activity_votc_council_gathering_guest_help_text:0 "Attend the council gathering to provide your counsel on important matters."
 activity_votc_council_gathering_host_desc:0 "Host a council gathering to discuss important matters with your councilors."
 activity_votc_council_gathering_owner:0 "Council Gathering"
+activity_votc_council_gathering_predicted_cost:0 "Cost: [Scope.GetLocalizedText('activity_votc_council_gathering_cost_desc')]"
 activity_votc_council_gathering_province_desc:0 "A suitable location for a council gathering."
 activity_votc_council_gathering_selection_tooltip:0 "Gather your council to discuss important matters."
-activity_votc_council_gathering_host_an_a:0 "a"
 
 # Council Gathering Amenities
 votc_council_gathering_amenities_amount:0 "Duration"
@@ -182,6 +182,7 @@ votc_talk_mcc_selector:0 "Select characters to talk along with [recipient.GetTit
 
 votc_relaese_letter_decision:0 "VOTC Release Letter Thread"
 votc_relaese_letter_decision_desc:0 "Release the current letter thread awaiting a reply"
+votc_letter_reply_fallback_desc:0 "The reply could not be generated. The letter thread was cleared and the timeline advanced."
 votc_relaese_letter_decision_tooltip:0 "Release Letter Thread"
 votc_relaese_letter_decision_confirm:0 "Release Letter Thread"
 votc_relaese_letter_decision_effect_desc:0 "You will release the current letter thread awaiting a reply. This action allows you to bypass the letter process counter and will most likely overwrite any previous replies not yet received. If you used the letter-writing function without the backend program running, it is recommended to manually perform this operation once!"
