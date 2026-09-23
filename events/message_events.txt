@@ -178,9 +178,17 @@ message_event.360 = {
 			}
 		}
 		
-		votc_init_checkpoint_effect = yes
+		# Reserve the post-send checkpoint token before this snapshot is logged.
+		# The app uses it to attach the reply summary even if its run file has not
+		# yet written the new node variables when the next CK3 event fires.
+		scope:actor = {
+			votc_prepare_checkpoint_advance_effect = { SOURCE = letter }
+		}
 		scope:recipient = {
 			log_gamedata_v3l = yes
+		}
+		scope:actor = {
+			votc_bump_checkpoint_effect = { SOURCE = letter }
 		}
 		remove_global_variable = mcc_character_0
 		remove_global_variable = mcc_character_1

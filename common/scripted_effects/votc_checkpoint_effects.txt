@@ -1,8 +1,382 @@
-votc_init_checkpoint_effect = {
-	scope:actor = {
-		if = {
-			limit = { NOT = { has_variable = votc_checkpoint_epoch } }
-			set_variable = { name = votc_checkpoint_epoch value = 0 }
+﻿# Build a non-zero 29-bit token from CK3's seeded random effect. The token is
+# not an identifier exposed to players; it ties the snapshot before a bump to
+# the checkpoint immediately after it, while the app-generated node variables
+# may still be waiting in a run script.
+votc_append_pending_checkpoint_token_bit_effect = {
+	change_variable = {
+		name = votc_checkpoint_pending_token
+		multiply = 2
+	}
+	random = {
+		chance = 50
+		change_variable = {
+			name = votc_checkpoint_pending_token
+			add = 1
 		}
 	}
+}
+
+votc_generate_pending_checkpoint_token_effect = {
+	# Start at one so every generated token is non-zero even if all random bits
+	# are zero. 28 appended bits yield 2^28 distinct positive values.
+	set_variable = { name = votc_checkpoint_pending_token value = 1 }
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+	votc_append_pending_checkpoint_token_bit_effect = yes
+}
+
+# Append one random bit to the global campaign id segment variable. The
+# segment must already exist; callers seed it to 1 so it is always non-zero.
+# 28 appended bits yield 2^28 distinct positive values per segment, matching
+# the checkpoint token strength. The four segments are kept as separate CK3
+# globals and never concatenated into a single fixed-point value.
+votc_append_campaign_id_bit_effect = {
+	change_global_variable = {
+		name = votc_campaign_id_segment
+		multiply = 2
+	}
+	random = {
+		chance = 50
+		change_global_variable = {
+			name = votc_campaign_id_segment
+			add = 1
+		}
+	}
+}
+
+# Generate one 28-bit non-zero segment into the global variable named by
+# votc_campaign_id_segment. Mirrors votc_generate_pending_checkpoint_token_effect.
+votc_generate_campaign_id_segment_effect = {
+	set_global_variable = { name = votc_campaign_id_segment value = 1 }
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+	votc_append_campaign_id_bit_effect = yes
+}
+
+# Generate all four campaign id segments into their committed globals. Only
+# call after votc_validate_campaign_id_effect has cleared any half-committed
+# state. Writes the schema commit flag last so a crash between segments is
+# detected as corrupt rather than silently re-keyed.
+votc_generate_campaign_id_effect = {
+	votc_generate_campaign_id_segment_effect = yes
+	set_global_variable = {
+		name = votc_campaign_id_a
+		value = { value = global_var:votc_campaign_id_segment }
+	}
+	votc_generate_campaign_id_segment_effect = yes
+	set_global_variable = {
+		name = votc_campaign_id_b
+		value = { value = global_var:votc_campaign_id_segment }
+	}
+	votc_generate_campaign_id_segment_effect = yes
+	set_global_variable = {
+		name = votc_campaign_id_c
+		value = { value = global_var:votc_campaign_id_segment }
+	}
+	votc_generate_campaign_id_segment_effect = yes
+	set_global_variable = {
+		name = votc_campaign_id_d
+		value = { value = global_var:votc_campaign_id_segment }
+	}
+	remove_global_variable = votc_campaign_id_segment
+}
+
+# Detect corruption in an already-committed campaign id: schema is set but any
+# segment is missing or zero. Must not silently regenerate; returns via the
+# votc_campaign_corrupt global flag for the init effect to log.
+votc_validate_campaign_id_effect = {
+	set_global_variable = { name = votc_campaign_corrupt value = 0 }
+	if = {
+		limit = { NOT = { has_global_variable = votc_campaign_id_a } }
+		set_global_variable = { name = votc_campaign_corrupt value = 1 }
+	}
+	if = {
+		limit = { NOT = { has_global_variable = votc_campaign_id_b } }
+		set_global_variable = { name = votc_campaign_corrupt value = 1 }
+	}
+	if = {
+		limit = { NOT = { has_global_variable = votc_campaign_id_c } }
+		set_global_variable = { name = votc_campaign_corrupt value = 1 }
+	}
+	if = {
+		limit = { NOT = { has_global_variable = votc_campaign_id_d } }
+		set_global_variable = { name = votc_campaign_corrupt value = 1 }
+	}
+	if = {
+		limit = { global_var:votc_campaign_id_a <= 0 }
+		set_global_variable = { name = votc_campaign_corrupt value = 1 }
+	}
+	if = {
+		limit = { global_var:votc_campaign_id_b <= 0 }
+		set_global_variable = { name = votc_campaign_corrupt value = 1 }
+	}
+	if = {
+		limit = { global_var:votc_campaign_id_c <= 0 }
+		set_global_variable = { name = votc_campaign_corrupt value = 1 }
+	}
+	if = {
+		limit = { global_var:votc_campaign_id_d <= 0 }
+		set_global_variable = { name = votc_campaign_corrupt value = 1 }
+	}
+}
+
+# Idempotent campaign identity bootstrap. Order:
+#  1. If schema and all four segments are intact, return.
+#  2. If schema exists but any segment is missing/zero, log corrupt and return
+#     (never silently overwrite a committed identity).
+#  3. If schema is absent, clear any half-committed segments, set bootstrap kind
+#     from the evidence found in the save (1 fresh, 2 old checkpoint state,
+#     3 traces of an older VOTC install without a v2 campaign id), generate all
+#     four segments, write schema=1 as the commit marker, and log created.
+# Global variables persist with the save, so a saved campaign keeps its id
+# across reloads and save branches.
+votc_init_campaign_id_effect = {
+	# Clean any leftover scratch state from a crashed generation so the next
+	# bootstrap starts fresh. ?= only removes if present, so this is a no-op on
+	# a clean save.
+	remove_global_variable ?= votc_campaign_id_segment
+	if = {
+		limit = {
+			has_global_variable = votc_campaign_schema
+			global_var:votc_campaign_schema >= 1
+			has_global_variable = votc_campaign_id_a
+			has_global_variable = votc_campaign_id_b
+			has_global_variable = votc_campaign_id_c
+			has_global_variable = votc_campaign_id_d
+			global_var:votc_campaign_id_a > 0
+			global_var:votc_campaign_id_b > 0
+			global_var:votc_campaign_id_c > 0
+			global_var:votc_campaign_id_d > 0
+		}
+		# Already committed and intact. Clear any stale corrupt flag left by a
+		# previously-detected-then-manually-fixed corruption so it does not
+		# linger as global state on a healthy save.
+		remove_global_variable ?= votc_campaign_corrupt
+	}
+	else_if = {
+		limit = {
+			has_global_variable = votc_campaign_schema
+			global_var:votc_campaign_schema >= 1
+		}
+		votc_validate_campaign_id_effect = yes
+		debug_log = "VOTC:CAMPAIGN/;/corrupt/;/[GetPlayer.GetID]/;/[GetGlobalVariable('votc_campaign_schema').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_corrupt').GetValue|0]"
+	}
+	else = {
+		set_global_variable = { name = votc_campaign_bootstrap_kind value = 1 }
+		if = {
+			limit = {
+				OR = {
+					has_variable = votc_checkpoint_epoch
+					has_variable = votc_checkpoint_token
+					has_variable = votc_timeline_node_a
+				}
+			}
+			set_global_variable = { name = votc_campaign_bootstrap_kind value = 2 }
+		}
+		else_if = {
+			# Adopting a save that an older VOTC mod played: it left its own
+			# global traces behind but never committed a v2 campaign id. The
+			# check is deliberately narrow - only markers a working install
+			# always leaves - so a miss degrades to bootstrapKind 1 (reported
+			# as a fresh campaign), never to a wrong "this was an upgrade"
+			# claim, and no adopted data is at stake either way.
+			limit = {
+				OR = {
+					has_global_variable = talk_first_scope
+					has_global_variable = talk_second_scope
+					has_global_variable = talk_scene
+					has_global_variable = votc_incoming_letter_player_scope
+				}
+			}
+			set_global_variable = { name = votc_campaign_bootstrap_kind value = 3 }
+		}
+		remove_global_variable = votc_campaign_id_a
+		remove_global_variable = votc_campaign_id_b
+		remove_global_variable = votc_campaign_id_c
+		remove_global_variable = votc_campaign_id_d
+		votc_generate_campaign_id_effect = yes
+		set_global_variable = { name = votc_campaign_schema value = 1 }
+		debug_log = "VOTC:CAMPAIGN/;/created/;/[GetPlayer.GetID]/;/[GetGlobalVariable('votc_campaign_schema').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]"
+	}
+}
+
+votc_init_checkpoint_effect = {
+	votc_init_campaign_id_effect = yes
+	if = {
+		limit = { NOT = { has_variable = votc_checkpoint_epoch } }
+		set_variable = { name = votc_checkpoint_epoch value = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = votc_timeline_node_a } }
+		set_variable = { name = votc_timeline_node_a value = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = votc_timeline_node_b } }
+		set_variable = { name = votc_timeline_node_b value = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = votc_timeline_parent_a } }
+		set_variable = { name = votc_timeline_parent_a value = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = votc_timeline_parent_b } }
+		set_variable = { name = votc_timeline_parent_b value = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = votc_checkpoint_token } }
+		set_variable = { name = votc_checkpoint_token value = 0 }
+	}
+	if = {
+		limit = { NOT = { has_variable = votc_checkpoint_pending_token } }
+		votc_generate_pending_checkpoint_token_effect = yes
+	}
+}
+
+# Must run before an init snapshot whose flow will subsequently call
+# votc_bump_checkpoint_effect. It reserves and logs the precise token that the
+# bump will promote, so the app can write the matching timeline child early.
+# Also logs the structured pre-bump snapshot; SOURCE names the emitting flow
+# (letter / incoming_letter) for diagnostics.
+votc_prepare_checkpoint_advance_effect = {
+	votc_init_checkpoint_effect = yes
+	debug_log = "VOTC:TIMELINE/;/snapshot/;/2/;/1/;/[THIS.Char.GetID]/;/$SOURCE$/;/[THIS.Var('votc_checkpoint_epoch').GetValue|0]/;/[THIS.Var('votc_timeline_node_a').GetValue|0]/;/[THIS.Var('votc_timeline_node_b').GetValue|0]/;/[THIS.Var('votc_timeline_parent_a').GetValue|0]/;/[THIS.Var('votc_timeline_parent_b').GetValue|0]/;/[THIS.Var('votc_checkpoint_token').GetValue|0]/;/[THIS.Var('votc_checkpoint_pending_token').GetValue|0]"
+}
+
+# Build a 28-bit non-zero battle delivery id from CK3's seeded random
+# effect. The id is per-battle occurrence evidence (like the letter
+# delivery id), scoped to the slot it was allocated for. It is logged in
+# the battle snapshot so the app can use it as the requestKey component
+# (§9.3 battle contract: requestKey = slot + battleDeliveryId, NOT the
+# facts signature). The id is stored on votc_battle_report_delivery_id
+# so the slot setup effect can copy it into the per-slot variable before
+# the common logs effect emits the snapshot.
+votc_append_battle_delivery_id_bit_effect = {
+	change_variable = {
+		name = votc_battle_report_delivery_id
+		multiply = 2
+	}
+	random = {
+		chance = 50
+		change_variable = {
+			name = votc_battle_report_delivery_id
+			add = 1
+		}
+	}
+}
+
+votc_generate_battle_delivery_id_effect = {
+	# Start at one so every generated id is non-zero even if all random bits
+	# are zero. 28 appended bits yield 2^28 distinct positive values, matching
+	# the checkpoint token strength.
+	set_variable = { name = votc_battle_report_delivery_id value = 1 }
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+	votc_append_battle_delivery_id_bit_effect = yes
+}
+
+# [2CE 标记] 当前 2CE 内没有任何调用方，effect 保留仅为与 mod1 逐行对应，降低后续合并成本。
+# trigger_event 指向的 hmd_event.9004 目前仅在 mod1 的 events/hmd_events.txt 中定义；
+# 调用本 effect 前需先把 hmd_events.txt 移植到 2CE（P7 待办）。
+votc_open_summary_manager_effect = {
+	root = {
+		votc_init_checkpoint_effect = yes
+	}
+	trigger_event = hmd_event.9004
+}
+
+# 推进 VOTC checkpoint epoch 并记录日期。
+# 用于信件/战报等流程在写入 init 日志前把 epoch 推进到下一个值，
+# 避免 app 侧用旧 epoch 判定时把刚写入的 epoch+1 总结误判为"未来"而归档。
+votc_bump_checkpoint_effect = {
+	votc_init_checkpoint_effect = yes
+	set_variable = {
+		name = votc_checkpoint_token
+		value = var:votc_checkpoint_pending_token
+	}
+	remove_variable ?= votc_checkpoint_pending_token
+	change_variable = {
+		name = votc_checkpoint_epoch
+		add = 1
+	}
+	set_variable = {
+		name = votc_checkpoint_day
+		value = current_date
+	}
+	debug_log = "VOTC:CHECKPOINT/;/bump/;/[THIS.Char.GetID]/;/[THIS.Var('votc_checkpoint_epoch').GetValue|0]/;/[GetCurrentDate.GetStringShort]"
+	debug_log = "VOTC:TIMELINE/;/bump/;/2/;/1/;/[THIS.Char.GetID]/;/$SOURCE$/;/[THIS.Var('votc_checkpoint_epoch').GetValue|0]/;/[THIS.Var('votc_timeline_node_a').GetValue|0]/;/[THIS.Var('votc_timeline_node_b').GetValue|0]/;/[THIS.Var('votc_timeline_parent_a').GetValue|0]/;/[THIS.Var('votc_timeline_parent_b').GetValue|0]/;/[THIS.Var('votc_checkpoint_token').GetValue|0]/;/[GetCurrentDate.GetStringShort]"
 }

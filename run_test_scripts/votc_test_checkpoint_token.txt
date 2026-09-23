@@ -1,0 +1,84 @@
+﻿# VOTC checkpoint token generation test.
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_checkpoint_token.txt
+#
+# Verifies that votc_generate_pending_checkpoint_token_effect produces a
+# non-zero 29-bit token. The token starts at 1 and appends 28 random bits via
+# (multiply-by-2, 50% add-1), so the final value is
+#   2^28 + (28-bit random)  in  [268435456, 536870911]  =  [2^28, 2^29 - 1].
+# The leading bit is always 1, guaranteeing a non-zero 29-bit value even when
+# every random bit comes up 0.
+#
+# Expected output (in debug.log), per run:
+#   VOTC:TEST/;/token_start/;/<playerID>/;/<count>
+#   VOTC:TEST/;/token/;/<i>/;/<tokenValue>      (one line per generation)
+#   VOTC:TEST/;/token_end/;/<playerID>/;/<firstToken>/;/<lastToken>
+#
+# Pass criteria:
+#   - no token_range_error lines appear
+#   - every tokenValue is in [268435456, 536870911]
+#   - firstToken != lastToken (RNG state advances between calls)
+#   - visual inspection: all tokenValue lines differ
+
+# Number of tokens to generate in one run. Keep small so the log stays readable.
+set_variable = { name = votc_test_token_count value = 16 }
+
+# Start from a clean slate so the first generation is not skipped by
+# votc_init_checkpoint_effect's "has_variable" guard.
+remove_variable = votc_checkpoint_pending_token
+
+debug_log = "VOTC:TEST/;/token_start/;/[THIS.Char.GetID]/;/[THIS.Var('votc_test_token_count').GetValue|0]"
+
+# Drive the generation loop with a dedicated counter. Use the count-driven
+# form of `while` so we do not need to read back the counter inside a trigger
+# (CK3 trigger syntax for variables uses `var:<name> <op> <value>`, not the
+# data-interpolation `.GetValue` form, which only works inside [brackets]).
+set_variable = { name = votc_test_token_i value = 0 }
+while = {
+	limit = { var:votc_test_token_i < var:votc_test_token_count }
+
+	# Force a fresh token every iteration. remove_variable clears the
+	# "pending" slot so votc_init_checkpoint_effect regenerates it.
+	remove_variable = votc_checkpoint_pending_token
+	votc_init_checkpoint_effect = {}
+
+	# Track the first generated token so we can later confirm the last one differs.
+	if = {
+		limit = { var:votc_test_token_i == 0 }
+		set_variable = {
+			name = votc_test_token_first
+			value = var:votc_checkpoint_pending_token
+		}
+	}
+	set_variable = {
+		name = votc_test_token_last
+		value = var:votc_checkpoint_pending_token
+	}
+
+	# Range sanity checks. A valid 29-bit token is in [2^28, 2^29 - 1]
+	# = [268435456, 536870911]. The leading bit is always 1.
+	if = {
+		limit = { var:votc_checkpoint_pending_token < 268435456 }
+		debug_log = "VOTC:TEST/;/token_range_error/;/[THIS.Var('votc_test_token_i').GetValue|0]/;/[THIS.Var('votc_checkpoint_pending_token').GetValue|0]/;/below_min"
+	}
+	if = {
+		limit = { var:votc_checkpoint_pending_token > 536870911 }
+		debug_log = "VOTC:TEST/;/token_range_error/;/[THIS.Var('votc_test_token_i').GetValue|0]/;/[THIS.Var('votc_checkpoint_pending_token').GetValue|0]/;/above_max"
+	}
+
+	debug_log = "VOTC:TEST/;/token/;/[THIS.Var('votc_test_token_i').GetValue|0]/;/[THIS.Var('votc_checkpoint_pending_token').GetValue|0]"
+
+	change_variable = {
+		name = votc_test_token_i
+		add = 1
+	}
+}
+
+debug_log = "VOTC:TEST/;/token_end/;/[THIS.Char.GetID]/;/[THIS.Var('votc_test_token_first').GetValue|0]/;/[THIS.Var('votc_test_token_last').GetValue|0]"
+
+# Cleanup test-local variables. Leave votc_checkpoint_* state alone; the app
+# may still want the live pending token in place.
+remove_variable = votc_test_token_count
+remove_variable = votc_test_token_i
+remove_variable = votc_test_token_first
+remove_variable = votc_test_token_last

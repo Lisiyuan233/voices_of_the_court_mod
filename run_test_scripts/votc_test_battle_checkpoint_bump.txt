@@ -1,0 +1,88 @@
+﻿# VOTC battle checkpoint bump-at-record test (A-02 Phase 1).
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_battle_checkpoint_bump.txt
+#
+# The battle record flow (battle_report_event.9000 ->
+# votc_battle_report_write_common_logs_effect) now bumps the checkpoint at
+# record time, after the pre-bump snapshot is logged. The delayed arrival run
+# script (battle_report<N>.txt, written by the app) only writes the timeline
+# node under guard; it must never set epoch/token absolutely.
+#
+# This script validates the bump primitive the battle flow relies on:
+#   - epoch increments by exactly 1 per bump
+#   - the pending token is promoted to the current token
+#   - the pending token slot is cleared so the next battle re-reserves one
+#   - votc_checkpoint_day is refreshed
+#
+# Expected output (in debug.log):
+#   VOTC:TEST/;/bump_start/;/<playerID>
+#   VOTC:TEST/;/pre_bump/;/<i>/;/<epoch>/;/<token>/;/<pending>
+#   VOTC:CHECKPOINT/;/bump/;/<playerID>/;/<epoch>/;/<date>
+#   VOTC:TEST/;/post_bump/;/<i>/;/<epoch>/;/<token>/;/<pending>
+#   VOTC:TEST/;/bump_end/;/<playerID>
+# Pass criteria:
+#   - no bump_error lines appear
+#   - each post_bump epoch = pre_bump epoch + 1
+#   - each post_bump token = pre_bump pending, and post_bump pending = 0
+#
+# Manual Phase 9 follow-up (needs the app): record two battles B then C without
+# letting either report arrive, then run the app-generated battle_report2.txt
+# (C) and battle_report1.txt (B) in reverse order from the console. Expected:
+#   - C logs VOTC:TIMELINE/;/commit_result/;/<attempt>/;/applied and writes the
+#     node with parent = B's node
+#   - B logs .../;/skipped_advanced, displays only, and the epoch/node do not
+#     regress. Repeat in B-then-C order; the final state must be identical.
+
+set_variable = { name = votc_test_bump_count value = 2 }
+
+debug_log = "VOTC:TEST/;/bump_start/;/[THIS.Char.GetID]"
+
+set_variable = { name = votc_test_bump_i value = 0 }
+while = {
+	limit = { var:votc_test_bump_i < var:votc_test_bump_count }
+
+	votc_init_checkpoint_effect = {}
+	debug_log = "VOTC:TEST/;/pre_bump/;/[THIS.Var('votc_test_bump_i').GetValue|0]/;/[THIS.Var('votc_checkpoint_epoch').GetValue|0]/;/[THIS.Var('votc_checkpoint_token').GetValue|0]/;/[THIS.Var('votc_checkpoint_pending_token').GetValue|0]"
+
+	set_variable = {
+		name = votc_test_bump_pre_epoch
+		value = var:votc_checkpoint_epoch
+	}
+	set_variable = {
+		name = votc_test_bump_pre_pending
+		value = var:votc_checkpoint_pending_token
+	}
+
+	votc_bump_checkpoint_effect = { SOURCE = test }
+
+	debug_log = "VOTC:TEST/;/post_bump/;/[THIS.Var('votc_test_bump_i').GetValue|0]/;/[THIS.Var('votc_checkpoint_epoch').GetValue|0]/;/[THIS.Var('votc_checkpoint_token').GetValue|0]/;/[THIS.Var('votc_checkpoint_pending_token').GetValue|0]"
+
+	change_variable = {
+		name = votc_test_bump_pre_epoch
+		add = 1
+	}
+	if = {
+		limit = { NOT = { var:votc_checkpoint_epoch = var:votc_test_bump_pre_epoch } }
+		debug_log = "VOTC:TEST/;/bump_error/;/epoch_not_incremented/;/[THIS.Var('votc_test_bump_i').GetValue|0]"
+	}
+	if = {
+		limit = { NOT = { var:votc_checkpoint_token = var:votc_test_bump_pre_pending } }
+		debug_log = "VOTC:TEST/;/bump_error/;/token_not_promoted/;/[THIS.Var('votc_test_bump_i').GetValue|0]"
+	}
+	if = {
+		limit = { has_variable = votc_checkpoint_pending_token }
+		debug_log = "VOTC:TEST/;/bump_error/;/pending_not_cleared/;/[THIS.Var('votc_test_bump_i').GetValue|0]"
+	}
+
+	change_variable = {
+		name = votc_test_bump_i
+		add = 1
+	}
+}
+
+debug_log = "VOTC:TEST/;/bump_end/;/[THIS.Char.GetID]"
+
+remove_variable = votc_test_bump_count
+remove_variable = votc_test_bump_i
+remove_variable = votc_test_bump_pre_epoch
+remove_variable = votc_test_bump_pre_pending
