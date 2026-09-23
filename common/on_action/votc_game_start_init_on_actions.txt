@@ -1,4 +1,4 @@
-﻿# VOTC save-load init: identify the campaign as soon as a save is loaded.
+﻿﻿# VOTC save-load init: identify the campaign as soon as a save is loaded.
 #
 # Without this hook the campaign identity is only bootstrapped lazily on the
 # first business action (a conversation, an incoming letter, the quarterly
@@ -36,8 +36,11 @@ votc_game_start_init_relay = {
 			# emitted, and bootstrapKind 2/3 makes the app tell the user their save
 			# was upgraded instead of leaving them with a silently new campaign id.
 			# Field order is part of the contract: player, schema, a, b, c, d,
-			# bootstrap kind, checkpoint epoch.
-			debug_log = "VOTC:CAMPAIGN/;/loaded/;/[GetPlayer.GetID]/;/[GetGlobalVariable('votc_campaign_schema').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_epoch').GetValue|0]"
+			# bootstrap kind, checkpoint epoch, then optionally the save's current
+			# timeline node (node_a, node_b) so the app can validate letter-reply
+			# branch state right after a bare load, with no init block yet. Zero
+			# or absent components leave the fields effectively unset for the app.
+			debug_log = "VOTC:CAMPAIGN/;/loaded/;/[GetPlayer.GetID]/;/[GetGlobalVariable('votc_campaign_schema').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_epoch').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_node_a').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_node_b').GetValue|0]"
 		}
 	}
 }
