@@ -17,3 +17,5 @@ talk_event.9999.desc:0 "VOTC:DATE/;/[GetCurrentDate.GetDateAsTotalDays]"
 battle_report_event.9001.desc:0 "VOTC:BATTLE_REPORT"
 battle_report_event.9002.desc:0 " "
 
+votc_checkpoint_event.9001.desc:0 "VOTC:CONVERSATION_HISTORY"
+

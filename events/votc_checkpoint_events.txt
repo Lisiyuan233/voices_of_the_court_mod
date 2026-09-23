@@ -1,6 +1,18 @@
 ﻿namespace = votc_checkpoint_event
 
-# P5 review cleanup: the dead votc_checkpoint_event.9001 clipboard stub was
-# removed (nothing triggered it; the live conversation-history bridge is
-# hmd_event.9005 fired by votc_conversation_history_decision).
+# Clipboard bridge fired by votc_conversation_history_decision: the injected
+# widget copies the desc text ("VOTC:CONVERSATION_HISTORY") to the clipboard
+# on create; the app listens for that command and opens the history window.
+# Uses the widget = { gui/container } pattern like battle_report_event.9001
+# (window = <widget name> is not valid and crashes the event window).
+votc_checkpoint_event.9001 = {
+	type = character_event
+	title = "aha"
+	theme = clipboard_transfer_event_theme
+	desc = votc_checkpoint_event.9001.desc
+	widget = {
+		gui = "event_window_widget_talk_clear"
+		container = "custom_widgets_container"
+	}
+}
 
