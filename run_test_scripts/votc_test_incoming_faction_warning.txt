@@ -1,0 +1,109 @@
+﻿# VOTC incoming letter test: faction warning.
+# Console command: run votc_test_incoming_faction_warning.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Requires the player to be targeted by a dangerous faction.
+
+save_scope_as = actor
+
+if = {
+	limit = {
+		any_targeting_faction = {
+			is_dangerous_faction_trigger = yes
+			NOT = { exists = faction_war }
+		}
+	}
+
+	random_targeting_faction = {
+		limit = {
+			is_dangerous_faction_trigger = yes
+			NOT = { exists = faction_war }
+		}
+		save_scope_as = faction
+	}
+
+	if = {
+		limit = { exists = scope:faction }
+		set_global_variable = {
+			name = votc_incoming_letter_fact_faction
+			value = scope:faction
+		}
+		scope:faction = {
+			if = {
+				limit = { faction_is_type = populist_faction }
+				root = { set_variable = { name = votc_faction_type value = flag:populist_faction } }
+			}
+			else_if = {
+				limit = { faction_is_type = peasant_faction }
+				root = { set_variable = { name = votc_faction_type value = flag:peasant_faction } }
+			}
+			else_if = {
+				limit = { faction_is_type = claimant_faction }
+				root = { set_variable = { name = votc_faction_type value = flag:claimant_faction } }
+			}
+			else_if = {
+				limit = { faction_is_type = liberty_faction }
+				root = { set_variable = { name = votc_faction_type value = flag:liberty_faction } }
+			}
+			else = {
+				root = { set_variable = { name = votc_faction_type value = flag:other_faction } }
+			}
+		}
+
+		# Resolve the faction's figurehead for the context line. Peasant
+		# factions may only expose special_character (set when a demand is
+		# issued), regular factions expose faction_leader. Mirrors the logic
+		# in votc_incoming_letter_event.0015 so this test exercises the same
+		# fallback path the app reads.
+		scope:faction = {
+			if = {
+				limit = { exists = scope:faction.faction_leader }
+				set_global_variable = {
+					name = votc_incoming_letter_fact_faction_leader
+					value = scope:faction.faction_leader
+				}
+			}
+			else_if = {
+				limit = { exists = scope:faction.special_character }
+				set_global_variable = {
+					name = votc_incoming_letter_fact_faction_leader
+					value = scope:faction.special_character
+				}
+			}
+		}
+
+		# Bucket faction member count so the LLM can talk about scale.
+		# Mirrors votc_incoming_letter_event.0015.
+		if = {
+			limit = { scope:faction = { any_faction_member = { count >= 7 } } }
+			set_variable = { name = votc_faction_size value = flag:large }
+		}
+		else_if = {
+			limit = { scope:faction = { any_faction_member = { count >= 4 } } }
+			set_variable = { name = votc_faction_size value = flag:medium }
+		}
+		else = {
+			set_variable = { name = votc_faction_size value = flag:small }
+		}
+
+		random_vassal = {
+			limit = {
+				votc_incoming_letter_author_valid_trigger = yes
+			}
+			save_scope_as = recipient
+		}
+
+		if = {
+			limit = { exists = scope:recipient }
+			votc_start_incoming_letter_effect = { TYPE = flag:faction_warning }
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_loyal_vassal"
+		}
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_faction"
+	}
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_dangerous_faction"
+}

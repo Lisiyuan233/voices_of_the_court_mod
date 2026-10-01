@@ -1,0 +1,24 @@
+﻿# VOTC incoming letter test: vassal memorial.
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Console command: run votc_test_incoming_vassal_letter.txt
+# ROOT is the player character. Triggers a vassal_memorial incoming letter
+# from a random valid vassal, bypassing the yearly probability gate but going
+# through the full slot/log/bridge/arrival/cleanup pipeline. Requires the
+# player to have enabled incoming letters via the settings decision first.
+
+save_scope_as = actor
+
+random_vassal = {
+	limit = {
+		votc_incoming_letter_author_valid_trigger = yes
+	}
+	save_scope_as = recipient
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	votc_start_incoming_letter_effect = { TYPE = flag:vassal_memorial }
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_vassal"
+}

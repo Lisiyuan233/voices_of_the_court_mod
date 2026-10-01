@@ -1,0 +1,34 @@
+﻿# VOTC incoming letter test: rival taunt.
+# Console command: run votc_test_incoming_rival_taunt.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# ROOT is the player character. Triggers a rival_taunt incoming letter from a
+# random valid rival, bypassing the quarterly probability gate.
+
+save_scope_as = actor
+
+scope:actor = {
+	random_relation = {
+		type = rival
+		limit = {
+			votc_incoming_letter_rival_author_valid_trigger = yes
+		}
+		save_scope_as = recipient
+	}
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	scope:recipient = {
+		if = {
+			limit = { has_relation_nemesis = scope:actor }
+			set_variable = { name = votc_rival_type value = flag:nemesis }
+		}
+		else = {
+			set_variable = { name = votc_rival_type value = flag:rival }
+		}
+	}
+	votc_start_incoming_letter_effect = { TYPE = flag:rival_taunt }
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_rival"
+}
