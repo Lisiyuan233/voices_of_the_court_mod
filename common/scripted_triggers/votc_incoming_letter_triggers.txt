@@ -1,0 +1,354 @@
+﻿# VOTC NPC-initiated letters: shared triggers.
+# All scopes are character scopes.
+
+# Player scope: has the feature been enabled via the settings decision.
+votc_incoming_letters_enabled_trigger = {
+	has_variable = votc_incoming_letters_enabled
+}
+
+# Player scope: shared readiness for letter categories that use slots 1-6.
+# Siege and lost-holding letters use this directly because their own category
+# switch is independent from the "other letters" category.
+votc_incoming_letters_slot_ready_trigger = {
+	votc_incoming_letters_enabled_trigger = yes
+	OR = {
+		NOT = { has_variable = votc_incoming_letters_global_cooldown }
+		var:votc_incoming_letters_frequency = 4
+	}
+	OR = {
+		NOT = { exists = global_var:votc_incoming_letter_1 }
+		NOT = { exists = global_var:votc_incoming_letter_2 }
+		NOT = { exists = global_var:votc_incoming_letter_3 }
+		NOT = { exists = global_var:votc_incoming_letter_4 }
+		NOT = { exists = global_var:votc_incoming_letter_5 }
+		NOT = { exists = global_var:votc_incoming_letter_6 }
+	}
+}
+
+# Player scope: shared readiness plus the "other letters" category switch.
+# Used by quarterly and event-driven regular incoming letters.
+votc_incoming_letters_ready_trigger = {
+	NOT = { var:votc_incoming_letters_frequency = 5 }
+	votc_incoming_letters_slot_ready_trigger = yes
+}
+
+# Player scope: the dedicated close-family slot and close-family cooldown are
+# independent from slots 1-6 and from the shared global cooldown.
+votc_incoming_family_letter_ready_trigger = {
+	votc_incoming_letters_enabled_trigger = yes
+	NOT = { var:votc_incoming_letters_family_frequency = 5 }
+	OR = {
+		NOT = { has_variable = votc_incoming_letter_family_cooldown }
+		var:votc_incoming_letters_family_frequency = 4
+	}
+	NOT = { exists = global_var:votc_incoming_letter_7 }
+}
+
+# Player scope: poetry correspondence uses its own quarterly chance, cooldown
+# and dedicated slot. It is independent from both the shared slots and family
+# correspondence.
+votc_incoming_poetry_letter_ready_trigger = {
+	votc_incoming_letters_enabled_trigger = yes
+	NOT = { var:votc_incoming_letters_poetry_frequency = 5 }
+	OR = {
+		NOT = { has_variable = votc_incoming_letter_poetry_cooldown }
+		var:votc_incoming_letters_poetry_frequency = 4
+	}
+	NOT = { exists = global_var:votc_incoming_letter_8 }
+}
+
+# Character scope: a valid NPC author for an incoming letter.
+# Excludes dead, children, players, prisoners and pool/temp characters, plus recent senders.
+votc_incoming_letter_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+}
+
+# Character scope: a valid close-family author. This uses its own sender
+# cooldown, so sending or receiving another category does not suppress family
+# correspondence and vice versa.
+votc_incoming_letter_family_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_family_sent_recently }
+}
+
+# Character scope: a valid author for the dedicated poetry category. Poetry
+# correspondence has its own sender cooldown. At maximum frequency, the
+# cooldown is ignored immediately even if it was created by an older setting.
+votc_incoming_letter_poetry_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	OR = {
+		NOT = { has_variable = votc_incoming_letter_poetry_sent_recently }
+		scope:actor = { var:votc_incoming_letters_poetry_frequency = 4 }
+	}
+}
+
+# Courtier scope: valid courtier author for petition letters.
+votc_incoming_letter_courtier_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+	any_held_title = { count = 0 }
+}
+
+# Character scope: valid rival author for taunt letters.
+votc_incoming_letter_rival_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+	OR = {
+		has_relation_rival = root
+		has_relation_nemesis = root
+	}
+}
+
+# Character scope: valid friend author for greeting letters.
+votc_incoming_letter_friend_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+	OR = {
+		has_relation_friend = root
+		has_relation_soulmate = root
+		has_relation_lover = root
+	}
+}
+
+# Character scope: a loyal vassal or courtier who can warn the player about factions.
+votc_incoming_letter_loyal_vassal_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+	OR = {
+		is_vassal_of = root
+		is_courtier_of = root
+	}
+	NOT = {
+		any_targeting_faction = {
+			faction_target = { this = root }
+		}
+	}
+}
+
+# Character scope: a surviving relation/friend/rival of the deceased (root) who can write to the player.
+votc_incoming_letter_death_mourner_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+	OR = {
+		is_spouse_of = root
+		is_child_of = root
+		is_parent_of = root
+		has_relation_friend = root
+		has_relation_soulmate = root
+		has_relation_rival = root
+	}
+}
+
+# Character scope: the traveller (root of on_travel_plan_complete) is a valid author.
+votc_incoming_letter_traveller_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+}
+
+# Character scope: valid author for great work notices.
+# The builder or county holder of a province where a flagged special building is being built.
+votc_incoming_letter_building_author_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+}
+
+# Great Project scope: the current player owns, founded, or contributed to this
+# native CK3 Great Project. scope:actor must be the player character.
+votc_incoming_letter_great_project_related_trigger = {
+	OR = {
+		great_project_owner = scope:actor
+		great_project_founder = scope:actor
+		any_contribution = {
+			contributor = scope:actor
+		}
+	}
+}
+
+# Great Project scope: milestone-specific readiness for the current player.
+# Reported players are stored in variable lists so multiplayer participants
+# receive independent reports for the same project.
+votc_incoming_letter_great_project_planned_ready_trigger = {
+	votc_incoming_letter_great_project_related_trigger = yes
+	great_project_construction_phase_is = planned
+	NOT = {
+		any_in_list = {
+			variable = votc_great_project_planned_reported_players
+			this = scope:actor
+		}
+	}
+}
+
+votc_incoming_letter_great_project_started_ready_trigger = {
+	votc_incoming_letter_great_project_related_trigger = yes
+	great_project_construction_phase_is = in_progress
+	great_project_build_progress < 0.5
+	NOT = {
+		any_in_list = {
+			variable = votc_great_project_started_reported_players
+			this = scope:actor
+		}
+	}
+}
+
+votc_incoming_letter_great_project_halfway_ready_trigger = {
+	votc_incoming_letter_great_project_related_trigger = yes
+	great_project_construction_phase_is = in_progress
+	great_project_build_progress >= 0.5
+	NOT = {
+		any_in_list = {
+			variable = votc_great_project_halfway_reported_players
+			this = scope:actor
+		}
+	}
+}
+
+votc_incoming_letter_great_project_completed_ready_trigger = {
+	votc_incoming_letter_great_project_related_trigger = yes
+	great_project_construction_phase_is = completed
+	NOT = {
+		any_in_list = {
+			variable = votc_great_project_completed_reported_players
+			this = scope:actor
+		}
+	}
+}
+
+# Character scope: valid author for natural disaster reports.
+votc_incoming_letter_disaster_reporter_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+	OR = {
+		is_vassal_of = root
+		is_courtier_of = root
+	}
+}
+
+# Character scope: valid author for scheme exposure warnings.
+# Typically the scheme target, their spymaster, or a loyal courtier.
+votc_incoming_letter_scheme_witness_valid_trigger = {
+	is_alive = yes
+	is_adult = yes
+	is_ai = yes
+	is_imprisoned = no
+	is_pool_character = no
+	NOT = { has_variable = votc_incoming_letter_sent_recently }
+}
+
+# Character scope (the deceased): died of natural causes.
+# Used by votc_incoming_letter_event.0007 to pick the deceased-as-sender branch.
+votc_death_natural_trigger = {
+	OR = {
+		death_reason = death_natural_causes
+		death_reason = death_old_age
+		death_reason = death_peaceful
+		death_reason = death_drinking_passive
+		death_reason = death_ate_themselves_to_death
+		death_reason = death_constipation
+		death_reason = death_cuteness_overload
+		death_reason = death_laughter
+		death_reason = death_best_sex_of_their_life
+		death_reason = death_too_much_dessert
+		death_reason = death_drank_to_death
+		death_reason = death_celebrated_man
+	}
+}
+
+# Character scope (the deceased): died of disease or chronic condition.
+# Used by votc_incoming_letter_event.0007 to pick the deceased-as-sender branch.
+votc_death_disease_trigger = {
+	OR = {
+		death_reason = death_bubonic_plague
+		death_reason = death_smallpox
+		death_reason = death_typhus
+		death_reason = death_cancer
+		death_reason = death_dysentery
+		death_reason = death_pneumonic
+		death_reason = death_consumption
+		death_reason = death_leper
+		death_reason = death_ergotism
+		death_reason = death_measles
+		death_reason = death_gout_ridden
+		death_reason = death_great_pox
+		death_reason = death_ill
+		death_reason = death_sickly
+		death_reason = death_giant
+		death_reason = death_spindly
+		death_reason = death_wheezing
+		death_reason = death_bleeder
+		death_reason = death_depressed
+		death_reason = death_lunatic
+		death_reason = death_possessed
+		death_reason = death_incapable
+		death_reason = death_wounded_1
+		death_reason = death_wounded_2
+		death_reason = death_wounded_3
+		death_reason = death_maimed
+		death_reason = death_torture_passive
+		death_reason = death_flagellant
+		death_reason = death_physique_bad_1
+		death_reason = death_physique_bad_2
+		death_reason = death_physique_bad_3
+		death_reason = death_weak
+		death_reason = death_malnourishment
+		death_reason = death_obesity
+		death_reason = death_inbred
+		death_reason = death_physician_mistreatment
+		death_reason = death_apoplexy
+		death_reason = death_heart_attack
+		death_reason = death_broken_bones
+		death_reason = death_dungeon_passive
+		death_reason = death_stress
+		death_reason = death_childbirth
+		death_reason = death_delivery
+		death_reason = death_camp_fever
+		death_reason = death_march_malaise
+		death_reason = death_horrible_disease
+		death_reason = death_thirst
+		death_reason = death_starved
+	}
+}

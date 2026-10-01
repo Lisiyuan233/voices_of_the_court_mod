@@ -1,0 +1,2491 @@
+﻿# VOTC NPC-initiated letters: shared effects.
+# Effects that note "assumes scope:actor=player, scope:recipient=author" rely on
+# those saved scopes being present when called.
+
+# ------------------------------
+# Static slot cleanup effects
+# ------------------------------
+
+votc_clear_incoming_letter_1_effect = {
+	remove_global_variable ?= votc_incoming_letter_1
+	remove_global_variable ?= votc_incoming_letter_sender_1
+	remove_global_variable ?= votc_incoming_letter_type_1
+	scope:actor = {
+		remove_variable ?= votc_incoming_letter_1_timer
+		remove_variable ?= votc_incoming_letter_1_sent_day
+		remove_variable ?= votc_incoming_letter_1_delivery_id
+	}
+}
+
+votc_clear_incoming_letter_2_effect = {
+	remove_global_variable ?= votc_incoming_letter_2
+	remove_global_variable ?= votc_incoming_letter_sender_2
+	remove_global_variable ?= votc_incoming_letter_type_2
+	scope:actor = {
+		remove_variable ?= votc_incoming_letter_2_timer
+		remove_variable ?= votc_incoming_letter_2_sent_day
+		remove_variable ?= votc_incoming_letter_2_delivery_id
+	}
+}
+
+votc_clear_incoming_letter_3_effect = {
+	remove_global_variable ?= votc_incoming_letter_3
+	remove_global_variable ?= votc_incoming_letter_sender_3
+	remove_global_variable ?= votc_incoming_letter_type_3
+	scope:actor = {
+		remove_variable ?= votc_incoming_letter_3_timer
+		remove_variable ?= votc_incoming_letter_3_sent_day
+		remove_variable ?= votc_incoming_letter_3_delivery_id
+	}
+}
+
+votc_clear_incoming_letter_4_effect = {
+	remove_global_variable ?= votc_incoming_letter_4
+	remove_global_variable ?= votc_incoming_letter_sender_4
+	remove_global_variable ?= votc_incoming_letter_type_4
+	scope:actor = {
+		remove_variable ?= votc_incoming_letter_4_timer
+		remove_variable ?= votc_incoming_letter_4_sent_day
+		remove_variable ?= votc_incoming_letter_4_delivery_id
+	}
+}
+
+votc_clear_incoming_letter_5_effect = {
+	remove_global_variable ?= votc_incoming_letter_5
+	remove_global_variable ?= votc_incoming_letter_sender_5
+	remove_global_variable ?= votc_incoming_letter_type_5
+	scope:actor = {
+		remove_variable ?= votc_incoming_letter_5_timer
+		remove_variable ?= votc_incoming_letter_5_sent_day
+		remove_variable ?= votc_incoming_letter_5_delivery_id
+	}
+}
+
+votc_clear_incoming_letter_6_effect = {
+	remove_global_variable ?= votc_incoming_letter_6
+	remove_global_variable ?= votc_incoming_letter_sender_6
+	remove_global_variable ?= votc_incoming_letter_type_6
+	scope:actor = {
+		remove_variable ?= votc_incoming_letter_6_timer
+		remove_variable ?= votc_incoming_letter_6_sent_day
+		remove_variable ?= votc_incoming_letter_6_delivery_id
+	}
+}
+
+votc_clear_incoming_letter_7_effect = {
+	remove_global_variable ?= votc_incoming_letter_7
+	remove_global_variable ?= votc_incoming_letter_sender_7
+	remove_global_variable ?= votc_incoming_letter_type_7
+	scope:actor = {
+		remove_variable ?= votc_incoming_letter_7_timer
+		remove_variable ?= votc_incoming_letter_7_sent_day
+		remove_variable ?= votc_incoming_letter_7_delivery_id
+	}
+}
+
+votc_clear_incoming_letter_8_effect = {
+	remove_global_variable ?= votc_incoming_letter_8
+	remove_global_variable ?= votc_incoming_letter_sender_8
+	remove_global_variable ?= votc_incoming_letter_type_8
+	scope:actor = {
+		remove_variable ?= votc_incoming_letter_8_timer
+		remove_variable ?= votc_incoming_letter_8_sent_day
+		remove_variable ?= votc_incoming_letter_8_delivery_id
+	}
+}
+
+# ------------------------------
+# Dedicated close-family selection
+# ------------------------------
+
+# Current scope = player. Selects either a spouse or a close blood relative.
+# Location is deliberately unrestricted; this is the relaxed family category.
+votc_select_family_letter_author_effect = {
+	random_list = {
+		25 = {
+			trigger = {
+				any_spouse = {
+					votc_incoming_letter_family_author_valid_trigger = yes
+				}
+			}
+			random_spouse = {
+				limit = {
+					votc_incoming_letter_family_author_valid_trigger = yes
+				}
+				save_scope_as = recipient
+			}
+		}
+		75 = {
+			trigger = {
+				any_close_family_member = {
+					votc_incoming_letter_family_author_valid_trigger = yes
+				}
+			}
+			random_close_family_member = {
+				limit = {
+					votc_incoming_letter_family_author_valid_trigger = yes
+				}
+				save_scope_as = recipient
+			}
+		}
+	}
+}
+
+# ------------------------------
+# Dedicated poetry author selection
+# ------------------------------
+
+# Current scope = player; scope:actor = player. Candidate priority:
+# 1. friends, lovers, soulmates, spouses, close family, or the player's court poet;
+# 2. characters with the Poet trait in the player's own sub-realm;
+# 3. characters with the Poet trait anywhere under the same top liege.
+# Later tiers are only considered when the earlier tier has no valid candidate.
+votc_select_poetry_letter_author_effect = {
+	remove_variable ?= votc_poetry_sender_source
+
+	if = {
+		limit = {
+			OR = {
+				any_relation = {
+					type = friend
+					votc_incoming_letter_poetry_author_valid_trigger = yes
+				}
+				any_relation = {
+					type = lover
+					votc_incoming_letter_poetry_author_valid_trigger = yes
+				}
+				any_relation = {
+					type = soulmate
+					votc_incoming_letter_poetry_author_valid_trigger = yes
+				}
+				any_spouse = {
+					votc_incoming_letter_poetry_author_valid_trigger = yes
+				}
+				any_close_family_member = {
+					votc_incoming_letter_poetry_author_valid_trigger = yes
+				}
+				scope:actor.court_position:court_poet_court_position ?= {
+					votc_incoming_letter_poetry_author_valid_trigger = yes
+				}
+			}
+		}
+
+		random_list = {
+			25 = {
+				trigger = {
+					any_relation = {
+						type = friend
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+				random_relation = {
+					type = friend
+					limit = {
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+					save_scope_as = recipient
+				}
+				scope:actor = {
+					set_variable = { name = votc_poetry_sender_source value = flag:friend }
+				}
+			}
+			20 = {
+				trigger = {
+					any_relation = {
+						type = lover
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+				random_relation = {
+					type = lover
+					limit = {
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+					save_scope_as = recipient
+				}
+				scope:actor = {
+					set_variable = { name = votc_poetry_sender_source value = flag:lover }
+				}
+			}
+			10 = {
+				trigger = {
+					any_relation = {
+						type = soulmate
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+				random_relation = {
+					type = soulmate
+					limit = {
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+					save_scope_as = recipient
+				}
+				scope:actor = {
+					set_variable = { name = votc_poetry_sender_source value = flag:soulmate }
+				}
+			}
+			20 = {
+				trigger = {
+					any_spouse = {
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+				random_spouse = {
+					limit = {
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+					save_scope_as = recipient
+				}
+				scope:actor = {
+					set_variable = { name = votc_poetry_sender_source value = flag:spouse }
+				}
+			}
+			20 = {
+				trigger = {
+					any_close_family_member = {
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+				random_close_family_member = {
+					limit = {
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+					save_scope_as = recipient
+				}
+				scope:actor = {
+					set_variable = { name = votc_poetry_sender_source value = flag:close_family }
+				}
+			}
+			25 = {
+				trigger = {
+					scope:actor.court_position:court_poet_court_position ?= {
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+				scope:actor.court_position:court_poet_court_position = {
+					save_scope_as = recipient
+				}
+				scope:actor = {
+					set_variable = { name = votc_poetry_sender_source value = flag:court_poet }
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				any_courtier = {
+					has_trait = lifestyle_poet
+					votc_incoming_letter_poetry_author_valid_trigger = yes
+				}
+				any_vassal_or_below = {
+					has_trait = lifestyle_poet
+					votc_incoming_letter_poetry_author_valid_trigger = yes
+				}
+				any_vassal_or_below = {
+					any_courtier = {
+						has_trait = lifestyle_poet
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+			}
+		}
+
+		random_list = {
+			40 = {
+				trigger = {
+					any_courtier = {
+						has_trait = lifestyle_poet
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+				random_courtier = {
+					limit = {
+						has_trait = lifestyle_poet
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+					save_scope_as = recipient
+				}
+			}
+			35 = {
+				trigger = {
+					any_vassal_or_below = {
+						has_trait = lifestyle_poet
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+				random_vassal_or_below = {
+					limit = {
+						has_trait = lifestyle_poet
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+					save_scope_as = recipient
+				}
+			}
+			25 = {
+				trigger = {
+					any_vassal_or_below = {
+						any_courtier = {
+							has_trait = lifestyle_poet
+							votc_incoming_letter_poetry_author_valid_trigger = yes
+						}
+					}
+				}
+				random_vassal_or_below = {
+					limit = {
+						any_courtier = {
+							has_trait = lifestyle_poet
+							votc_incoming_letter_poetry_author_valid_trigger = yes
+						}
+					}
+					random_courtier = {
+						limit = {
+							has_trait = lifestyle_poet
+							votc_incoming_letter_poetry_author_valid_trigger = yes
+						}
+						save_scope_as = recipient
+					}
+				}
+			}
+		}
+		scope:actor = {
+			set_variable = { name = votc_poetry_sender_source value = flag:realm_poet }
+		}
+	}
+	else = {
+		top_liege = {
+			random_list = {
+				15 = {
+					trigger = {
+						has_trait = lifestyle_poet
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+					save_scope_as = recipient
+				}
+				30 = {
+					trigger = {
+						any_courtier = {
+							has_trait = lifestyle_poet
+							votc_incoming_letter_poetry_author_valid_trigger = yes
+						}
+					}
+					random_courtier = {
+						limit = {
+							has_trait = lifestyle_poet
+							votc_incoming_letter_poetry_author_valid_trigger = yes
+						}
+						save_scope_as = recipient
+					}
+				}
+				30 = {
+					trigger = {
+						any_vassal_or_below = {
+							has_trait = lifestyle_poet
+							votc_incoming_letter_poetry_author_valid_trigger = yes
+						}
+					}
+					random_vassal_or_below = {
+						limit = {
+							has_trait = lifestyle_poet
+							votc_incoming_letter_poetry_author_valid_trigger = yes
+						}
+						save_scope_as = recipient
+					}
+				}
+				25 = {
+					trigger = {
+						any_vassal_or_below = {
+							any_courtier = {
+								has_trait = lifestyle_poet
+								votc_incoming_letter_poetry_author_valid_trigger = yes
+							}
+						}
+					}
+					random_vassal_or_below = {
+						limit = {
+							any_courtier = {
+								has_trait = lifestyle_poet
+								votc_incoming_letter_poetry_author_valid_trigger = yes
+							}
+						}
+						random_courtier = {
+							limit = {
+								has_trait = lifestyle_poet
+								votc_incoming_letter_poetry_author_valid_trigger = yes
+							}
+							save_scope_as = recipient
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = { exists = scope:recipient }
+			scope:actor = {
+				set_variable = { name = votc_poetry_sender_source value = flag:top_liege_realm_poet }
+			}
+		}
+	}
+}
+
+# ------------------------------
+# Courtier-petition preparation
+# ------------------------------
+
+# Current scope = petitioning courtier; scope:actor = player.
+# Only eligible petition sub-types participate in the weighted selection. This
+# avoids the old behavior where every failed condition became a land request.
+votc_prepare_courtier_petition_effect = {
+	remove_variable ?= votc_petition_type
+
+	random_list = {
+		18 = {
+			# Unmarried adult courtiers may ask the liege to arrange a marriage.
+			trigger = {
+				is_married = no
+				age >= 16
+			}
+			set_variable = { name = votc_petition_type value = flag:marriage_request }
+		}
+		14 = {
+			# Per the intended court convention, women do not petition for land.
+			trigger = { is_male = yes }
+			set_variable = { name = votc_petition_type value = flag:land_grant }
+		}
+		12 = {
+			# Salaried office requests are restricted to male courtiers.
+			trigger = { is_male = yes }
+			set_variable = { name = votc_petition_type value = flag:office_request }
+		}
+		8 = {
+			# Do not ask for a council seat when already serving as a councillor.
+			trigger = {
+				is_male = yes
+				is_councillor = no
+			}
+			set_variable = { name = votc_petition_type value = flag:council_seat }
+		}
+		8 = {
+			# A personal tax/obligation relief request needs a concrete hardship.
+			trigger = { stress_level >= 1 }
+			set_variable = { name = votc_petition_type value = flag:tax_relief }
+		}
+		8 = {
+			# Honor/title advancement follows the same male-only convention.
+			trigger = { is_male = yes }
+			set_variable = { name = votc_petition_type value = flag:title_promotion }
+		}
+		6 = {
+			# The player must actually hold a close relative, friend or lover.
+			trigger = {
+				scope:actor = {
+					any_prisoner = {
+						OR = {
+							is_close_family_of = scope:recipient
+							has_relation_friend = scope:recipient
+							has_relation_lover = scope:recipient
+						}
+					}
+				}
+			}
+			set_variable = { name = votc_petition_type value = flag:prisoner_release }
+		}
+		6 = {
+			# The courtier can ask the player to honour a hook they hold.
+			trigger = { has_hook = scope:actor }
+			set_variable = { name = votc_petition_type value = flag:hook_use }
+		}
+		5 = {
+			# A martial specialist may ask for wartime resources while the liege is at war.
+			trigger = {
+				highest_skill = martial
+				scope:actor = { is_at_war = yes }
+			}
+			set_variable = { name = votc_petition_type value = flag:war_aid }
+		}
+		5 = {
+			# A courtier with capacity may offer to educate an unguarded minor child.
+			trigger = {
+				num_of_relation_ward < 2
+				scope:actor = {
+					any_child = {
+						is_adult = no
+						num_of_relation_guardian = 0
+					}
+				}
+			}
+			set_variable = { name = votc_petition_type value = flag:guardian_request }
+		}
+		10 = {
+			# A general reward remains the universal fallback for any adult courtier.
+			set_variable = { name = votc_petition_type value = flag:gift_request }
+		}
+		5 = {
+			# A family marriage proposal requires an unmarried adult child.
+			trigger = {
+				any_child = {
+					is_adult = yes
+					is_married = no
+				}
+			}
+			set_variable = { name = votc_petition_type value = flag:alliance_proposal }
+		}
+	}
+
+	set_variable = {
+		name = votc_courtier_years
+		value = days_since_joined_court
+	}
+	change_variable = {
+		name = votc_courtier_years
+		divide = 365
+	}
+	round_variable = {
+		name = votc_courtier_years
+		nearest = 1
+	}
+	if = {
+		limit = { highest_skill = diplomacy }
+		set_variable = { name = votc_courtier_skill value = flag:diplomacy }
+	}
+	else_if = {
+		limit = { highest_skill = martial }
+		set_variable = { name = votc_courtier_skill value = flag:martial }
+	}
+	else_if = {
+		limit = { highest_skill = stewardship }
+		set_variable = { name = votc_courtier_skill value = flag:stewardship }
+	}
+	else_if = {
+		limit = { highest_skill = intrigue }
+		set_variable = { name = votc_courtier_skill value = flag:intrigue }
+	}
+	else = {
+		set_variable = { name = votc_courtier_skill value = flag:learning }
+	}
+}
+
+# ------------------------------
+# Slot allocation
+# ------------------------------
+
+# Assumes scope:actor = player, scope:recipient = author.
+# $TYPE$ must be passed as a flag, e.g. TYPE = flag:vassal_memorial.
+# On success, sets the current slot and its checkpoint-based delivery ID on scope:actor.
+# Does NOT write context, call log_gamedata, bump checkpoint, schedule events, or set cooldowns.
+votc_allocate_incoming_letter_slot_effect = {
+	# For deathbed_letter with sender_role=deceased, the letter's perceived
+	# sender (shown as portrait/title in-game) should be the deceased, not the
+	# mourner who only carried the letter. Pick the right target once here.
+	if = {
+		limit = {
+			scope:actor = {
+				has_variable = votc_sender_role
+				var:votc_sender_role = flag:deceased
+			}
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_snapshot_sender
+			value = global_var:votc_incoming_letter_fact_deceased
+		}
+	}
+	else = {
+		set_global_variable = {
+			name = votc_incoming_letter_snapshot_sender
+			value = scope:recipient
+		}
+	}
+
+	if = {
+		limit = { NOT = { exists = global_var:votc_incoming_letter_1 } }
+		set_global_variable = {
+			name = votc_incoming_letter_1
+			value = flag:occupied
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_sender_1
+			value = global_var:votc_incoming_letter_snapshot_sender
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_type_1
+			value = $TYPE$
+		}
+		scope:actor = {
+			set_variable = {
+				name = votc_incoming_letter_1_timer
+				days = votc_letter_delay
+			}
+			set_variable = {
+				name = votc_incoming_letter_1_sent_day
+				value = current_date
+			}
+			set_variable = {
+				name = votc_incoming_letter_1_delivery_id
+				value = var:votc_checkpoint_epoch
+			}
+			set_variable = {
+				name = votc_incoming_letter_current_slot
+				value = 1
+			}
+		}
+	}
+	else_if = {
+		limit = { NOT = { exists = global_var:votc_incoming_letter_2 } }
+		set_global_variable = {
+			name = votc_incoming_letter_2
+			value = flag:occupied
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_sender_2
+			value = global_var:votc_incoming_letter_snapshot_sender
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_type_2
+			value = $TYPE$
+		}
+		scope:actor = {
+			set_variable = {
+				name = votc_incoming_letter_2_timer
+				days = votc_letter_delay
+			}
+			set_variable = {
+				name = votc_incoming_letter_2_sent_day
+				value = current_date
+			}
+			set_variable = {
+				name = votc_incoming_letter_2_delivery_id
+				value = var:votc_checkpoint_epoch
+			}
+			set_variable = {
+				name = votc_incoming_letter_current_slot
+				value = 2
+			}
+		}
+	}
+	else_if = {
+		limit = { NOT = { exists = global_var:votc_incoming_letter_3 } }
+		set_global_variable = {
+			name = votc_incoming_letter_3
+			value = flag:occupied
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_sender_3
+			value = global_var:votc_incoming_letter_snapshot_sender
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_type_3
+			value = $TYPE$
+		}
+		scope:actor = {
+			set_variable = {
+				name = votc_incoming_letter_3_timer
+				days = votc_letter_delay
+			}
+			set_variable = {
+				name = votc_incoming_letter_3_sent_day
+				value = current_date
+			}
+			set_variable = {
+				name = votc_incoming_letter_3_delivery_id
+				value = var:votc_checkpoint_epoch
+			}
+			set_variable = {
+				name = votc_incoming_letter_current_slot
+				value = 3
+			}
+		}
+	}
+	else_if = {
+		limit = { NOT = { exists = global_var:votc_incoming_letter_4 } }
+		set_global_variable = {
+			name = votc_incoming_letter_4
+			value = flag:occupied
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_sender_4
+			value = global_var:votc_incoming_letter_snapshot_sender
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_type_4
+			value = $TYPE$
+		}
+		scope:actor = {
+			set_variable = {
+				name = votc_incoming_letter_4_timer
+				days = votc_letter_delay
+			}
+			set_variable = {
+				name = votc_incoming_letter_4_sent_day
+				value = current_date
+			}
+			set_variable = {
+				name = votc_incoming_letter_4_delivery_id
+				value = var:votc_checkpoint_epoch
+			}
+			set_variable = {
+				name = votc_incoming_letter_current_slot
+				value = 4
+			}
+		}
+	}
+	else_if = {
+		limit = { NOT = { exists = global_var:votc_incoming_letter_5 } }
+		set_global_variable = {
+			name = votc_incoming_letter_5
+			value = flag:occupied
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_sender_5
+			value = global_var:votc_incoming_letter_snapshot_sender
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_type_5
+			value = $TYPE$
+		}
+		scope:actor = {
+			set_variable = {
+				name = votc_incoming_letter_5_timer
+				days = votc_letter_delay
+			}
+			set_variable = {
+				name = votc_incoming_letter_5_sent_day
+				value = current_date
+			}
+			set_variable = {
+				name = votc_incoming_letter_5_delivery_id
+				value = var:votc_checkpoint_epoch
+			}
+			set_variable = {
+				name = votc_incoming_letter_current_slot
+				value = 5
+			}
+		}
+	}
+	else_if = {
+		limit = { NOT = { exists = global_var:votc_incoming_letter_6 } }
+		set_global_variable = {
+			name = votc_incoming_letter_6
+			value = flag:occupied
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_sender_6
+			value = global_var:votc_incoming_letter_snapshot_sender
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_type_6
+			value = $TYPE$
+		}
+		scope:actor = {
+			set_variable = {
+				name = votc_incoming_letter_6_timer
+				days = votc_letter_delay
+			}
+			set_variable = {
+				name = votc_incoming_letter_6_sent_day
+				value = current_date
+			}
+			set_variable = {
+				name = votc_incoming_letter_6_delivery_id
+				value = var:votc_checkpoint_epoch
+			}
+			set_variable = {
+				name = votc_incoming_letter_current_slot
+				value = 6
+			}
+		}
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/skipped/;/full"
+	}
+}
+
+# Dedicated slot 7 is reserved exclusively for family_letter. It is never
+# considered by the shared allocator above.
+votc_allocate_family_incoming_letter_slot_effect = {
+	set_global_variable = {
+		name = votc_incoming_letter_snapshot_sender
+		value = scope:recipient
+	}
+
+	if = {
+		limit = { NOT = { exists = global_var:votc_incoming_letter_7 } }
+		set_global_variable = {
+			name = votc_incoming_letter_7
+			value = flag:occupied
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_sender_7
+			value = scope:recipient
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_type_7
+			value = flag:family_letter
+		}
+		scope:actor = {
+			set_variable = {
+				name = votc_incoming_letter_7_timer
+				days = votc_letter_delay
+			}
+			set_variable = {
+				name = votc_incoming_letter_7_sent_day
+				value = current_date
+			}
+			set_variable = {
+				name = votc_incoming_letter_7_delivery_id
+				value = var:votc_checkpoint_epoch
+			}
+			set_variable = {
+				name = votc_incoming_letter_current_slot
+				value = 7
+			}
+		}
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/family/;/skipped/;/slot_full"
+	}
+}
+
+# Family correspondence has a complete delivery pipeline of its own. It does
+# not read or write the shared global cooldown, slots 1-6, or the shared sender
+# cooldown used by every other category.
+votc_start_family_incoming_letter_effect = {
+	if = {
+		limit = { scope:actor = { is_ai = no } }
+		if = {
+			limit = { scope:actor = { votc_incoming_letters_enabled_trigger = yes } }
+			if = {
+				limit = {
+					scope:recipient = {
+						votc_incoming_letter_family_author_valid_trigger = yes
+					}
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							votc_incoming_family_letter_ready_trigger = yes
+						}
+					}
+
+					scope:actor = {
+						votc_init_checkpoint_effect = yes
+						remove_variable ?= votc_incoming_letter_current_slot
+						votc_allocate_family_incoming_letter_slot_effect = yes
+					}
+
+					if = {
+						limit = {
+							scope:actor = {
+								var:votc_incoming_letter_current_slot = 7
+							}
+						}
+
+						set_global_variable = {
+							name = votc_incoming_letter_player_scope
+							value = scope:actor
+						}
+
+						scope:actor = {
+							votc_prepare_checkpoint_advance_effect = { SOURCE = incoming_letter }
+						}
+						votc_log_incoming_letter_gamedata_effect = yes
+
+						debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_7/;/family_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_7_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+
+						remove_global_variable ?= votc_incoming_letter_snapshot_sender
+
+						scope:actor = {
+							votc_bump_checkpoint_effect = { SOURCE = incoming_letter }
+							trigger_event = {
+								id = votc_incoming_letter_event.0207
+								days = 1
+							}
+							trigger_event = {
+								id = votc_incoming_letter_event.0107
+								days = votc_letter_delay
+							}
+
+							if = {
+								limit = { var:votc_incoming_letters_family_frequency = 1 }
+								set_variable = {
+									name = votc_incoming_letter_family_cooldown
+									days = 360
+								}
+							}
+							else_if = {
+								limit = { var:votc_incoming_letters_family_frequency = 3 }
+								set_variable = {
+									name = votc_incoming_letter_family_cooldown
+									days = 90
+								}
+							}
+							else_if = {
+								limit = { var:votc_incoming_letters_family_frequency = 4 }
+								remove_variable ?= votc_incoming_letter_family_cooldown
+							}
+							else = {
+								set_variable = {
+									name = votc_incoming_letter_family_cooldown
+									days = 180
+								}
+							}
+						}
+
+						scope:recipient = {
+							if = {
+								limit = {
+									scope:actor = {
+										var:votc_incoming_letters_family_frequency = 1
+									}
+								}
+								set_variable = {
+									name = votc_incoming_letter_family_sent_recently
+									days = 360
+								}
+							}
+							else_if = {
+								limit = {
+									scope:actor = {
+										var:votc_incoming_letters_family_frequency = 3
+									}
+								}
+								set_variable = {
+									name = votc_incoming_letter_family_sent_recently
+									days = 90
+								}
+							}
+							else_if = {
+								limit = {
+									scope:actor = {
+										var:votc_incoming_letters_family_frequency = 4
+									}
+								}
+								remove_variable ?= votc_incoming_letter_family_sent_recently
+							}
+							else = {
+								set_variable = {
+									name = votc_incoming_letter_family_sent_recently
+									days = 180
+								}
+							}
+						}
+
+						scope:actor = {
+							remove_variable ?= votc_incoming_letter_current_slot
+						}
+					}
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/family/;/skipped/;/not_ready"
+				}
+			}
+			else = {
+				debug_log = "VOTC:INCOMING_LETTER/;/family/;/skipped/;/author_invalid"
+			}
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/family/;/skipped/;/not_enabled"
+		}
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/family/;/skipped/;/actor_is_ai"
+	}
+}
+
+# Dedicated slot 8 is reserved exclusively for poetry_letter.
+votc_allocate_poetry_incoming_letter_slot_effect = {
+	set_global_variable = {
+		name = votc_incoming_letter_snapshot_sender
+		value = scope:recipient
+	}
+
+	if = {
+		limit = { NOT = { exists = global_var:votc_incoming_letter_8 } }
+		set_global_variable = {
+			name = votc_incoming_letter_8
+			value = flag:occupied
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_sender_8
+			value = scope:recipient
+		}
+		set_global_variable = {
+			name = votc_incoming_letter_type_8
+			value = flag:poetry_letter
+		}
+		scope:actor = {
+			set_variable = {
+				name = votc_incoming_letter_8_timer
+				days = votc_letter_delay
+			}
+			set_variable = {
+				name = votc_incoming_letter_8_sent_day
+				value = current_date
+			}
+			set_variable = {
+				name = votc_incoming_letter_8_delivery_id
+				value = var:votc_checkpoint_epoch
+			}
+			set_variable = {
+				name = votc_incoming_letter_current_slot
+				value = 8
+			}
+		}
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/poetry/;/skipped/;/slot_full"
+	}
+}
+
+# Poetry correspondence has its own slot, quarterly chance, category cooldown
+# and sender cooldown. It never reads or writes the shared/family cooldowns.
+votc_start_poetry_incoming_letter_effect = {
+	if = {
+		limit = { scope:actor = { is_ai = no } }
+		if = {
+			limit = { scope:actor = { votc_incoming_letters_enabled_trigger = yes } }
+			if = {
+				limit = {
+					scope:recipient = {
+						votc_incoming_letter_poetry_author_valid_trigger = yes
+					}
+				}
+				if = {
+					limit = {
+						scope:actor = {
+							votc_incoming_poetry_letter_ready_trigger = yes
+						}
+					}
+
+					scope:actor = {
+						votc_init_checkpoint_effect = yes
+						if = {
+							limit = { NOT = { has_variable = votc_poetry_sender_source } }
+							set_variable = {
+								name = votc_poetry_sender_source
+								value = flag:unknown
+							}
+						}
+						remove_variable ?= votc_incoming_letter_current_slot
+						votc_allocate_poetry_incoming_letter_slot_effect = yes
+					}
+
+					if = {
+						limit = {
+							scope:actor = {
+								var:votc_incoming_letter_current_slot = 8
+							}
+						}
+
+						set_global_variable = {
+							name = votc_incoming_letter_player_scope
+							value = scope:actor
+						}
+
+						scope:actor = {
+							votc_prepare_checkpoint_advance_effect = { SOURCE = incoming_letter }
+						}
+						votc_log_incoming_letter_gamedata_effect = yes
+
+						debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_8/;/poetry_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_8_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/poetry_sender_source=[GetPlayer.MakeScope.Var('votc_poetry_sender_source').GetFlagName]"
+
+						remove_global_variable ?= votc_incoming_letter_snapshot_sender
+
+						scope:actor = {
+							votc_bump_checkpoint_effect = { SOURCE = incoming_letter }
+							trigger_event = {
+								id = votc_incoming_letter_event.0208
+								days = 1
+							}
+							trigger_event = {
+								id = votc_incoming_letter_event.0108
+								days = votc_letter_delay
+							}
+
+							if = {
+								limit = { var:votc_incoming_letters_poetry_frequency = 1 }
+								set_variable = {
+									name = votc_incoming_letter_poetry_cooldown
+									days = 360
+								}
+							}
+							else_if = {
+								limit = { var:votc_incoming_letters_poetry_frequency = 3 }
+								set_variable = {
+									name = votc_incoming_letter_poetry_cooldown
+									days = 90
+								}
+							}
+							else_if = {
+								limit = { var:votc_incoming_letters_poetry_frequency = 4 }
+								remove_variable ?= votc_incoming_letter_poetry_cooldown
+							}
+							else = {
+								set_variable = {
+									name = votc_incoming_letter_poetry_cooldown
+									days = 180
+								}
+							}
+						}
+
+						scope:recipient = {
+							if = {
+								limit = {
+									scope:actor = {
+										var:votc_incoming_letters_poetry_frequency = 1
+									}
+								}
+								set_variable = {
+									name = votc_incoming_letter_poetry_sent_recently
+									days = 360
+								}
+							}
+							else_if = {
+								limit = {
+									scope:actor = {
+										var:votc_incoming_letters_poetry_frequency = 3
+									}
+								}
+								set_variable = {
+									name = votc_incoming_letter_poetry_sent_recently
+									days = 90
+								}
+							}
+							else_if = {
+								limit = {
+									scope:actor = {
+										var:votc_incoming_letters_poetry_frequency = 4
+									}
+								}
+								remove_variable ?= votc_incoming_letter_poetry_sent_recently
+							}
+							else = {
+								set_variable = {
+									name = votc_incoming_letter_poetry_sent_recently
+									days = 180
+								}
+							}
+						}
+
+						scope:actor = {
+							remove_variable ?= votc_incoming_letter_current_slot
+							remove_variable ?= votc_poetry_sender_source
+						}
+					}
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/poetry/;/skipped/;/not_ready"
+				}
+			}
+			else = {
+				debug_log = "VOTC:INCOMING_LETTER/;/poetry/;/skipped/;/author_invalid"
+			}
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/poetry/;/skipped/;/not_enabled"
+		}
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/poetry/;/skipped/;/actor_is_ai"
+	}
+	scope:actor = {
+		remove_variable ?= votc_poetry_sender_source
+	}
+}
+
+# ------------------------------
+# Start an incoming letter
+# ------------------------------
+
+# $TYPE$ must be one of:
+# flag:vassal_memorial, flag:siege_report, flag:lost_holding,
+# flag:courtier_petition, flag:rival_taunt, flag:dear_friend_greeting,
+# flag:ally_call_for_aid, flag:revolt_urgent, flag:deathbed_letter, flag:pilgrimage_tales,
+# flag:tour_tales, flag:wedding_tales, flag:hunt_tales, flag:tournament_tales, flag:travel_tales,
+# flag:faction_warning, flag:scheme_exposed, flag:natural_disaster, flag:tributary_letter,
+# flag:liege_overlord_letter, flag:great_work_notice, flag:great_project_report.
+# All travel-completion types (pilgrimage_tales, tour_tales, wedding_tales, hunt_tales,
+# tournament_tales, travel_tales) share votc_incoming_letter_pilgrimage_cooldown so that any
+# finished-travel letter suppresses the next one regardless of activity type.
+# Execution order matches the plan: assert -> allocate -> log_gamedata -> context -> bump -> schedule -> cooldown.
+votc_start_incoming_letter_effect = {
+	if = {
+		limit = { scope:actor = { is_ai = no } }
+		if = {
+			limit = { scope:actor = { votc_incoming_letters_enabled_trigger = yes } }
+			if = {
+				limit = { scope:recipient = { votc_incoming_letter_author_valid_trigger = yes } }
+				if = {
+					limit = {
+						scope:actor = {
+							OR = {
+								NOT = { has_variable = votc_incoming_letters_global_cooldown }
+								var:votc_incoming_letters_frequency = 4
+							}
+						}
+					}
+					if = {
+						limit = {
+							OR = {
+								AND = {
+									$TYPE$ = flag:vassal_memorial
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_vassal_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:siege_report
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_siege_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:lost_holding
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_lost_holding_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:courtier_petition
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_courtier_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:rival_taunt
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_rival_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:dear_friend_greeting
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_friend_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:ally_call_for_aid
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_ally_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:revolt_urgent
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_revolt_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:deathbed_letter
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_death_cooldown } }
+								}
+							AND = {
+								$TYPE$ = flag:pilgrimage_tales
+								scope:actor = { NOT = { has_variable = votc_incoming_letter_pilgrimage_cooldown } }
+							}
+							AND = {
+								$TYPE$ = flag:tour_tales
+								scope:actor = { NOT = { has_variable = votc_incoming_letter_pilgrimage_cooldown } }
+							}
+							AND = {
+								$TYPE$ = flag:wedding_tales
+								scope:actor = { NOT = { has_variable = votc_incoming_letter_pilgrimage_cooldown } }
+							}
+							AND = {
+								$TYPE$ = flag:hunt_tales
+								scope:actor = { NOT = { has_variable = votc_incoming_letter_pilgrimage_cooldown } }
+							}
+							AND = {
+								$TYPE$ = flag:tournament_tales
+								scope:actor = { NOT = { has_variable = votc_incoming_letter_pilgrimage_cooldown } }
+							}
+							AND = {
+								$TYPE$ = flag:travel_tales
+								scope:actor = { NOT = { has_variable = votc_incoming_letter_pilgrimage_cooldown } }
+							}
+								AND = {
+									$TYPE$ = flag:faction_warning
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_faction_warning_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:scheme_exposed
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_scheme_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:natural_disaster
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_disaster_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:tributary_letter
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_tributary_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:liege_overlord_letter
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_liege_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:great_work_notice
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_great_work_cooldown } }
+								}
+								AND = {
+									$TYPE$ = flag:great_project_report
+									scope:actor = { NOT = { has_variable = votc_incoming_letter_great_project_cooldown } }
+								}
+							}
+						}
+
+						# Clear any stale slot marker, then allocate.
+						scope:actor = {
+							votc_init_checkpoint_effect = yes
+							remove_variable ?= votc_incoming_letter_current_slot
+							votc_allocate_incoming_letter_slot_effect = { TYPE = $TYPE$ }
+						}
+
+						if = {
+							limit = { scope:actor = { has_variable = votc_incoming_letter_current_slot } }
+
+							# The generated run script executes outside this event's scope. Keep a
+							# stable reference to the receiving player so it can persist the
+							# timeline node that belongs to this delivery.
+							set_global_variable = {
+								name = votc_incoming_letter_player_scope
+								value = scope:actor
+							}
+
+							# Preserve event-specific scopes for localization in the context line.
+							if = {
+								limit = {
+									$TYPE$ = flag:siege_report
+									exists = scope:army
+								}
+								set_global_variable = {
+									name = votc_incoming_letter_fact_army
+									value = scope:army
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:lost_holding
+									exists = scope:barony
+								}
+								set_global_variable = {
+									name = votc_incoming_letter_fact_holding
+									value = scope:barony
+								}
+								set_global_variable = {
+									name = votc_incoming_letter_fact_attacker
+									value = root
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:letter_to_travelling_player
+									exists = scope:destination_province
+								}
+								set_global_variable = {
+									name = votc_incoming_letter_fact_destination
+									value = scope:destination_province
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:ally_call_for_aid
+									exists = scope:enemy
+								}
+								set_global_variable = {
+									name = votc_incoming_letter_fact_enemy
+									value = scope:enemy
+								}
+								set_global_variable = {
+									name = votc_incoming_letter_fact_war
+									value = scope:war
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:revolt_urgent
+									exists = scope:revolt_defender
+								}
+								set_global_variable = {
+									name = votc_incoming_letter_fact_defender
+									value = scope:revolt_defender
+								}
+								set_global_variable = {
+									name = votc_incoming_letter_fact_enemy
+									value = scope:enemy
+								}
+								set_global_variable = {
+									name = votc_incoming_letter_fact_war
+									value = scope:war
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:deathbed_letter
+									exists = global_var:votc_incoming_letter_fact_deceased
+								}
+							}
+						else_if = {
+							limit = {
+								$TYPE$ = flag:pilgrimage_tales
+								exists = global_var:votc_incoming_letter_fact_traveller
+							}
+						}
+						else_if = {
+							limit = {
+								$TYPE$ = flag:tour_tales
+								exists = global_var:votc_incoming_letter_fact_traveller
+							}
+						}
+						else_if = {
+							limit = {
+								$TYPE$ = flag:wedding_tales
+								exists = global_var:votc_incoming_letter_fact_traveller
+							}
+						}
+						else_if = {
+							limit = {
+								$TYPE$ = flag:hunt_tales
+								exists = global_var:votc_incoming_letter_fact_traveller
+							}
+						}
+						else_if = {
+							limit = {
+								$TYPE$ = flag:tournament_tales
+								exists = global_var:votc_incoming_letter_fact_traveller
+							}
+						}
+						else_if = {
+							limit = {
+								$TYPE$ = flag:travel_tales
+								exists = global_var:votc_incoming_letter_fact_traveller
+							}
+						}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:faction_warning
+									exists = global_var:votc_incoming_letter_fact_faction
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:scheme_exposed
+									exists = global_var:votc_incoming_letter_fact_scheme_owner
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:natural_disaster
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:tributary_letter
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:liege_overlord_letter
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:great_work_notice
+									exists = global_var:votc_incoming_letter_fact_work_province
+								}
+							}
+							else_if = {
+								limit = {
+									$TYPE$ = flag:great_project_report
+									exists = global_var:votc_incoming_letter_fact_great_project
+								}
+							}
+
+							# Saved scopes do not populate debug_log's interaction-only
+							# [recipient...] localization scope. Preserve the selected author
+							# explicitly while writing this incoming-letter snapshot.
+							# For deathbed_letter we MUST keep the snapshot_sender chosen by
+							# the allocate effect above (it points at fact_deceased when
+							# sender_role = deceased, otherwise at scope:recipient = mourner).
+							# Overwriting it here used to break the aiID vs context.senderId
+							# invariant and caused "Snapshot data did not match" fallbacks
+							# whenever votc_sender_role leaked across a no_mourner skip.
+							if = {
+								limit = { NOT = { $TYPE$ = flag:deathbed_letter } }
+								set_global_variable = {
+									name = votc_incoming_letter_snapshot_sender
+									value = scope:recipient
+								}
+							}
+							# Keep the post-delivery token in the init line. The following
+							# checkpoint bump promotes it after the app has created the child.
+							scope:actor = {
+								votc_prepare_checkpoint_advance_effect = { SOURCE = incoming_letter }
+							}
+							votc_log_incoming_letter_gamedata_effect = yes
+
+							# Context line: slot, type, sent date, sender id, delivery id,
+							# followed by key=value event facts.
+							if = {
+								limit = { scope:actor = { var:votc_incoming_letter_current_slot = 1 } }
+								if = {
+									limit = { $TYPE$ = flag:vassal_memorial }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/vassal_memorial/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:family_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/family_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:siege_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/siege_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/siege_location=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetNameNoTooltip]/;/army_soldiers=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetSoldierCount]/;/siege_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetProgress|0]/;/attacker_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetAttackerMen|0]/;/defender_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetDefenderMen|0]/;/siege_fort_level=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetFortLevel|0]/;/siege_phase_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetPhaseProgress|0]/;/siege_blocked=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.IsBlocked]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:lost_holding }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/lost_holding/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/lost_holding=[GetGlobalVariable('votc_incoming_letter_fact_holding').Title.GetNameNoTooltip]/;/attacker=[GetGlobalVariable('votc_incoming_letter_fact_attacker').Char.GetFullNameNicknamedNoTooltipRegnal]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:courtier_petition }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/courtier_petition/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/petition_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_petition_type').GetFlagName]/;/courtier_years=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_years').GetValue|0]/;/courtier_skill=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_skill').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:rival_taunt }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/rival_taunt/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/rival_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_rival_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:dear_friend_greeting }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/dear_friend_greeting/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/relation_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_relation_type').GetFlagName]/;/sender_mood=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_sender_mood').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:letter_to_travelling_player }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/letter_to_travelling_player/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/player_destination=[GetPlayer.MakeScope.Var('votc_player_destination').GetFlagName]/;/player_destination_name=[GetGlobalVariable('votc_incoming_letter_fact_destination').Province.GetTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:ally_call_for_aid }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/ally_call_for_aid/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:revolt_urgent }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/revolt_urgent/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/defender=[GetGlobalVariable('votc_incoming_letter_fact_defender').Char.GetFullNameNicknamedNoTooltipRegnal]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:deathbed_letter }
+									if = {
+										limit = { scope:actor = { var:votc_sender_role = flag:deceased } }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=deceased/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=mourner/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]/;/deceased_id=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:pilgrimage_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/pilgrimage_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tour_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/tour_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:wedding_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/wedding_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:hunt_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/hunt_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tournament_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/tournament_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:travel_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/travel_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:faction_warning }
+									if = {
+										limit = { exists = global_var:votc_incoming_letter_fact_faction_leader }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_leader=[GetGlobalVariable('votc_incoming_letter_fact_faction_leader').Char.GetFullNameNicknamedNoTooltipRegnal]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:scheme_exposed }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/scheme_exposed/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/scheme_owner=[GetGlobalVariable('votc_incoming_letter_fact_scheme_owner').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target_title=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target_title').Title.GetNameNoTooltip]/;/scheme_type=[GetPlayer.MakeScope.Var('votc_scheme_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:natural_disaster }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/natural_disaster/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/disaster_type=[GetPlayer.MakeScope.Var('votc_disaster_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tributary_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/tributary_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/tributary_realm=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:liege_overlord_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/liege_overlord_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/liege_title=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_work_notice }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/great_work_notice/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/work_location=[GetGlobalVariable('votc_incoming_letter_fact_work_province').Province.GetTitle.GetNameNoTooltip]/;/work_type=[GetPlayer.MakeScope.Var('votc_great_work_type').GetFlagName]/;/work_stage=[GetPlayer.MakeScope.Var('votc_great_work_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_project_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_1/;/great_project_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/project_name=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetNameNoTooltip]/;/project_type=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetType.GetKey]/;/project_stage=[GetPlayer.MakeScope.Var('votc_great_project_report_stage').GetFlagName]/;/project_location=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetLocation.GetNameNoTooltip]/;/project_progress=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionProgress|%0]/;/project_days_left=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionDaysLeft]/;/project_required_funded=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredFundedContributionCount]/;/project_required_total=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredContributionCount]/;/project_founder=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetFounder.GetFullNameNicknamedNoTooltipRegnal]/;/project_owner=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetOwner.GetFullNameNicknamedNoTooltipRegnal]/;/reporter_role=[GetPlayer.MakeScope.Var('votc_great_project_reporter_role').GetFlagName]/;/player_project_role=[GetPlayer.MakeScope.Var('votc_great_project_player_role').GetFlagName]"
+								}
+							}
+							else_if = {
+								limit = { scope:actor = { var:votc_incoming_letter_current_slot = 2 } }
+								if = {
+									limit = { $TYPE$ = flag:vassal_memorial }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/vassal_memorial/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:family_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/family_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:siege_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/siege_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/siege_location=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetNameNoTooltip]/;/army_soldiers=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetSoldierCount]/;/siege_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetProgress|0]/;/attacker_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetAttackerMen|0]/;/defender_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetDefenderMen|0]/;/siege_fort_level=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetFortLevel|0]/;/siege_phase_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetPhaseProgress|0]/;/siege_blocked=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.IsBlocked]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:lost_holding }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/lost_holding/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/lost_holding=[GetGlobalVariable('votc_incoming_letter_fact_holding').Title.GetNameNoTooltip]/;/attacker=[GetGlobalVariable('votc_incoming_letter_fact_attacker').Char.GetFullNameNicknamedNoTooltipRegnal]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:courtier_petition }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/courtier_petition/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/petition_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_petition_type').GetFlagName]/;/courtier_years=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_years').GetValue|0]/;/courtier_skill=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_skill').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:rival_taunt }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/rival_taunt/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/rival_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_rival_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:dear_friend_greeting }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/dear_friend_greeting/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/relation_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_relation_type').GetFlagName]/;/sender_mood=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_sender_mood').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:letter_to_travelling_player }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/letter_to_travelling_player/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/player_destination=[GetPlayer.MakeScope.Var('votc_player_destination').GetFlagName]/;/player_destination_name=[GetGlobalVariable('votc_incoming_letter_fact_destination').Province.GetTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:ally_call_for_aid }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/ally_call_for_aid/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:revolt_urgent }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/revolt_urgent/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/defender=[GetGlobalVariable('votc_incoming_letter_fact_defender').Char.GetFullNameNicknamedNoTooltipRegnal]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:deathbed_letter }
+									if = {
+										limit = { scope:actor = { var:votc_sender_role = flag:deceased } }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=deceased/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=mourner/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]/;/deceased_id=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:pilgrimage_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/pilgrimage_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tour_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/tour_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:wedding_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/wedding_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:hunt_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/hunt_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tournament_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/tournament_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:travel_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/travel_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:faction_warning }
+									if = {
+										limit = { exists = global_var:votc_incoming_letter_fact_faction_leader }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_leader=[GetGlobalVariable('votc_incoming_letter_fact_faction_leader').Char.GetFullNameNicknamedNoTooltipRegnal]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:scheme_exposed }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/scheme_exposed/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/scheme_owner=[GetGlobalVariable('votc_incoming_letter_fact_scheme_owner').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target_title=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target_title').Title.GetNameNoTooltip]/;/scheme_type=[GetPlayer.MakeScope.Var('votc_scheme_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:natural_disaster }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/natural_disaster/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/disaster_type=[GetPlayer.MakeScope.Var('votc_disaster_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tributary_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/tributary_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/tributary_realm=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:liege_overlord_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/liege_overlord_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/liege_title=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_work_notice }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/great_work_notice/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/work_location=[GetGlobalVariable('votc_incoming_letter_fact_work_province').Province.GetTitle.GetNameNoTooltip]/;/work_type=[GetPlayer.MakeScope.Var('votc_great_work_type').GetFlagName]/;/work_stage=[GetPlayer.MakeScope.Var('votc_great_work_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_project_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_2/;/great_project_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/project_name=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetNameNoTooltip]/;/project_type=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetType.GetKey]/;/project_stage=[GetPlayer.MakeScope.Var('votc_great_project_report_stage').GetFlagName]/;/project_location=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetLocation.GetNameNoTooltip]/;/project_progress=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionProgress|%0]/;/project_days_left=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionDaysLeft]/;/project_required_funded=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredFundedContributionCount]/;/project_required_total=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredContributionCount]/;/project_founder=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetFounder.GetFullNameNicknamedNoTooltipRegnal]/;/project_owner=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetOwner.GetFullNameNicknamedNoTooltipRegnal]/;/reporter_role=[GetPlayer.MakeScope.Var('votc_great_project_reporter_role').GetFlagName]/;/player_project_role=[GetPlayer.MakeScope.Var('votc_great_project_player_role').GetFlagName]"
+								}
+							}
+							else_if = {
+								limit = { scope:actor = { var:votc_incoming_letter_current_slot = 3 } }
+								if = {
+									limit = { $TYPE$ = flag:vassal_memorial }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/vassal_memorial/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:family_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/family_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:siege_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/siege_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/siege_location=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetNameNoTooltip]/;/army_soldiers=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetSoldierCount]/;/siege_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetProgress|0]/;/attacker_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetAttackerMen|0]/;/defender_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetDefenderMen|0]/;/siege_fort_level=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetFortLevel|0]/;/siege_phase_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetPhaseProgress|0]/;/siege_blocked=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.IsBlocked]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:lost_holding }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/lost_holding/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/lost_holding=[GetGlobalVariable('votc_incoming_letter_fact_holding').Title.GetNameNoTooltip]/;/attacker=[GetGlobalVariable('votc_incoming_letter_fact_attacker').Char.GetFullNameNicknamedNoTooltipRegnal]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:courtier_petition }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/courtier_petition/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/petition_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_petition_type').GetFlagName]/;/courtier_years=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_years').GetValue|0]/;/courtier_skill=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_skill').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:rival_taunt }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/rival_taunt/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/rival_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_rival_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:dear_friend_greeting }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/dear_friend_greeting/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/relation_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_relation_type').GetFlagName]/;/sender_mood=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_sender_mood').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:letter_to_travelling_player }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/letter_to_travelling_player/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/player_destination=[GetPlayer.MakeScope.Var('votc_player_destination').GetFlagName]/;/player_destination_name=[GetGlobalVariable('votc_incoming_letter_fact_destination').Province.GetTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:ally_call_for_aid }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/ally_call_for_aid/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:revolt_urgent }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/revolt_urgent/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/defender=[GetGlobalVariable('votc_incoming_letter_fact_defender').Char.GetFullNameNicknamedNoTooltipRegnal]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:deathbed_letter }
+									if = {
+										limit = { scope:actor = { var:votc_sender_role = flag:deceased } }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=deceased/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=mourner/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]/;/deceased_id=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:pilgrimage_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/pilgrimage_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tour_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/tour_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:wedding_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/wedding_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:hunt_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/hunt_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tournament_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/tournament_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:travel_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/travel_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:faction_warning }
+									if = {
+										limit = { exists = global_var:votc_incoming_letter_fact_faction_leader }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_leader=[GetGlobalVariable('votc_incoming_letter_fact_faction_leader').Char.GetFullNameNicknamedNoTooltipRegnal]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:scheme_exposed }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/scheme_exposed/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/scheme_owner=[GetGlobalVariable('votc_incoming_letter_fact_scheme_owner').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target_title=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target_title').Title.GetNameNoTooltip]/;/scheme_type=[GetPlayer.MakeScope.Var('votc_scheme_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:natural_disaster }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/natural_disaster/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/disaster_type=[GetPlayer.MakeScope.Var('votc_disaster_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tributary_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/tributary_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/tributary_realm=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:liege_overlord_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/liege_overlord_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/liege_title=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_work_notice }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/great_work_notice/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/work_location=[GetGlobalVariable('votc_incoming_letter_fact_work_province').Province.GetTitle.GetNameNoTooltip]/;/work_type=[GetPlayer.MakeScope.Var('votc_great_work_type').GetFlagName]/;/work_stage=[GetPlayer.MakeScope.Var('votc_great_work_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_project_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_3/;/great_project_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/project_name=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetNameNoTooltip]/;/project_type=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetType.GetKey]/;/project_stage=[GetPlayer.MakeScope.Var('votc_great_project_report_stage').GetFlagName]/;/project_location=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetLocation.GetNameNoTooltip]/;/project_progress=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionProgress|%0]/;/project_days_left=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionDaysLeft]/;/project_required_funded=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredFundedContributionCount]/;/project_required_total=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredContributionCount]/;/project_founder=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetFounder.GetFullNameNicknamedNoTooltipRegnal]/;/project_owner=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetOwner.GetFullNameNicknamedNoTooltipRegnal]/;/reporter_role=[GetPlayer.MakeScope.Var('votc_great_project_reporter_role').GetFlagName]/;/player_project_role=[GetPlayer.MakeScope.Var('votc_great_project_player_role').GetFlagName]"
+								}
+							}
+							else_if = {
+								limit = { scope:actor = { var:votc_incoming_letter_current_slot = 4 } }
+								if = {
+									limit = { $TYPE$ = flag:vassal_memorial }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/vassal_memorial/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:family_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/family_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:siege_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/siege_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/siege_location=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetNameNoTooltip]/;/army_soldiers=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetSoldierCount]/;/siege_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetProgress|0]/;/attacker_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetAttackerMen|0]/;/defender_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetDefenderMen|0]/;/siege_fort_level=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetFortLevel|0]/;/siege_phase_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetPhaseProgress|0]/;/siege_blocked=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.IsBlocked]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:lost_holding }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/lost_holding/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/lost_holding=[GetGlobalVariable('votc_incoming_letter_fact_holding').Title.GetNameNoTooltip]/;/attacker=[GetGlobalVariable('votc_incoming_letter_fact_attacker').Char.GetFullNameNicknamedNoTooltipRegnal]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:courtier_petition }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/courtier_petition/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/petition_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_petition_type').GetFlagName]/;/courtier_years=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_years').GetValue|0]/;/courtier_skill=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_skill').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:rival_taunt }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/rival_taunt/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/rival_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_rival_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:dear_friend_greeting }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/dear_friend_greeting/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/relation_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_relation_type').GetFlagName]/;/sender_mood=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_sender_mood').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:letter_to_travelling_player }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/letter_to_travelling_player/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/player_destination=[GetPlayer.MakeScope.Var('votc_player_destination').GetFlagName]/;/player_destination_name=[GetGlobalVariable('votc_incoming_letter_fact_destination').Province.GetTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:ally_call_for_aid }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/ally_call_for_aid/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:revolt_urgent }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/revolt_urgent/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/defender=[GetGlobalVariable('votc_incoming_letter_fact_defender').Char.GetFullNameNicknamedNoTooltipRegnal]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:deathbed_letter }
+									if = {
+										limit = { scope:actor = { var:votc_sender_role = flag:deceased } }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=deceased/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=mourner/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]/;/deceased_id=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:pilgrimage_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/pilgrimage_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tour_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/tour_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:wedding_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/wedding_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:hunt_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/hunt_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tournament_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/tournament_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:travel_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/travel_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:faction_warning }
+									if = {
+										limit = { exists = global_var:votc_incoming_letter_fact_faction_leader }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_leader=[GetGlobalVariable('votc_incoming_letter_fact_faction_leader').Char.GetFullNameNicknamedNoTooltipRegnal]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:scheme_exposed }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/scheme_exposed/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/scheme_owner=[GetGlobalVariable('votc_incoming_letter_fact_scheme_owner').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target_title=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target_title').Title.GetNameNoTooltip]/;/scheme_type=[GetPlayer.MakeScope.Var('votc_scheme_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:natural_disaster }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/natural_disaster/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/disaster_type=[GetPlayer.MakeScope.Var('votc_disaster_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tributary_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/tributary_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/tributary_realm=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:liege_overlord_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/liege_overlord_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/liege_title=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_work_notice }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/great_work_notice/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/work_location=[GetGlobalVariable('votc_incoming_letter_fact_work_province').Province.GetTitle.GetNameNoTooltip]/;/work_type=[GetPlayer.MakeScope.Var('votc_great_work_type').GetFlagName]/;/work_stage=[GetPlayer.MakeScope.Var('votc_great_work_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_project_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_4/;/great_project_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/project_name=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetNameNoTooltip]/;/project_type=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetType.GetKey]/;/project_stage=[GetPlayer.MakeScope.Var('votc_great_project_report_stage').GetFlagName]/;/project_location=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetLocation.GetNameNoTooltip]/;/project_progress=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionProgress|%0]/;/project_days_left=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionDaysLeft]/;/project_required_funded=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredFundedContributionCount]/;/project_required_total=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredContributionCount]/;/project_founder=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetFounder.GetFullNameNicknamedNoTooltipRegnal]/;/project_owner=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetOwner.GetFullNameNicknamedNoTooltipRegnal]/;/reporter_role=[GetPlayer.MakeScope.Var('votc_great_project_reporter_role').GetFlagName]/;/player_project_role=[GetPlayer.MakeScope.Var('votc_great_project_player_role').GetFlagName]"
+								}
+							}
+							else_if = {
+								limit = { scope:actor = { var:votc_incoming_letter_current_slot = 5 } }
+								if = {
+									limit = { $TYPE$ = flag:vassal_memorial }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/vassal_memorial/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:family_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/family_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:siege_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/siege_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/siege_location=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetNameNoTooltip]/;/army_soldiers=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetSoldierCount]/;/siege_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetProgress|0]/;/attacker_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetAttackerMen|0]/;/defender_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetDefenderMen|0]/;/siege_fort_level=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetFortLevel|0]/;/siege_phase_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetPhaseProgress|0]/;/siege_blocked=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.IsBlocked]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:lost_holding }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/lost_holding/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/lost_holding=[GetGlobalVariable('votc_incoming_letter_fact_holding').Title.GetNameNoTooltip]/;/attacker=[GetGlobalVariable('votc_incoming_letter_fact_attacker').Char.GetFullNameNicknamedNoTooltipRegnal]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:courtier_petition }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/courtier_petition/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/petition_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_petition_type').GetFlagName]/;/courtier_years=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_years').GetValue|0]/;/courtier_skill=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_skill').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:rival_taunt }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/rival_taunt/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/rival_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_rival_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:dear_friend_greeting }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/dear_friend_greeting/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/relation_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_relation_type').GetFlagName]/;/sender_mood=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_sender_mood').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:letter_to_travelling_player }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/letter_to_travelling_player/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/player_destination=[GetPlayer.MakeScope.Var('votc_player_destination').GetFlagName]/;/player_destination_name=[GetGlobalVariable('votc_incoming_letter_fact_destination').Province.GetTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:ally_call_for_aid }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/ally_call_for_aid/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:revolt_urgent }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/revolt_urgent/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/defender=[GetGlobalVariable('votc_incoming_letter_fact_defender').Char.GetFullNameNicknamedNoTooltipRegnal]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:deathbed_letter }
+									if = {
+										limit = { scope:actor = { var:votc_sender_role = flag:deceased } }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=deceased/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=mourner/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]/;/deceased_id=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:pilgrimage_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/pilgrimage_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tour_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/tour_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:wedding_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/wedding_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:hunt_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/hunt_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tournament_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/tournament_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:travel_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/travel_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:faction_warning }
+									if = {
+										limit = { exists = global_var:votc_incoming_letter_fact_faction_leader }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_leader=[GetGlobalVariable('votc_incoming_letter_fact_faction_leader').Char.GetFullNameNicknamedNoTooltipRegnal]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:scheme_exposed }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/scheme_exposed/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/scheme_owner=[GetGlobalVariable('votc_incoming_letter_fact_scheme_owner').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target_title=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target_title').Title.GetNameNoTooltip]/;/scheme_type=[GetPlayer.MakeScope.Var('votc_scheme_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:natural_disaster }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/natural_disaster/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/disaster_type=[GetPlayer.MakeScope.Var('votc_disaster_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tributary_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/tributary_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/tributary_realm=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:liege_overlord_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/liege_overlord_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/liege_title=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_work_notice }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/great_work_notice/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/work_location=[GetGlobalVariable('votc_incoming_letter_fact_work_province').Province.GetTitle.GetNameNoTooltip]/;/work_type=[GetPlayer.MakeScope.Var('votc_great_work_type').GetFlagName]/;/work_stage=[GetPlayer.MakeScope.Var('votc_great_work_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_project_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_5/;/great_project_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/project_name=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetNameNoTooltip]/;/project_type=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetType.GetKey]/;/project_stage=[GetPlayer.MakeScope.Var('votc_great_project_report_stage').GetFlagName]/;/project_location=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetLocation.GetNameNoTooltip]/;/project_progress=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionProgress|%0]/;/project_days_left=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionDaysLeft]/;/project_required_funded=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredFundedContributionCount]/;/project_required_total=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredContributionCount]/;/project_founder=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetFounder.GetFullNameNicknamedNoTooltipRegnal]/;/project_owner=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetOwner.GetFullNameNicknamedNoTooltipRegnal]/;/reporter_role=[GetPlayer.MakeScope.Var('votc_great_project_reporter_role').GetFlagName]/;/player_project_role=[GetPlayer.MakeScope.Var('votc_great_project_player_role').GetFlagName]"
+								}
+							}
+							else_if = {
+								limit = { scope:actor = { var:votc_incoming_letter_current_slot = 6 } }
+								if = {
+									limit = { $TYPE$ = flag:vassal_memorial }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/vassal_memorial/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:family_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/family_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:siege_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/siege_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/siege_location=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetNameNoTooltip]/;/army_soldiers=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetSoldierCount]/;/siege_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetProgress|0]/;/attacker_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetAttackerMen|0]/;/defender_men=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetDefenderMen|0]/;/siege_fort_level=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetFortLevel|0]/;/siege_phase_progress=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.GetPhaseProgress|0]/;/siege_blocked=[GetGlobalVariable('votc_incoming_letter_fact_army').Army.GetLocation.GetSiege.IsBlocked]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:lost_holding }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/lost_holding/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/lost_holding=[GetGlobalVariable('votc_incoming_letter_fact_holding').Title.GetNameNoTooltip]/;/attacker=[GetGlobalVariable('votc_incoming_letter_fact_attacker').Char.GetFullNameNicknamedNoTooltipRegnal]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:courtier_petition }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/courtier_petition/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/petition_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_petition_type').GetFlagName]/;/courtier_years=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_years').GetValue|0]/;/courtier_skill=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_courtier_skill').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:rival_taunt }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/rival_taunt/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/rival_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_rival_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:dear_friend_greeting }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/dear_friend_greeting/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/relation_type=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_relation_type').GetFlagName]/;/sender_mood=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.MakeScope.Var('votc_sender_mood').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:letter_to_travelling_player }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/letter_to_travelling_player/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/player_destination=[GetPlayer.MakeScope.Var('votc_player_destination').GetFlagName]/;/player_destination_name=[GetGlobalVariable('votc_incoming_letter_fact_destination').Province.GetTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:ally_call_for_aid }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/ally_call_for_aid/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:revolt_urgent }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/revolt_urgent/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/defender=[GetGlobalVariable('votc_incoming_letter_fact_defender').Char.GetFullNameNicknamedNoTooltipRegnal]/;/enemy=[GetGlobalVariable('votc_incoming_letter_fact_enemy').Char.GetFullNameNicknamedNoTooltipRegnal]/;/war_type=[GetPlayer.MakeScope.Var('votc_war_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:deathbed_letter }
+									if = {
+										limit = { scope:actor = { var:votc_sender_role = flag:deceased } }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=deceased/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/deathbed_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/deceased=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetFullNameNicknamedNoTooltipRegnal]/;/relation=[GetPlayer.MakeScope.Var('votc_death_relation').GetFlagName]/;/sender_role=mourner/;/death_category=[GetPlayer.MakeScope.Var('votc_death_category').GetFlagName]/;/death_reason=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetDeathReason]/;/deceased_id=[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:pilgrimage_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/pilgrimage_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tour_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/tour_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:wedding_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/wedding_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:hunt_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/hunt_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tournament_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/tournament_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:travel_tales }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/travel_tales/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/traveller=[GetGlobalVariable('votc_incoming_letter_fact_traveller').Char.GetFullNameNicknamedNoTooltipRegnal]/;/travel_stage=[GetPlayer.MakeScope.Var('votc_travel_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:faction_warning }
+									if = {
+										limit = { exists = global_var:votc_incoming_letter_fact_faction_leader }
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_leader=[GetGlobalVariable('votc_incoming_letter_fact_faction_leader').Char.GetFullNameNicknamedNoTooltipRegnal]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+									else = {
+										debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/faction_warning/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/faction_type=[GetPlayer.MakeScope.Var('votc_faction_type').GetFlagName]/;/faction_name=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetNameNoTooltip]/;/faction_power=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetPower|0]/;/faction_discontent=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetDiscontent|0]/;/faction_size=[GetPlayer.MakeScope.Var('votc_faction_size').GetFlagName]/;/faction_target_title=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.GetSpecialTitle.GetNameNoTooltip]/;/faction_at_war=[GetGlobalVariable('votc_incoming_letter_fact_faction').Faction.IsAtWar]"
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:scheme_exposed }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/scheme_exposed/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/scheme_owner=[GetGlobalVariable('votc_incoming_letter_fact_scheme_owner').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target').Char.GetFullNameNicknamedNoTooltipRegnal]/;/scheme_target_title=[GetGlobalVariable('votc_incoming_letter_fact_scheme_target_title').Title.GetNameNoTooltip]/;/scheme_type=[GetPlayer.MakeScope.Var('votc_scheme_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:natural_disaster }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/natural_disaster/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/disaster_type=[GetPlayer.MakeScope.Var('votc_disaster_type').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tributary_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/tributary_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/tributary_realm=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:liege_overlord_letter }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/liege_overlord_letter/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/liege_title=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetPrimaryTitle.GetNameNoTooltip]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_work_notice }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/great_work_notice/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/work_location=[GetGlobalVariable('votc_incoming_letter_fact_work_province').Province.GetTitle.GetNameNoTooltip]/;/work_type=[GetPlayer.MakeScope.Var('votc_great_work_type').GetFlagName]/;/work_stage=[GetPlayer.MakeScope.Var('votc_great_work_stage').GetFlagName]"
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_project_report }
+									debug_log = "VOTC:INCOMING_LETTER/;/context/;/incoming_letter_6/;/great_project_report/;/[GetCurrentDate.GetStringShort]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/sender_location=[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetCurrentLocation.GetNameNoTooltip]/;/project_name=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetNameNoTooltip]/;/project_type=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetType.GetKey]/;/project_stage=[GetPlayer.MakeScope.Var('votc_great_project_report_stage').GetFlagName]/;/project_location=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetLocation.GetNameNoTooltip]/;/project_progress=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionProgress|%0]/;/project_days_left=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetConstructionDaysLeft]/;/project_required_funded=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredFundedContributionCount]/;/project_required_total=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetRequiredContributionCount]/;/project_founder=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetFounder.GetFullNameNicknamedNoTooltipRegnal]/;/project_owner=[GetGlobalVariable('votc_incoming_letter_fact_great_project').GreatProject.GetOwner.GetFullNameNicknamedNoTooltipRegnal]/;/reporter_role=[GetPlayer.MakeScope.Var('votc_great_project_reporter_role').GetFlagName]/;/player_project_role=[GetPlayer.MakeScope.Var('votc_great_project_player_role').GetFlagName]"
+								}
+							}
+
+							remove_global_variable ?= votc_incoming_letter_snapshot_sender
+							remove_global_variable ?= votc_incoming_letter_fact_army
+							remove_global_variable ?= votc_incoming_letter_fact_holding
+							remove_global_variable ?= votc_incoming_letter_fact_attacker
+							remove_global_variable ?= votc_incoming_letter_fact_destination
+							remove_global_variable ?= votc_incoming_letter_fact_enemy
+							remove_global_variable ?= votc_incoming_letter_fact_war
+							remove_global_variable ?= votc_incoming_letter_fact_defender
+							remove_global_variable ?= votc_incoming_letter_fact_deceased
+							remove_global_variable ?= votc_incoming_letter_fact_traveller
+							remove_global_variable ?= votc_incoming_letter_fact_faction
+							remove_global_variable ?= votc_incoming_letter_fact_faction_leader
+							remove_global_variable ?= votc_incoming_letter_fact_scheme_owner
+							remove_global_variable ?= votc_incoming_letter_fact_scheme_target
+							remove_global_variable ?= votc_incoming_letter_fact_scheme_target_title
+							remove_global_variable ?= votc_incoming_letter_fact_work_province
+							remove_global_variable ?= votc_incoming_letter_fact_great_project
+
+							scope:actor = {
+								votc_bump_checkpoint_effect = { SOURCE = incoming_letter }
+
+								# Schedule bridge event (1 day) and arrival event (letter delay).
+								if = {
+									limit = { var:votc_incoming_letter_current_slot = 1 }
+									trigger_event = {
+										id = votc_incoming_letter_event.0201
+										days = 1
+									}
+									trigger_event = {
+										id = votc_incoming_letter_event.0101
+										days = votc_letter_delay
+									}
+								}
+								else_if = {
+									limit = { var:votc_incoming_letter_current_slot = 2 }
+									trigger_event = {
+										id = votc_incoming_letter_event.0202
+										days = 1
+									}
+									trigger_event = {
+										id = votc_incoming_letter_event.0102
+										days = votc_letter_delay
+									}
+								}
+								else_if = {
+									limit = { var:votc_incoming_letter_current_slot = 3 }
+									trigger_event = {
+										id = votc_incoming_letter_event.0203
+										days = 1
+									}
+									trigger_event = {
+										id = votc_incoming_letter_event.0103
+										days = votc_letter_delay
+									}
+								}
+								else_if = {
+									limit = { var:votc_incoming_letter_current_slot = 4 }
+									trigger_event = {
+										id = votc_incoming_letter_event.0204
+										days = 1
+									}
+									trigger_event = {
+										id = votc_incoming_letter_event.0104
+										days = votc_letter_delay
+									}
+								}
+								else_if = {
+									limit = { var:votc_incoming_letter_current_slot = 5 }
+									trigger_event = {
+										id = votc_incoming_letter_event.0205
+										days = 1
+									}
+									trigger_event = {
+										id = votc_incoming_letter_event.0105
+										days = votc_letter_delay
+									}
+								}
+								else_if = {
+									limit = { var:votc_incoming_letter_current_slot = 6 }
+									trigger_event = {
+										id = votc_incoming_letter_event.0206
+										days = 1
+									}
+									trigger_event = {
+										id = votc_incoming_letter_event.0106
+										days = votc_letter_delay
+									}
+								}
+							}
+
+							# Cooldowns (only after a successful allocation).
+							scope:actor = {
+								# The incoming-letter settings panel controls the global
+								# gap between all future letters. Existing cooldowns keep
+								# their original expiry when the setting is changed.
+								if = {
+									limit = { var:votc_incoming_letters_frequency = 1 }
+									set_variable = {
+										name = votc_incoming_letters_global_cooldown
+										days = 360
+									}
+								}
+								else_if = {
+									limit = { var:votc_incoming_letters_frequency = 3 }
+									set_variable = {
+										name = votc_incoming_letters_global_cooldown
+										days = 90
+									}
+								}
+								else_if = {
+									limit = { var:votc_incoming_letters_frequency = 4 }
+									remove_variable ?= votc_incoming_letters_global_cooldown
+								}
+								else = {
+									set_variable = {
+										name = votc_incoming_letters_global_cooldown
+										days = 180
+									}
+								}
+								if = {
+									limit = { $TYPE$ = flag:vassal_memorial }
+									set_variable = {
+										name = votc_incoming_letter_vassal_cooldown
+										days = 90
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:siege_report }
+									set_variable = {
+										name = votc_incoming_letter_siege_cooldown
+										days = 60
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:lost_holding }
+									set_variable = {
+										name = votc_incoming_letter_lost_holding_cooldown
+										days = 90
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:courtier_petition }
+									set_variable = {
+										name = votc_incoming_letter_courtier_cooldown
+										days = 180
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:rival_taunt }
+									set_variable = {
+										name = votc_incoming_letter_rival_cooldown
+										days = 240
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:dear_friend_greeting }
+									set_variable = {
+										name = votc_incoming_letter_friend_cooldown
+										days = 180
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:ally_call_for_aid }
+									set_variable = {
+										name = votc_incoming_letter_ally_cooldown
+										days = 90
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:revolt_urgent }
+									set_variable = {
+										name = votc_incoming_letter_revolt_cooldown
+										days = 180
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:deathbed_letter }
+									set_variable = {
+										name = votc_incoming_letter_death_cooldown
+										days = 90
+									}
+								}
+							else_if = {
+								limit = { $TYPE$ = flag:pilgrimage_tales }
+								set_variable = {
+									name = votc_incoming_letter_pilgrimage_cooldown
+									days = 180
+								}
+							}
+							else_if = {
+								limit = { $TYPE$ = flag:tour_tales }
+								set_variable = {
+									name = votc_incoming_letter_pilgrimage_cooldown
+									days = 180
+								}
+							}
+							else_if = {
+								limit = { $TYPE$ = flag:wedding_tales }
+								set_variable = {
+									name = votc_incoming_letter_pilgrimage_cooldown
+									days = 180
+								}
+							}
+							else_if = {
+								limit = { $TYPE$ = flag:hunt_tales }
+								set_variable = {
+									name = votc_incoming_letter_pilgrimage_cooldown
+									days = 180
+								}
+							}
+							else_if = {
+								limit = { $TYPE$ = flag:tournament_tales }
+								set_variable = {
+									name = votc_incoming_letter_pilgrimage_cooldown
+									days = 180
+								}
+							}
+							else_if = {
+								limit = { $TYPE$ = flag:travel_tales }
+								set_variable = {
+									name = votc_incoming_letter_pilgrimage_cooldown
+									days = 180
+								}
+							}
+								else_if = {
+									limit = { $TYPE$ = flag:faction_warning }
+									set_variable = {
+										name = votc_incoming_letter_faction_warning_cooldown
+										days = 120
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:scheme_exposed }
+									set_variable = {
+										name = votc_incoming_letter_scheme_cooldown
+										days = 180
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:natural_disaster }
+									set_variable = {
+										name = votc_incoming_letter_disaster_cooldown
+										days = 180
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:tributary_letter }
+									set_variable = {
+										name = votc_incoming_letter_tributary_cooldown
+										days = 360
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:liege_overlord_letter }
+									set_variable = {
+										name = votc_incoming_letter_liege_cooldown
+										days = 360
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_work_notice }
+									set_variable = {
+										name = votc_incoming_letter_great_work_cooldown
+										days = 360
+									}
+								}
+								else_if = {
+									limit = { $TYPE$ = flag:great_project_report }
+									set_variable = {
+										name = votc_incoming_letter_great_project_cooldown
+										days = 90
+									}
+								}
+							}
+							scope:recipient = {
+								set_variable = {
+									name = votc_incoming_letter_sent_recently
+									days = 365
+								}
+							}
+
+						# Clean up the transient slot marker.
+						scope:actor = {
+							remove_variable ?= votc_incoming_letter_current_slot
+							remove_variable ?= votc_sender_role
+							remove_variable ?= votc_death_category
+						}
+						}
+						else = {
+							# Allocation failed; the allocation effect has already logged skipped/full.
+						}
+					}
+					else = {
+						debug_log = "VOTC:INCOMING_LETTER/;/skipped/;/assert/theme_cooldown"
+					}
+				}
+				else = {
+					debug_log = "VOTC:INCOMING_LETTER/;/skipped/;/assert/global_cooldown"
+				}
+			}
+			else = {
+				debug_log = "VOTC:INCOMING_LETTER/;/skipped/;/assert/author_invalid"
+			}
+		}
+		else = {
+			debug_log = "VOTC:INCOMING_LETTER/;/skipped/;/assert/not_enabled"
+		}
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/skipped/;/assert/actor_is_ai"
+	}
+}
