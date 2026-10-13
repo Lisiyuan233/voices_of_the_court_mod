@@ -979,6 +979,12 @@ votc_incoming_letter_event.0118 = {
 # -------------------------------------------------
 
 votc_incoming_letter_event.0201 = {
+	immediate = {
+		if = {
+			limit = { exists = global_var:votc_incoming_letter_1 }
+			debug_log = "VOTC:INCOMING_LETTER/;/clipboard/;/incoming_letter_1/;/[GetGlobalVariable('votc_incoming_letter_type_1').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_1_delivery_id').GetValue|0]/;/[GetPlayer.GetID]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]"
+		}
+	}
 	type = character_event
 	title = votc_incoming_letter_bridge_title
 	theme = clipboard_transfer_event_theme
@@ -999,6 +1005,12 @@ votc_incoming_letter_event.0201 = {
 }
 
 votc_incoming_letter_event.0202 = {
+	immediate = {
+		if = {
+			limit = { exists = global_var:votc_incoming_letter_2 }
+			debug_log = "VOTC:INCOMING_LETTER/;/clipboard/;/incoming_letter_2/;/[GetGlobalVariable('votc_incoming_letter_type_2').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_2_delivery_id').GetValue|0]/;/[GetPlayer.GetID]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]"
+		}
+	}
 	type = character_event
 	title = votc_incoming_letter_bridge_title
 	theme = clipboard_transfer_event_theme
@@ -1019,6 +1031,12 @@ votc_incoming_letter_event.0202 = {
 }
 
 votc_incoming_letter_event.0203 = {
+	immediate = {
+		if = {
+			limit = { exists = global_var:votc_incoming_letter_3 }
+			debug_log = "VOTC:INCOMING_LETTER/;/clipboard/;/incoming_letter_3/;/[GetGlobalVariable('votc_incoming_letter_type_3').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_3_delivery_id').GetValue|0]/;/[GetPlayer.GetID]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]"
+		}
+	}
 	type = character_event
 	title = votc_incoming_letter_bridge_title
 	theme = clipboard_transfer_event_theme
@@ -1039,6 +1057,12 @@ votc_incoming_letter_event.0203 = {
 }
 
 votc_incoming_letter_event.0204 = {
+	immediate = {
+		if = {
+			limit = { exists = global_var:votc_incoming_letter_4 }
+			debug_log = "VOTC:INCOMING_LETTER/;/clipboard/;/incoming_letter_4/;/[GetGlobalVariable('votc_incoming_letter_type_4').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_4_delivery_id').GetValue|0]/;/[GetPlayer.GetID]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]"
+		}
+	}
 	type = character_event
 	title = votc_incoming_letter_bridge_title
 	theme = clipboard_transfer_event_theme
@@ -1059,6 +1083,12 @@ votc_incoming_letter_event.0204 = {
 }
 
 votc_incoming_letter_event.0205 = {
+	immediate = {
+		if = {
+			limit = { exists = global_var:votc_incoming_letter_5 }
+			debug_log = "VOTC:INCOMING_LETTER/;/clipboard/;/incoming_letter_5/;/[GetGlobalVariable('votc_incoming_letter_type_5').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_5_delivery_id').GetValue|0]/;/[GetPlayer.GetID]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]"
+		}
+	}
 	type = character_event
 	title = votc_incoming_letter_bridge_title
 	theme = clipboard_transfer_event_theme
@@ -1079,6 +1109,12 @@ votc_incoming_letter_event.0205 = {
 }
 
 votc_incoming_letter_event.0206 = {
+	immediate = {
+		if = {
+			limit = { exists = global_var:votc_incoming_letter_6 }
+			debug_log = "VOTC:INCOMING_LETTER/;/clipboard/;/incoming_letter_6/;/[GetGlobalVariable('votc_incoming_letter_type_6').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_6_delivery_id').GetValue|0]/;/[GetPlayer.GetID]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]"
+		}
+	}
 	type = character_event
 	title = votc_incoming_letter_bridge_title
 	theme = clipboard_transfer_event_theme
@@ -1099,6 +1135,12 @@ votc_incoming_letter_event.0206 = {
 }
 
 votc_incoming_letter_event.0207 = {
+	immediate = {
+		if = {
+			limit = { exists = global_var:votc_incoming_letter_7 }
+			debug_log = "VOTC:INCOMING_LETTER/;/clipboard/;/incoming_letter_7/;/[GetGlobalVariable('votc_incoming_letter_type_7').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_7_delivery_id').GetValue|0]/;/[GetPlayer.GetID]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]"
+		}
+	}
 	type = character_event
 	title = votc_incoming_letter_bridge_title
 	theme = clipboard_transfer_event_theme
@@ -1119,6 +1161,12 @@ votc_incoming_letter_event.0207 = {
 }
 
 votc_incoming_letter_event.0208 = {
+	immediate = {
+		if = {
+			limit = { exists = global_var:votc_incoming_letter_8 }
+			debug_log = "VOTC:INCOMING_LETTER/;/clipboard/;/incoming_letter_8/;/[GetGlobalVariable('votc_incoming_letter_type_8').GetFlagName]/;/[GetPlayer.MakeScope.Var('votc_incoming_letter_8_delivery_id').GetValue|0]/;/[GetPlayer.GetID]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]"
+		}
+	}
 	type = character_event
 	title = votc_incoming_letter_bridge_title
 	theme = clipboard_transfer_event_theme

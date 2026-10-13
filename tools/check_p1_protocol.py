@@ -252,6 +252,19 @@ def main():
         cc_maps[lang] = cc_map
         talk_maps[lang] = tk_map
 
+    # The log transport must carry the same slot/type/delivery and identity
+    # tail as the clipboard bridge, and only while the slot is occupied.
+    for slot in range(1, 9):
+        wire = bridge_values.get(f'votc_incoming_letter_bridge_{slot}', '')
+        expected = wire.replace('VOTC:INCOMING_LETTER/;/',
+                                'VOTC:INCOMING_LETTER/;/clipboard/;/', 1)
+        bridge = re.search(rf'^votc_incoming_letter_event\.020{slot}\s*=\s*\{{.*?^\}}',
+                           events_c, re.M | re.S)
+        if not bridge or not expected or f'debug_log = "{expected}"' not in bridge.group(0):
+            err(f'log bridge {slot} does not match the clipboard payload')
+        elif f'limit = {{ exists = global_var:votc_incoming_letter_{slot} }}' not in bridge.group(0):
+            err(f'log bridge {slot} is not gated on its occupied slot')
+
     en = talk_maps.get('english', {})
     zh = talk_maps.get('simp_chinese', {})
     en_cc = cc_maps.get('english', {})
