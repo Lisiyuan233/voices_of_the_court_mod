@@ -1,0 +1,40 @@
+﻿# VOTC incoming letter test: siege report.
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Console command: run votc_test_incoming_siege_letter.txt
+# ROOT is the player character. Searches the player's armies for one currently
+# besieging and, if found, triggers a siege_report incoming letter from the
+# army commander, bypassing the monthly probability gate but going through the
+# full slot/log/bridge/arrival/cleanup pipeline. Requires the player to have
+# enabled incoming letters via the settings decision first.
+# If no besieging army is found, logs a clear skip line and sends no letter.
+
+save_scope_as = actor
+
+# Find a random player-owned army that is currently besieging.
+random_army = {
+	limit = {
+		army_owner = root
+		is_army_in_siege = yes
+	}
+	save_scope_as = army
+	army_commander = {
+		if = {
+			limit = { votc_incoming_letter_author_valid_trigger = yes }
+			save_scope_as = recipient
+		}
+	}
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	votc_start_incoming_letter_effect = { TYPE = flag:siege_report }
+}
+else = {
+	if = {
+		limit = { exists = scope:army }
+		debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_valid_commander"
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_siege"
+	}
+}

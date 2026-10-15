@@ -1,0 +1,31 @@
+﻿# VOTC native Great Project incoming-letter test.
+# Console command: run votc_test_incoming_great_project.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Requires at least one CK3 Great Project that the player owns, founded, or
+# contributed to. Clears only VOTC report milestones, then runs the same
+# quarterly scanner used in normal play.
+
+save_scope_as = actor
+
+remove_variable ?= votc_incoming_letters_global_cooldown
+remove_variable ?= votc_incoming_letter_great_project_cooldown
+
+every_great_project = {
+	clear_variable_list = votc_great_project_planned_reported_players
+	clear_variable_list = votc_great_project_started_reported_players
+	clear_variable_list = votc_great_project_halfway_reported_players
+	clear_variable_list = votc_great_project_completed_reported_players
+}
+
+if = {
+	limit = {
+		any_great_project = {
+			votc_incoming_letter_great_project_related_trigger = yes
+		}
+	}
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/great_project/;/scanner_triggered"
+	trigger_event = { id = votc_incoming_letter_event.0019 days = 0 }
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_related_great_project"
+}

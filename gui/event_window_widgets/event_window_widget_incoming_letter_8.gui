@@ -1,0 +1,17 @@
+﻿## VOTC dedicated poetry incoming letter widget (slot 8)
+## Runs the desktop-generated poetry letter script.
+
+hbox = {
+	name = "event_window_widget_incoming_letter_8"
+	layoutpolicy_horizontal = expanding
+	margin = { 10 0 }
+
+	state = {
+        name = widget_show
+        trigger_on_create = yes
+
+		on_start = "[ExecuteConsoleCommand('run incomingletter_v2_8.txt')]"
+	}
+
+	expand = {}
+}

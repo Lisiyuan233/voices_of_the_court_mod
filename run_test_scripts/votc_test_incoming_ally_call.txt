@@ -1,0 +1,49 @@
+﻿# VOTC incoming letter test: ally call for aid.
+# Console command: run votc_test_incoming_ally_call.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Requires the player to be allied with a valid AI character.
+# Selects a random rival of the recipient as the enemy and sets up the war
+# scope globals so the effect's fact-save block can emit a full context line.
+
+save_scope_as = actor
+
+random_relation = {
+	type = friend
+	limit = {
+		is_alive = yes
+		is_adult = yes
+		is_ai = yes
+		is_imprisoned = no
+		is_allied_to = root
+		NOT = { this = root }
+	}
+	save_scope_as = recipient
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	scope:recipient = {
+		random_rival = {
+			limit = {
+				is_alive = yes
+				is_ai = yes
+				NOT = { this = root }
+				NOT = { this = scope:recipient }
+			}
+			save_scope_as = enemy
+		}
+	}
+	scope:actor = {
+		set_variable = { name = votc_war_type value = flag:normal_war }
+	}
+	if = {
+		limit = { exists = scope:enemy }
+		votc_start_incoming_letter_effect = { TYPE = flag:ally_call_for_aid }
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_enemy"
+	}
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_ally"
+}

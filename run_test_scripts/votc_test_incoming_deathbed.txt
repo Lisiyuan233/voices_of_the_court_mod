@@ -1,0 +1,55 @@
+﻿# VOTC incoming letter test: deathbed/mourning letter.
+# Console command: run votc_test_incoming_deathbed.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Selects a deceased close family member and a mourning author.
+# Defaults to the deceased-as-sender (natural death) branch. To test the
+# mourner (violent death) branch, swap votc_sender_role to flag:mourner and
+# votc_death_category to flag:violent below.
+
+save_scope_as = actor
+
+random_close_family_member = {
+	limit = {
+		is_alive = no
+	}
+	save_scope_as = deceased
+}
+
+if = {
+	limit = { exists = scope:deceased }
+	set_global_variable = {
+		name = votc_incoming_letter_fact_deceased
+		value = scope:deceased
+	}
+
+	scope:deceased = {
+		random_close_family_member = {
+			limit = {
+				is_alive = yes
+				is_adult = yes
+				is_ai = yes
+				is_imprisoned = no
+				is_pool_character = no
+				NOT = { has_variable = votc_incoming_letter_sent_recently }
+				NOT = { this = scope:deceased }
+			}
+			save_scope_as = recipient
+		}
+	}
+
+	if = {
+		limit = { exists = scope:recipient }
+		scope:actor = {
+			set_variable = { name = votc_death_relation value = flag:child }
+			set_variable = { name = votc_sender_role value = flag:deceased }
+			set_variable = { name = votc_death_category value = flag:natural }
+		}
+		votc_start_incoming_letter_effect = { TYPE = flag:deathbed_letter }
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_mourner"
+	}
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_deceased"
+}

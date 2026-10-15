@@ -1,0 +1,28 @@
+﻿# VOTC incoming letter test: tributary letter.
+# Console command: run votc_test_incoming_tributary_letter.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Requires the player to have at least one tributary.
+
+save_scope_as = actor
+
+if = {
+	limit = { any_tributary = { count >= 1 } }
+	random_tributary = {
+		limit = {
+			votc_incoming_letter_author_valid_trigger = yes
+			NOT = { is_at_war_with = root }
+		}
+		save_scope_as = recipient
+	}
+
+	if = {
+		limit = { exists = scope:recipient }
+		votc_start_incoming_letter_effect = { TYPE = flag:tributary_letter }
+	}
+	else = {
+		debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_valid_tributary"
+	}
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_tributary"
+}

@@ -1,0 +1,76 @@
+﻿#scope:actor = player
+#scope:recipient = NPC letter author
+#votc_incoming_letter_snapshot_sender = temporary global character scope
+#
+# Unlike an interaction's built-in recipient scope, a saved scope cannot be
+# interpolated as [recipient...] inside debug_log. Use the temporary global
+# scope for the init payload, while retaining scope:recipient for character
+# snapshot effects.
+votc_log_incoming_letter_gamedata_effect = {
+	# 2CE: mod1 的肖像槽维护（votc_clear/set_conversation_portrait_slots 与
+	# votc_conversation_characters_list）在 mod2 ce 中不存在，移植时整体剥离。
+
+	# For deathbed_letter with sender_role=deceased, the init line's aiID must
+	# point at the deceased (the letter's perceived sender) so the app can
+	# match context.senderId against gameData.aiID. In that case we also need
+	# to log the deceased's character data so the app has it available.
+	if = {
+		limit = {
+			scope:actor = {
+				has_variable = votc_sender_role
+				var:votc_sender_role = flag:deceased
+			}
+			exists = global_var:votc_incoming_letter_fact_deceased
+		}
+		set_variable = {
+			name = votc_temp_log_deceased
+			value = global_var:votc_incoming_letter_fact_deceased
+		}
+		debug_log = "VOTC:IN/;/init/;/[GetPlayer.GetID]/;/[GetPlayer.GetTitledFirstName]/;/[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetID]/;/[GetGlobalVariable('votc_incoming_letter_fact_deceased').Char.GetTitledFirstName]/;/[GetCurrentDate.GetStringShort]/;/-/;/[GetPlayer.GetCurrentLocation.GetName]/;/[GetPlayer.GetCurrentLocation.GetController.GetFullNameNicknamedNoTooltipRegnal]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_epoch').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_node_a').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_node_b').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_parent_a').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_parent_b').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_token').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_pending_token').GetValue|0]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]/;/[GetCurrentDate.GetDateAsTotalDays]/;/[GetCurrentDate.GetYear]/;/[GetCurrentDate.GetMonthOfYear]/;/[GetCurrentDate.GetDayOfMonth]/;/[GetCurrentDate.GetStringShort]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_protocol').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_sequence').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_slot').GetValue|0]/;/1/;/[GetPlayer.MakeScope.Var('votc_conversation_session_token').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_conversation_roster_revision').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_conversation_roster_capacity').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_conversation_session_active').GetValue|0]"
+
+		debug_log = log_character_header
+
+		scope:actor = {
+			log_character_v2 = yes
+		}
+		var:votc_temp_log_deceased = {
+			log_character_v2 = yes
+		}
+		remove_variable ?= votc_temp_log_deceased
+	}
+	else = {
+		debug_log = "VOTC:IN/;/init/;/[GetPlayer.GetID]/;/[GetPlayer.GetTitledFirstName]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetID]/;/[GetGlobalVariable('votc_incoming_letter_snapshot_sender').Char.GetTitledFirstName]/;/[GetCurrentDate.GetStringShort]/;/-/;/[GetPlayer.GetCurrentLocation.GetName]/;/[GetPlayer.GetCurrentLocation.GetController.GetFullNameNicknamedNoTooltipRegnal]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_epoch').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_node_a').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_node_b').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_parent_a').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_parent_b').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_token').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_checkpoint_pending_token').GetValue|0]/;/2/;/1/;/[GetGlobalVariable('votc_campaign_id_a').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_b').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_c').GetValue|0]/;/[GetGlobalVariable('votc_campaign_id_d').GetValue|0]/;/[GetGlobalVariable('votc_campaign_bootstrap_kind').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_timeline_schema').GetValue|0]/;/[GetCurrentDate.GetDateAsTotalDays]/;/[GetCurrentDate.GetYear]/;/[GetCurrentDate.GetMonthOfYear]/;/[GetCurrentDate.GetDayOfMonth]/;/[GetCurrentDate.GetStringShort]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_protocol').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_sequence').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_save_snapshot_slot').GetValue|0]/;/1/;/[GetPlayer.MakeScope.Var('votc_conversation_session_token').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_conversation_roster_revision').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_conversation_roster_capacity').GetValue|0]/;/[GetPlayer.MakeScope.Var('votc_conversation_session_active').GetValue|0]"
+
+		debug_log = log_character_header
+
+		scope:actor = {
+			log_character_v2 = yes
+		}
+		if = {
+			limit = { exists = scope:recipient }
+			scope:recipient = {
+				log_character_v2 = yes
+			}
+		}
+		# For deathbed_letter with sender_role=mourner, also log the deceased's
+		# character data so the app can feed it to the LLM as context for the
+		# mourner's letter about the deceased.
+		if = {
+			limit = {
+			scope:actor = {
+				has_variable = votc_sender_role
+				var:votc_sender_role = flag:mourner
+			}
+				exists = global_var:votc_incoming_letter_fact_deceased
+			}
+			set_variable = {
+				name = votc_temp_log_deceased
+				value = global_var:votc_incoming_letter_fact_deceased
+			}
+			var:votc_temp_log_deceased = {
+				log_character_v2 = yes
+			}
+			remove_variable ?= votc_temp_log_deceased
+		}
+	}
+}

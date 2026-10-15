@@ -1,0 +1,32 @@
+﻿# VOTC incoming letter test: pilgrimage tales.
+# Console command: run votc_test_incoming_pilgrimage.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Selects a family member who has recently completed a travel plan.
+
+save_scope_as = actor
+
+random_close_family_member = {
+	limit = {
+		is_alive = yes
+		is_adult = yes
+		is_ai = yes
+		is_imprisoned = no
+		NOT = { is_at_same_location = root }
+	}
+	save_scope_as = recipient
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	set_global_variable = {
+		name = votc_incoming_letter_fact_traveller
+		value = scope:recipient
+	}
+	scope:actor = {
+		set_variable = { name = votc_travel_stage value = flag:completed }
+	}
+	votc_start_incoming_letter_effect = { TYPE = flag:pilgrimage_tales }
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_traveller"
+}

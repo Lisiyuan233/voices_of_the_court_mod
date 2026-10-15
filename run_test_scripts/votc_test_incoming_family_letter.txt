@@ -1,0 +1,21 @@
+﻿# VOTC incoming letter test: close-family letter.
+# Console command: run votc_test_incoming_family_letter.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# ROOT is the player character. Triggers a family_letter from a valid spouse
+# or close blood relative without a location restriction. It bypasses the
+# quarterly probability gate but uses the dedicated slot 7 and family cooldown.
+# Enable incoming letters in the VOTC settings panel before running this test.
+
+save_scope_as = actor
+
+scope:actor = {
+	votc_select_family_letter_author_effect = yes
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	votc_start_family_incoming_letter_effect = yes
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_valid_family"
+}

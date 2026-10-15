@@ -1,0 +1,36 @@
+﻿# VOTC incoming letter test: revolt urgent.
+# Console command: run votc_test_incoming_revolt_urgent.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Ideally run while a peasant/populist revolt war is active against the player or a vassal.
+# Sets up scope:revolt_defender (the player), scope:enemy (a random rival), and the
+# war_type variable so the effect's fact-save block can emit a full context line.
+
+save_scope_as = actor
+save_scope_as = revolt_defender
+
+random_rival = {
+	limit = {
+		is_alive = yes
+		is_ai = yes
+		NOT = { this = root }
+	}
+	save_scope_as = enemy
+}
+
+random_vassal = {
+	limit = {
+		votc_incoming_letter_author_valid_trigger = yes
+	}
+	save_scope_as = recipient
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	scope:actor = {
+		set_variable = { name = votc_war_type value = flag:revolt }
+	}
+	votc_start_incoming_letter_effect = { TYPE = flag:revolt_urgent }
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_vassal"
+}

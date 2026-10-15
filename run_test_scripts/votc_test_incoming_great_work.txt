@@ -1,0 +1,27 @@
+﻿# VOTC incoming letter test: great work notice.
+# Console command: run votc_test_incoming_great_work.txt
+# Copy to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Fakes a great work notice by selecting a courtier and the player's current location.
+
+save_scope_as = actor
+
+random_courtier = {
+	limit = {
+		votc_incoming_letter_building_author_valid_trigger = yes
+	}
+	save_scope_as = recipient
+}
+
+if = {
+	limit = { exists = scope:recipient }
+	set_global_variable = {
+		name = votc_incoming_letter_fact_work_province
+		value = root.GetCurrentLocation
+	}
+	set_variable = { name = votc_great_work_type value = flag:wonder }
+	set_variable = { name = votc_great_work_stage value = flag:completed }
+	votc_start_incoming_letter_effect = { TYPE = flag:great_work_notice }
+}
+else = {
+	debug_log = "VOTC:INCOMING_LETTER/;/test/;/skipped/;/no_builder"
+}
