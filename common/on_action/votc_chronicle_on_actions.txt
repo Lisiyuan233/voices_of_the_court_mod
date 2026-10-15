@@ -1,0 +1,18 @@
+﻿# VOTC Chronicle pulse registration.
+#
+# quarterly_playable_pulse fires every 3 months for each playable character.
+# yearly_playable_pulse fires once per year for each playable character.
+# The human-player gate lives on the events. Keeping this registration to
+# `events` avoids merging a top-level trigger/effect into the vanilla pulse.
+
+quarterly_playable_pulse = {
+	events = {
+		votc_chronicle_event.9001
+	}
+}
+
+yearly_playable_pulse = {
+	events = {
+		votc_chronicle_event.9002
+	}
+}

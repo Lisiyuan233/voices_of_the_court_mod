@@ -1,0 +1,77 @@
+﻿# VOTC chronicle memory identity capability probe (Task 0 of the court-historian-chronicle plan).
+# Purpose: determine which stable fields CK3 can output for a CharacterMemory before
+# the chronicle memory protocol schema is frozen. Confirms:
+#   1. creation date as numeric total days / year / month / day
+#   2. whether [THIS.CharacterMemory.GetType] prints a raw database key or an object placeholder
+#   3. every_memory_participant availability and stable participant character IDs
+#   4. that description is dynamic text (compare output before/after a title change)
+#
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_chronicle_memory_identity.txt
+# ROOT is the player character. Check Documents\Paradox Interactive\Crusader Kings III\logs\debug.log
+# for lines prefixed with VOTC:MEMORY_SPIKE.
+#
+# Dynamic text test: run once, note a memory whose description contains the owner title,
+# change the title (e.g. grant/revoke a landed title or change primary title), run again,
+# and confirm owner/date/type/participants stay stable while description changes.
+#
+# Note: the snapshot ordinal is kept in a GLOBAL variable because neither PREV.PREV nor
+# CharacterMemory.GetOwner.Var() chains resolve inside every_memory_participant, while
+# GetGlobalVariable() is readable from any scope (same pattern as the campaign id lines
+# in votc_military_council_events.txt).
+
+debug_log = "VOTC:MEMORY_SPIKE/;/probe_header/;/player/;/[THIS.Char.GetID]/;/currentTotalDays/;/[GetCurrentDate.GetDateAsTotalDays|0]/;/currentDate/;/[GetCurrentDate.GetYear|0]/;/[GetCurrentDate.GetMonthOfYear|0]/;/[GetCurrentDate.GetDayOfMonth|0]"
+
+set_global_variable = {
+	name = votc_spike_ordinal
+	value = 0
+}
+set_global_variable = {
+	name = votc_spike_total
+	value = 0
+}
+
+every_memory = {
+	change_global_variable = {
+		name = votc_spike_ordinal
+		add = 1
+	}
+	change_global_variable = {
+		name = votc_spike_total
+		add = 1
+	}
+
+	# Memory identity candidate fields: owner, snapshot ordinal, numeric + display creation date.
+	debug_log = "VOTC:MEMORY_SPIKE/;/memory/;/ownerId/;/[THIS.CharacterMemory.GetOwner.GetID]/;/ordinal/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/creationTotalDays/;/[THIS.CharacterMemory.GetCreationDate.GetDateAsTotalDays|0]/;/creationYear/;/[THIS.CharacterMemory.GetCreationDate.GetYear|0]/;/creationMonth/;/[THIS.CharacterMemory.GetCreationDate.GetMonthOfYear|0]/;/creationDay/;/[THIS.CharacterMemory.GetCreationDate.GetDayOfMonth|0]/;/creationDisplay/;/[THIS.CharacterMemory.GetCreationDate.GetStringShort]"
+
+	# Type token candidates. type_object shows what a raw CharacterMemoryType promotes to;
+	# if it prints the raw database key, tokenSource = raw_type is viable.
+	debug_log = "VOTC:MEMORY_SPIKE/;/type_object/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/[THIS.CharacterMemory.GetType]"
+	debug_log = "VOTC:MEMORY_SPIKE/;/type_name_memory/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/[THIS.CharacterMemory.GetName]"
+	debug_log = "VOTC:MEMORY_SPIKE/;/type_name_type_memory/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/[THIS.CharacterMemory.GetType.GetName(THIS.CharacterMemory)]"
+	debug_log = "VOTC:MEMORY_SPIKE/;/type_name_type_owner/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/[THIS.CharacterMemory.GetType.GetName(THIS.CharacterMemory.GetOwner)]"
+
+	# Dynamic text sample. Must NOT be part of identity.
+	debug_log = "VOTC:MEMORY_SPIKE/;/description/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/[THIS.CharacterMemory.GetThirdPerspectiveDescription]"
+
+	# Participant enumeration. THIS inside the iterator is the participant character.
+	set_variable = {
+		name = votc_spike_pcount
+		value = 0
+	}
+	every_memory_participant = {
+		PREV = {
+			change_variable = {
+				name = votc_spike_pcount
+				add = 1
+			}
+		}
+		debug_log = "VOTC:MEMORY_SPIKE/;/participant/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/parentOwner/;/[PREV.CharacterMemory.GetOwner.GetID]/;/parentCreationTotalDays/;/[PREV.CharacterMemory.GetCreationDate.GetDateAsTotalDays|0]/;/pOrdinal/;/[PREV.Var('votc_spike_pcount').GetValue|0]/;/participantId/;/[THIS.Char.GetID]"
+	}
+	debug_log = "VOTC:MEMORY_SPIKE/;/memory_end/;/[GetGlobalVariable('votc_spike_ordinal').GetValue|0]/;/participantCount/;/[THIS.Var('votc_spike_pcount').GetValue|0]"
+}
+
+debug_log = "VOTC:MEMORY_SPIKE/;/probe_footer/;/memoryCount/;/[GetGlobalVariable('votc_spike_total').GetValue|0]"
+
+remove_global_variable = votc_spike_ordinal
+remove_global_variable = votc_spike_total

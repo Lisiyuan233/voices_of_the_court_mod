@@ -1,0 +1,50 @@
+﻿# VOTC Chronicle end-to-end test script.
+# Copy this file to: C:\Users\A\Documents\Paradox Interactive\Crusader Kings III\run
+# Run this from the CK3 console with: run votc_test_chronicle.txt
+# ROOT is the player character.
+#
+# This script tests the full chronicle pipeline:
+#   1. Initializes campaign/checkpoint identity
+#   2. Generates a chronicle request ID
+#   3. Outputs the player's full memory block
+#   4. Triggers quarterly tick (clipboard payload)
+#   5. Triggers yearly tick (clipboard payload)
+#   6. Triggers manager (clipboard payload + opens window in App)
+#
+# Check Documents\Paradox Interactive\Crusader Kings III\logs\debug.log
+# for lines prefixed with VOTC:CHRONICLE_MEMORY and VOTC:CHRONICLE_TICK.
+#
+# The App should:
+#   - Parse the memory block and flush to ChronicleMemoryStore
+#   - For quarterly/yearly ticks: generate chronicle entry if frequency matches
+#   - For manager: open the ChronicleWindow (does NOT auto-generate)
+
+debug_log = "VOTC:TEST/;/chronicle_test_start/;/player/;/[THIS.Char.GetID]/;/date/;/[GetCurrentDate.GetStringShort]"
+
+# Step 1: Initialize campaign and checkpoint (idempotent)
+votc_init_checkpoint_effect = yes
+debug_log = "VOTC:TEST/;/chronicle_checkpoint_initialized/;/epoch/;/[THIS.Var('votc_checkpoint_epoch').GetValue|0]/;/nodeA/;/[THIS.Var('votc_timeline_node_a').GetValue|0]/;/nodeB/;/[THIS.Var('votc_timeline_node_b').GetValue|0]"
+
+# Step 2: Generate request ID and output memory block
+votc_generate_chronicle_request_id_effect = yes
+debug_log = "VOTC:TEST/;/chronicle_request_id_generated/;/requestId/;/[GetGlobalVariable('votc_chronicle_memory_request_id').GetValue|0]"
+
+votc_log_chronicle_memory_block_effect = yes
+debug_log = "VOTC:TEST/;/chronicle_memory_block_complete"
+
+# Step 3: Trigger quarterly tick
+debug_log = "VOTC:TEST/;/chronicle_triggering_quarterly_tick"
+votc_chronicle_quarterly_tick_effect = yes
+debug_log = "VOTC:TEST/;/chronicle_quarterly_tick_complete"
+
+# Step 4: Trigger yearly tick
+debug_log = "VOTC:TEST/;/chronicle_triggering_yearly_tick"
+votc_chronicle_yearly_tick_effect = yes
+debug_log = "VOTC:TEST/;/chronicle_yearly_tick_complete"
+
+# Step 5: Trigger manager (this will open the ChronicleWindow in the App)
+debug_log = "VOTC:TEST/;/chronicle_triggering_manager"
+votc_chronicle_manual_tick_effect = yes
+debug_log = "VOTC:TEST/;/chronicle_manager_complete"
+
+debug_log = "VOTC:TEST/;/chronicle_test_end/;/player/;/[THIS.Char.GetID]"

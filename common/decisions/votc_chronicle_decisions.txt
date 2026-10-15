@@ -1,0 +1,23 @@
+﻿# Open the court chronicle through the paired desktop app.
+votc_open_chronicle_manager_decision = {
+	decision_group_type = votc
+
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds"
+	}
+
+	is_shown = {
+		is_ai = no
+		is_local_player = yes
+	}
+
+	effect = {
+		custom_tooltip = votc_open_chronicle_manager_decision_effect_desc
+		votc_chronicle_manual_tick_effect = yes
+	}
+
+	ai_check_interval = 0
+	ai_will_do = {
+		base = 0
+	}
+}
