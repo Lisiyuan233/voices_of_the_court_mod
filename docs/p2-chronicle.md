@@ -4,7 +4,9 @@ Adds the Court Chronicle decision, human-player quarterly/yearly events, memory 
 
 The bridge emits the same payload through clipboard and `debug.log`. English and Simplified Chinese include translated player text; seven other mod languages carry English fallback text and identical bridge values. The ordinary v3/s/l snapshots gain the numeric game-date five-tuple needed by the historian, before the existing snapshot-protocol tail.
 
-The log payload is emitted synchronously by the manager effect before it queues the clipboard event. Resolving the description through `Localize()` in `debug_log` loses saved event targets and produces empty request fields. The paired app accepts the log even when clipboard polling is enabled and deduplicates the two transports by campaign/player/request. The decision hides its implementation effects from tooltip evaluation. Script triggers use `is_ai = no`; `is_local_player` is interface-only and cannot be used in these decision/event trigger blocks.
+The log payload is emitted synchronously by the manager effect before it queues the clipboard event. Resolving the description through `Localize()` in `debug_log` loses saved event targets and produces empty request fields. The paired app accepts the log even when clipboard polling is enabled and deduplicates the two transports by campaign/player/request. The decision shows a translated tooltip instead of implementation details. Script triggers use `is_ai = no`; `is_local_player` is interface-only and cannot be used in these decision/event trigger blocks.
+
+CK3 still evaluates hidden effects during tooltip dry runs without applying their assignments. Request captures therefore check that all three globals exist before reading them, avoiding unset-scope errors when previewing the decision before its first execution.
 
 Use the paired P2 app, based on the release branch that contains P1. The mod metadata and binary assets are unchanged.
 

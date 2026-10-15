@@ -73,6 +73,10 @@ def check(mod: Path, app: Path | None):
     assert not re.search(r'save_scope_value_as\s*=\s*\{\s*name\s*=\s*votc_chronicle_kind_snapshot', effects)
     assert effects.count('save_scope_as = votc_chronicle_kind_snapshot') == 2
     assert effects.count('name = votc_chronicle_quarter_snapshot') == 2
+    # CK3 evaluates hidden decision effects for tooltip dry runs without
+    # applying the preceding assignments. Do not capture unset globals.
+    for variable in ('memory_request_id', 'signal_kind', 'pulse_quarter'):
+        assert effects.count(f'has_global_variable = votc_chronicle_{variable}') == 2
     for name, variable in [('request', 'memory_request_id'), ('quarter', 'pulse_quarter')]:
         capture = f'name = votc_chronicle_{name}_snapshot value = {{ value = global_var:votc_chronicle_{variable} }}'
         assert effects.count(capture) == 2, f'Numeric request capture must use a script value: {name}'
