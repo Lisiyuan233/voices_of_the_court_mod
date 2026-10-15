@@ -8,12 +8,13 @@ votc_open_chronicle_manager_decision = {
 
 	is_shown = {
 		is_ai = no
-		is_local_player = yes
 	}
 
 	effect = {
 		custom_tooltip = votc_open_chronicle_manager_decision_effect_desc
-		votc_chronicle_manual_tick_effect = yes
+		hidden_effect = {
+			votc_chronicle_manual_tick_effect = yes
+		}
 	}
 
 	ai_check_interval = 0

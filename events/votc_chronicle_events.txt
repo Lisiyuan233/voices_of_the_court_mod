@@ -11,7 +11,6 @@ votc_chronicle_event.9001 = {
 
 	trigger = {
 		is_ai = no
-		is_local_player = yes
 	}
 
 	immediate = {
@@ -30,7 +29,6 @@ votc_chronicle_event.9002 = {
 
 	trigger = {
 		is_ai = no
-		is_local_player = yes
 	}
 
 	immediate = {
@@ -43,10 +41,7 @@ votc_chronicle_event.9002 = {
 # App processes silently without opening window.
 votc_chronicle_event.9003 = {
 	type = character_event
-	trigger = { is_ai = no is_local_player = yes }
-	immediate = {
-		debug_log = "[Localize('votc_chronicle_event.9003.desc')]"
-	}
+	trigger = { is_ai = no }
 	title = votc_chronicle_event.9003.title
 	desc = votc_chronicle_event.9003.desc
 	theme = realm
@@ -61,10 +56,7 @@ votc_chronicle_event.9003 = {
 # App opens the ChronicleWindow upon receiving this.
 votc_chronicle_event.9004 = {
 	type = character_event
-	trigger = { is_ai = no is_local_player = yes }
-	immediate = {
-		debug_log = "[Localize('votc_chronicle_event.9004.desc')]"
-	}
+	trigger = { is_ai = no }
 	title = votc_chronicle_event.9004.title
 	desc = votc_chronicle_event.9004.desc
 	theme = realm

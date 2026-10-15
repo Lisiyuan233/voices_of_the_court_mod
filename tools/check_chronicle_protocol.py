@@ -69,8 +69,13 @@ def check(mod: Path, app: Path | None):
     assert re.search(r'yearly_playable_pulse\s*=\s*\{\s*events\s*=\s*\{\s*votc_chronicle_event\.9002', hooks)
     effects = contents[files[1]]
     assert effects.count('name = votc_chronicle_request_snapshot') == 2
-    assert effects.count('name = votc_chronicle_kind_snapshot') == 2
+    # save_scope_value_as accepts numbers/bools, not CK3 flag scopes.
+    assert not re.search(r'save_scope_value_as\s*=\s*\{\s*name\s*=\s*votc_chronicle_kind_snapshot', effects)
+    assert effects.count('save_scope_as = votc_chronicle_kind_snapshot') == 2
     assert effects.count('name = votc_chronicle_quarter_snapshot') == 2
+    for name, variable in [('request', 'memory_request_id'), ('quarter', 'pulse_quarter')]:
+        capture = f'name = votc_chronicle_{name}_snapshot value = {{ value = global_var:votc_chronicle_{variable} }}'
+        assert effects.count(capture) == 2, f'Numeric request capture must use a script value: {name}'
     id_block = effects.split('votc_generate_chronicle_request_id_effect = {', 1)[1].split('\n}', 1)[0]
     assert id_block.count('votc_append_chronicle_request_id_bit_effect = yes') == 27
     events = contents[files[3]]
@@ -78,9 +83,12 @@ def check(mod: Path, app: Path | None):
         init = next(line for line in contents[name].splitlines() if 'VOTC:IN/;/init/;/' in line)
         fields = init.split('VOTC:IN/;/init/;/', 1)[1].split('/;/')
         assert len(fields) == 29 and 'GetDateAsTotalDays' in fields[23], f'Numeric game date missing: {name}'
-    assert events.count('is_local_player = yes') == 4
-    for number in (9003, 9004):
-        assert f'debug_log = "[Localize(\'votc_chronicle_event.{number}.desc\')]"' in events
+    # Interface-only triggers cannot run in decision/event script triggers.
+    assert 'is_local_player' not in strip_comments_quotes(events + contents[files[2]])
+    assert 'hidden_effect' in contents[files[2]], 'Do not evaluate request capture while rendering the decision tooltip'
+    assert 'debug_log' not in strip_comments_quotes(events), 'Localize() loses saved event targets in debug_log'
+    log_bridges = re.findall(r'debug_log = "(VOTC:CHRONICLE_(?:TICK|MANAGER)/;/[^"\n]+)"', effects)
+    assert len(log_bridges) == 2
     assert events.count('event_window_widget_talk_clear') == 2
 
     # All invoked chronicle effects and events must resolve exactly once.
@@ -116,6 +124,13 @@ def check(mod: Path, app: Path | None):
             assert segments[10] == '2', 'Protocol schema must remain v2'
             assert "SCOPE.GetFlagName('votc_chronicle_kind_snapshot')" in segments[18]
             assert "SCOPE.GetValue('votc_chronicle_request_snapshot')" in segments[25]
+        # The log is emitted synchronously before the event is queued, using
+        # the current globals. The clipboard event keeps its captured values.
+        for wire, log_wire in zip(current, log_bridges):
+            expected = wire.replace("SCOPE.GetFlagName('votc_chronicle_kind_snapshot')", "GetGlobalVariable('votc_chronicle_signal_kind').GetFlagName")
+            expected = expected.replace("SCOPE.GetValue('votc_chronicle_quarter_snapshot')", "GetGlobalVariable('votc_chronicle_pulse_quarter').GetValue")
+            expected = expected.replace("SCOPE.GetValue('votc_chronicle_request_snapshot')", "GetGlobalVariable('votc_chronicle_memory_request_id').GetValue")
+            assert log_wire == expected, f'Log and clipboard payloads differ ({language})'
         if bridges is None:
             bridges = current
         assert bridges == current, f'Bridge differs across languages: {language}'
