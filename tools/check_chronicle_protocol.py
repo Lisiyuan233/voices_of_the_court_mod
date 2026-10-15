@@ -11,7 +11,39 @@ sys.dont_write_bytecode = True
 from check_p1_protocol import LOC_LANGS, LOC_SUFFIX, brace_balance, strip_comments_quotes
 
 
+def check_decision_localization(mod: Path):
+    # CK3 supplies these implicit localization keys when a decision does not
+    # override title, desc, selection_tooltip or confirm_text (_decisions.info).
+    decisions = {}
+    required = set()
+    for file in (mod / 'common/decisions').glob('*.txt'):
+        text = file.read_text(encoding='utf-8-sig')
+        for key in re.findall(r'^(votc_\w+)\s*=\s*\{', text, re.M):
+            decisions[key] = file
+            required.update(key + suffix for suffix in ('', '_desc', '_tooltip', '_confirm'))
+        required.update(re.findall(r'\bcustom_tooltip\s*=\s*(votc_\w+)', strip_comments_quotes(text)))
+    groups = set()
+    for file in (mod / 'common/decision_group_types').glob('*.txt'):
+        groups.update(re.findall(r'^(\w+)\s*=\s*\{', file.read_text(encoding='utf-8-sig'), re.M))
+    required.update(f'decision_group_type_{key}' for key in groups)
+
+    for language in LOC_LANGS:
+        values = {}
+        for file in (mod / 'localization' / language).glob('*.yml'):
+            text = file.read_text(encoding='utf-8-sig')
+            for key, value in re.findall(r'^\s*([\w.]+):(?:\d+)?\s+"(.*)"\s*$', text, re.M):
+                if key not in required:
+                    continue
+                assert key not in values, f'Duplicate decision localization: {key} ({language})'
+                assert value.strip(), f'Empty decision localization: {key} ({language})'
+                values[key] = value
+        missing = sorted(required - values.keys())
+        assert not missing, f'Missing decision localization ({language}): {", ".join(missing)}'
+    print(f'PASS: implicit/explicit decision localization ({len(decisions)} decisions, {len(groups)} groups, {len(LOC_LANGS)} languages)')
+
+
 def check(mod: Path, app: Path | None):
+    check_decision_localization(mod)
     files = [
         'common/on_action/votc_chronicle_on_actions.txt',
         'common/scripted_effects/votc_chronicle_effects.txt',

@@ -180,6 +180,8 @@ votc_talk_selected:0 "Rozmawiaj z [recipient.GetTitledFirstName] i wybranymi pos
 votc_talk_change_mcc_selection:0 "Zmień wybrane postacie"
 votc_talk_mcc_selector:0 "Wybierz postacie do rozmowy wraz z [recipient.GetTitledFirstName]"
 
+decision_group_type_votc:0 "Głosy dworu"
+
 votc_relaese_letter_decision:0 "VOTC Zwolnij wątek listów"
 votc_relaese_letter_decision_desc:0 "Zwolnij bieżący wątek listów oczekujący na odpowiedź"
 votc_relaese_letter_decision_tooltip:0 "Zwolnij wątek listów"
@@ -188,9 +190,14 @@ votc_relaese_letter_decision_effect_desc:0 "Zwolnisz bieżący wątek listów oc
 
 
 votc_battle_report_message_title:0 "Raport bitewny"
+votc_relaese_battle_report_decision:0 "Zwolnij kanały raportów bitewnych"
+votc_relaese_battle_report_decision_desc:0 "Odblokuj zablokowane kanały raportów bitewnych, aby umożliwić tworzenie nowych raportów."
+votc_relaese_battle_report_decision_tooltip:0 "Zwolnij wszystkie kanały oczekujących raportów bitewnych."
+votc_relaese_battle_report_decision_confirm:0 "Zwolnij kanały"
 votc_relaese_battle_report_decision_effect_desc:0 "Zwolnisz wszystkie zablokowane wątki raportów bitewnych i pozwolisz na generowanie nowych raportów."
 
 votc_conversation_history_decision:0 "Zobacz historię rozmów"
+votc_conversation_history_decision_desc:0 "Otwórz historię rozmów z bieżącego zapisu w aplikacji VOTC."
 votc_conversation_history_decision_tooltip:0 "Otwórz przeglądarkę historii rozmów w aplikacji VOTC."
 votc_conversation_history_decision_confirm:0 "Zobacz historię rozmów"
 votc_conversation_history_decision_effect_desc:0 "Otwiera przeglądarkę historii rozmów. Synchronizuje to również epokę punktu kontrolnego, aby przeglądarka pokazywała tylko rozmowy zgodne z obecnym zapisem."

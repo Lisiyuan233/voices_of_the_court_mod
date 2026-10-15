@@ -195,6 +195,8 @@ votc_talk_selected:0 "Начать разговор с [recipient.GetTitledFirst
 votc_talk_change_mcc_selection:0 "Изменить выбор персонажей"
 votc_talk_mcc_selector:0 "Выберите персонажей для разговора с [recipient.GetTitledFirstName]"
 
+decision_group_type_votc:0 "Голоса двора"
+
 votc_relaese_letter_decision:0 "VOTC Освободить цепочку писем"
 votc_relaese_letter_decision_desc:0 "Освободить текущую цепочку писем, ожидающую ответа"
 votc_relaese_letter_decision_tooltip:0 "Освободить цепочку писем"
@@ -203,9 +205,14 @@ votc_relaese_letter_decision_confirm:0 "Освободить цепочку пи
 votc_relaese_letter_decision_effect_desc:0 "Вы освободите текущую цепочку писем, ожидающую ответа. Это действие позволит вам обойти счётчик процесса писем и, скорее всего, перезапишет любые предыдущие ответы, которые ещё не были получены. Если вы использовали функцию написания писем без запущенной бэкенд-программы, рекомендуется выполнить эту операцию вручную один раз!"
 
 votc_battle_report_message_title:0 "Боевой отчет"
+votc_relaese_battle_report_decision:0 "Освободить каналы боевых отчётов"
+votc_relaese_battle_report_decision_desc:0 "Освободите зависшие каналы боевых отчётов, чтобы можно было создавать новые отчёты."
+votc_relaese_battle_report_decision_tooltip:0 "Освободить все каналы ожидающих боевых отчётов."
+votc_relaese_battle_report_decision_confirm:0 "Освободить каналы"
 votc_relaese_battle_report_decision_effect_desc:0 "Вы освободите все застрявшие потоки боевых отчетов и позволите создавать новые."
 
 votc_conversation_history_decision:0 "Просмотр истории диалогов"
+votc_conversation_history_decision_desc:0 "Открыть историю разговоров текущего сохранения в приложении VOTC."
 votc_conversation_history_decision_tooltip:0 "Открыть просмотрщик истории диалогов в приложении VOTC."
 votc_conversation_history_decision_confirm:0 "Просмотр истории диалогов"
 votc_conversation_history_decision_effect_desc:0 "Открывает просмотрщик истории диалогов. Это также синхронизирует эпоху контрольной точки, чтобы просмотрщик показывал только диалоги, соответствующие текущему сохранению."

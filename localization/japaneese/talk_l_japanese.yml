@@ -180,6 +180,8 @@ votc_talk_selected:0 "[recipient.GetTitledFirstName]と選択したキャラク�
 votc_talk_change_mcc_selection:0 "選択したキャラクターを変更"
 votc_talk_mcc_selector:0 "[recipient.GetTitledFirstName]と一緒に話すキャラクターを選択"
 
+decision_group_type_votc:0 "宮廷の声"
+
 votc_relaese_letter_decision:0 "VOTC 手紙スレッドを解放"
 votc_relaese_letter_decision_desc:0 "返信を待っている現在の手紙スレッドを解放する"
 votc_relaese_letter_decision_tooltip:0 "手紙スレッドを解放"
@@ -188,9 +190,14 @@ votc_relaese_letter_decision_effect_desc:0 "返信を待っている現在の手
 
 
 votc_battle_report_message_title:0 "戦況報告"
+votc_relaese_battle_report_decision:0 "戦況報告チャンネルを解放"
+votc_relaese_battle_report_decision_desc:0 "停止している戦況報告チャンネルを解放し、新しい戦況報告を生成できるようにします。"
+votc_relaese_battle_report_decision_tooltip:0 "保留中の戦況報告チャンネルをすべて解放します。"
+votc_relaese_battle_report_decision_confirm:0 "チャンネルを解放"
 votc_relaese_battle_report_decision_effect_desc:0 "スタックしたすべての戦況報告スレッドを解放し、新しい戦況報告の生成を許可します。"
 
 votc_conversation_history_decision:0 "会話履歴を表示"
+votc_conversation_history_decision_desc:0 "現在のセーブデータの会話履歴を VOTC デスクトップアプリで開きます。"
 votc_conversation_history_decision_tooltip:0 "VOTCアプリで会話履歴ビューアーを開く。"
 votc_conversation_history_decision_confirm:0 "会話履歴を表示"
 votc_conversation_history_decision_effect_desc:0 "会話履歴ビューアーを開きます。これによりチェックポイントエポックが同期され、現在のセーブと一致する会話のみが表示されます。"

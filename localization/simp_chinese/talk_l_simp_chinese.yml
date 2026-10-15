@@ -180,6 +180,8 @@ votc_talk_selected:0 "与[recipient.GetTitledFirstName]和选定的角色交谈"
 votc_talk_change_mcc_selection:0 "更改选定的角色"
 votc_talk_mcc_selector:0 "选择与[recipient.GetTitledFirstName]一起交谈的角色"
 
+decision_group_type_votc:0 "宫廷之声"
+
 votc_relaese_letter_decision:0 "释放信件通道"
 votc_relaese_letter_decision_desc:0 "释放当前等待回复的信件通道"
 votc_letter_reply_fallback_desc:0 "无法生成回复。信件通道已清理，时间线已推进。"
@@ -191,9 +193,14 @@ votc_relaese_letter_decision_effect_desc:0 "释放当前正在等待回复的信
 votc_continue_button:0 "继续"
 
 votc_battle_report_message_title:0 "战报"
+votc_relaese_battle_report_decision:0 "释放战报通道"
+votc_relaese_battle_report_decision_desc:0 "清理卡住的战报通道，让新的战报能够正常生成。"
+votc_relaese_battle_report_decision_tooltip:0 "释放所有等待处理的战报通道。"
+votc_relaese_battle_report_decision_confirm:0 "释放战报通道"
 votc_relaese_battle_report_decision_effect_desc:0 "你将释放所有卡住的战报线程，允许生成新的战报。"
 
 votc_conversation_history_decision:0 "查看对话历史"
+votc_conversation_history_decision_desc:0 "在 VOTC 桌面端打开当前存档的对话历史。"
 votc_conversation_history_decision_tooltip:0 "在 VOTC 应用中打开对话历史查看器。"
 votc_conversation_history_decision_confirm:0 "查看对话历史"
 votc_conversation_history_decision_effect_desc:0 "打开对话历史查看器。这也会同步检查点 epoch，使查看器只显示与当前存档一致的对话。"

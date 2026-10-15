@@ -180,6 +180,8 @@ votc_talk_selected:0 "Parler avec [recipient.GetTitledFirstName] et les personna
 votc_talk_change_mcc_selection:0 "Changer les personnages sélectionnés"
 votc_talk_mcc_selector:0 "Sélectionner les personnages pour parler avec [recipient.GetTitledFirstName]"
 
+decision_group_type_votc:0 "Voix de la cour"
+
 votc_relaese_letter_decision:0 "VOTC Libérer le fil de lettres"
 votc_relaese_letter_decision_desc:0 "Libérer le fil de lettres actuel en attente de réponse"
 votc_relaese_letter_decision_tooltip:0 "Libérer le fil de lettres"
@@ -188,9 +190,14 @@ votc_relaese_letter_decision_effect_desc:0 "Vous allez libérer le fil de lettre
 
 
 votc_battle_report_message_title:0 "Rapport de bataille"
+votc_relaese_battle_report_decision:0 "Libérer les canaux des rapports de bataille"
+votc_relaese_battle_report_decision_desc:0 "Libérez les canaux bloqués pour permettre la génération de nouveaux rapports de bataille."
+votc_relaese_battle_report_decision_tooltip:0 "Libérer tous les canaux de rapports de bataille en attente."
+votc_relaese_battle_report_decision_confirm:0 "Libérer les canaux"
 votc_relaese_battle_report_decision_effect_desc:0 "Vous libérerez tous les threads de rapports de bataille bloqués et permettrez la génération de nouveaux rapports."
 
 votc_conversation_history_decision:0 "Voir l'historique des conversations"
+votc_conversation_history_decision_desc:0 "Consultez l'historique des conversations de la sauvegarde actuelle dans l'application VOTC."
 votc_conversation_history_decision_tooltip:0 "Ouvrir la visionneuse d'historique des conversations dans l'application VOTC."
 votc_conversation_history_decision_confirm:0 "Voir l'historique des conversations"
 votc_conversation_history_decision_effect_desc:0 "Ouvre la visionneuse d'historique des conversations. Cela synchronise également l'époque du point de contrôle afin que la visionneuse ne montre que les conversations cohérentes avec votre sauvegarde actuelle."
